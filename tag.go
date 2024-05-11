@@ -1,0 +1,47 @@
+package csv
+
+// tag is struct tag name.
+type tag string
+
+const (
+	// validateTag is the struct tag name for validation rules.
+	validateTag tag = "validate"
+)
+
+// tagValue is the struct tag value.
+type tagValue string
+
+const (
+	// booleanTagValue is the struct tag value for boolean rule.
+	booleanTagValue tagValue = "boolean"
+	// alphaTagValue is the struct tag name for alpha only fields.
+	alphaTagValue tagValue = "alpha"
+	// numericTagValue is the struct tag name for numeric fields.
+	numericTagValue tagValue = "numeric"
+	// alphanumericTagValue is the struct tag name for alphanumeric fields.
+	alphanumericTagValue tagValue = "alphanumeric"
+	// requiredTagValue is the struct tag name for required fields.
+	requiredTagValue tagValue = "required"
+	// equalTagValue is the struct tag name for equal fields.
+	equalTagValue tagValue = "eq"
+	// notEqualTagValue is the struct tag name for not equal fields.
+	notEqualTagValue tagValue = "ne"
+	// greaterThanTagValue is the struct tag name for greater than fields.
+	greaterThanTagValue tagValue = "gt"
+	// greaterThanEqualTagValue is the struct tag name for greater than or equal fields.
+	greaterThanEqualTagValue tagValue = "gte"
+	// lessThanTagValue is the struct tag name for less than fields.
+	lessThanTagValue tagValue = "lt"
+	// lessThanEqualTagValue is the struct tag name for less than or equal fields.
+	lessThanEqualTagValue tagValue = "lte"
+)
+
+// String returns the string representation of the tag.
+func (t tag) String() string {
+	return string(t)
+}
+
+// String returns the string representation of the tag value.
+func (t tagValue) String() string {
+	return string(t)
+}
