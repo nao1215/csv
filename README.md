@@ -1,7 +1,10 @@
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-
+[![Go Reference](https://pkg.go.dev/badge/github.com/nao1215/csv.svg)](https://pkg.go.dev/github.com/nao1215/csv)
+[![MultiPlatformUnitTest](https://github.com/nao1215/csv/actions/workflows/multi_platform_ut.yml/badge.svg)](https://github.com/nao1215/csv/actions/workflows/multi_platform_ut.yml)
+[![reviewdog](https://github.com/nao1215/csv/actions/workflows/reviewdog.yml/badge.svg)](https://github.com/nao1215/csv/actions/workflows/reviewdog.yml)
+![Coverage](https://raw.githubusercontent.com/nao1215/octocovs-central-repo/main/badges/nao1215/csv/coverage.svg)
 
 ## What is csv package?
 
