@@ -1,0 +1,9 @@
+id,name,age,password,is_admin,zero
+0,George,10,password,true,0
+4,Jill,50,password-bad,false,0
+7,Joy,80,,true,0
+10,1Joyless,110,password,1,1
+11,Joyous,120,password,1,0
+12,Joyful,100,password,2,0
+13,Joyfullest,-1,password,1,0
+a,George,10,password,true,0
