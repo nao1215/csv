@@ -101,6 +101,8 @@ You set the validation rules following the "validate:" tag according to the rule
 
 First off, thanks for taking the time to contribute! Contributions are not only related to development. For example, GitHub Star motivates me to develop! Please feel free to contribute to this project.
 
+[![Star History Chart](https://api.star-history.com/svg?repos=nao1215/csv&type=Date)](https://star-history.com/#nao1215/csv&Date)
+
 ### Special Thanks
 
 I was inspired by the following OSS. Thank you for your great work!
