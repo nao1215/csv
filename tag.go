@@ -34,6 +34,10 @@ const (
 	lessThanTagValue tagValue = "lt"
 	// lessThanEqualTagValue is the struct tag name for less than or equal fields.
 	lessThanEqualTagValue tagValue = "lte"
+	// minTagValue is the struct tag name for minimum fields.
+	minTagValue tagValue = "min"
+	// maxTagValue is the struct tag name for maximum fields.
+	maxTagValue tagValue = "max"
 )
 
 // String returns the string representation of the tag.

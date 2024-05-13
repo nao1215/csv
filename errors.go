@@ -31,4 +31,8 @@ var (
 	ErrLessThan = errors.New("target is not less than the threshold value")
 	// ErrLessThanEqual is returned when the target is not less than or equal to the value.
 	ErrLessThanEqual = errors.New("target is not less than or equal to the threshold value")
+	// ErrMin is returned when the target is less than the minimum value.
+	ErrMin = errors.New("target is less than the minimum value")
+	// ErrMax is returned when the target is greater than the maximum value.
+	ErrMax = errors.New("target is greater than the maximum value")
 )

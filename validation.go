@@ -300,3 +300,59 @@ func (l *lessThanEqualValidator) Do(target any) error {
 	}
 	return nil
 }
+
+// minValidator is a struct that contains the validation rules for a minimum column.
+type minValidator struct {
+	threshold float64
+}
+
+// newMinValidator returns a new minValidator.
+func newMinValidator(threshold float64) *minValidator {
+	return &minValidator{threshold: threshold}
+}
+
+// Do validates the target is greater than or equal to the threshold.
+func (m *minValidator) Do(target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return fmt.Errorf("%w: value=%v", ErrMin, target) //nolint
+	}
+
+	value, err := strconv.ParseFloat(v, 64)
+	if err != nil {
+		return fmt.Errorf("%w: value=%v", ErrMin, target) //nolint
+	}
+
+	if value < m.threshold {
+		return fmt.Errorf("%w: threshold=%f, value=%f", ErrMin, m.threshold, value) //nolint
+	}
+	return nil
+}
+
+// maxValidator is a struct that contains the validation rules for a maximum column.
+type maxValidator struct {
+	threshold float64
+}
+
+// newMaxValidator returns a new maxValidator.
+func newMaxValidator(threshold float64) *maxValidator {
+	return &maxValidator{threshold: threshold}
+}
+
+// Do validates the target is less than or equal to the threshold.
+func (m *maxValidator) Do(target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return fmt.Errorf("%w: value=%v", ErrMax, target) //nolint
+	}
+
+	value, err := strconv.ParseFloat(v, 64)
+	if err != nil {
+		return fmt.Errorf("%w: value=%v", ErrMax, target) //nolint
+	}
+
+	if value > m.threshold {
+		return fmt.Errorf("%w: threshold=%f, value=%f", ErrMax, m.threshold, value) //nolint
+	}
+	return nil
+}

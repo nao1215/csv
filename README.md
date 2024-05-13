@@ -93,6 +93,8 @@ You set the validation rules following the "validate:" tag according to the rule
 | gte               | Check whether value is greater than or equal to the specified value <br> e.g. `validate:"gte=1"` |
 | lt                | Check whether value is less than the specified value <br> e.g. `validate:"lt=1"` |
 | lte               | Check whether value is less than or equal to the specified value <br> e.g. `validate:"lte=1"` |
+| min               | Check whether value is greater than or equal to the specified value <br> e.g. `validate:"min=1"` |
+| max               | Check whether value is less than or equal to the specified value <br> e.g. `validate:"max=100"` |
 
 ## License
 [MIT License](./LICENSE)
