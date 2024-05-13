@@ -115,6 +115,12 @@ func parseValidateTag(tags string) (validators, error) {
 				return nil, err
 			}
 			validatorList = append(validatorList, newMaxValidator(threshold))
+		case strings.HasPrefix(t, lengthTagValue.String()):
+			threshold, err := parseThreshold(t)
+			if err != nil {
+				return nil, err
+			}
+			validatorList = append(validatorList, newLengthValidator(threshold))
 		}
 	}
 	return validatorList, nil

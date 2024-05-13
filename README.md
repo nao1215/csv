@@ -95,6 +95,7 @@ You set the validation rules following the "validate:" tag according to the rule
 | lte               | Check whether value is less than or equal to the specified value <br> e.g. `validate:"lte=1"` |
 | min               | Check whether value is greater than or equal to the specified value <br> e.g. `validate:"min=1"` |
 | max               | Check whether value is less than or equal to the specified value <br> e.g. `validate:"max=100"` |
+| len 			    | Check whether the length of the value is equal to the specified value <br> e.g. `validate:"len=10"` |
 
 ## License
 [MIT License](./LICENSE)
