@@ -5,6 +5,11 @@ import "errors"
 var (
 	// ErrStructSlicePointer is returned when the value is not a pointer to a struct slice.
 	ErrStructSlicePointer = errors.New("value is not a pointer to a struct slice")
+	// ErrInvalidOneOfFormat is returned when the target is not one of the values.
+	ErrInvalidOneOfFormat = errors.New("target is not one of the values")
+	// ErrInvalidThresholdFormat is returned when the threshold value is not an integer.
+	ErrInvalidThresholdFormat = errors.New("threshold format is invalid")
+
 	// ErrInvalidBoolean is returned when the target is not a boolean.
 	ErrInvalidBoolean = errors.New("target is not a boolean")
 	// ErrInvalidAlphabet is returned when the target is not an alphabetic character.
@@ -19,8 +24,6 @@ var (
 	ErrEqual = errors.New("target is not equal to the threshold value")
 	// ErrInvalidThreshold is returned when the target is not greater than the value.
 	ErrInvalidThreshold = errors.New("threshold value is invalid")
-	// ErrInvalidThresholdFormat is returned when the threshold value is not an integer.
-	ErrInvalidThresholdFormat = errors.New("threshold format is invalid")
 	// ErrNotEqual is returned when the target is equal to the value.
 	ErrNotEqual = errors.New("target is equal to threshold the value")
 	// ErrGreaterThan is returned when the target is not greater than the value.
@@ -37,4 +40,6 @@ var (
 	ErrMax = errors.New("target is greater than the maximum value")
 	// ErrLength is returned when the target length is not equal to the value.
 	ErrLength = errors.New("target length is not equal to the threshold value")
+	// ErrOneOf is returned when the target is not one of the values.
+	ErrOneOf = errors.New("target is not one of the values")
 )

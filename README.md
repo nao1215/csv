@@ -96,6 +96,7 @@ You set the validation rules following the "validate:" tag according to the rule
 | min               | Check whether value is greater than or equal to the specified value <br> e.g. `validate:"min=1"` |
 | max               | Check whether value is less than or equal to the specified value <br> e.g. `validate:"max=100"` |
 | len 			    | Check whether the length of the value is equal to the specified value <br> e.g. `validate:"len=10"` |
+| oneof             | Check whether value is included in the specified values <br> e.g. `validate:"oneof=male female prefer_not_to"` |
 
 ## License
 [MIT License](./LICENSE)

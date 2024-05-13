@@ -121,6 +121,13 @@ func parseValidateTag(tags string) (validators, error) {
 				return nil, err
 			}
 			validatorList = append(validatorList, newLengthValidator(threshold))
+
+		case strings.HasPrefix(t, oneOfTagValue.String()):
+			oneOf, err := parseOneOf(t)
+			if err != nil {
+				return nil, err
+			}
+			validatorList = append(validatorList, newOneOfValidator(oneOf))
 		}
 	}
 	return validatorList, nil
@@ -139,4 +146,15 @@ func parseThreshold(tagValue string) (float64, error) {
 		return num, nil
 	}
 	return 0, fmt.Errorf("%w: %s", ErrInvalidThresholdFormat, tagValue)
+}
+
+// parseOneOf parses the oneOf value.
+// tagValue is the value of the struct tag. e.g. oneof=male female prefer_not_to
+func parseOneOf(tagValue string) ([]string, error) {
+	parts := strings.Split(tagValue, "=")
+
+	if len(parts) == 2 {
+		return strings.Split(parts[1], " "), nil
+	}
+	return nil, fmt.Errorf("%w: %s", ErrInvalidOneOfFormat, tagValue)
 }

@@ -3,6 +3,7 @@ package csv
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/rivo/uniseg"
 )
@@ -381,4 +382,29 @@ func (l *lengthValidator) Do(target any) error {
 		return fmt.Errorf("%w: length threshold=%d, value=%s", ErrLength, int(l.threshold), v) //nolint
 	}
 	return nil
+}
+
+// oneOfValidator is a struct that contains the validation rules for a one of column.
+type oneOfValidator struct {
+	oneOf []string
+}
+
+// newOneOfValidator returns a new oneOfValidator.
+func newOneOfValidator(oneOf []string) *oneOfValidator {
+	return &oneOfValidator{oneOf: oneOf}
+}
+
+// Do validates the target is one of the oneOf values.
+func (o *oneOfValidator) Do(target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return fmt.Errorf("%w: value=%v", ErrOneOf, target) //nolint
+	}
+
+	for _, s := range o.oneOf {
+		if v == s {
+			return nil
+		}
+	}
+	return fmt.Errorf("%w: oneof=%s, value=%v", ErrOneOf, strings.Join(o.oneOf, " "), target) //nolint
 }
