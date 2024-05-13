@@ -1,6 +1,7 @@
 package csv
 
 import (
+	"bytes"
 	"os"
 	"path/filepath"
 	"testing"
@@ -10,81 +11,6 @@ import (
 
 func TestCSV_Decode(t *testing.T) {
 	t.Parallel()
-
-	t.Run("all error: `id,name,age,password` header", func(t *testing.T) {
-		t.Parallel()
-
-		f, err := os.Open(filepath.Join("testdata", "all_error.csv"))
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		c, err := NewCSV(f)
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		type person struct {
-			ID       int    `validate:"numeric,gte=1"`
-			Name     string `validate:"alpha"`
-			Age      int    `validate:"numeric,gt=-1,lt=120,gte=0"`
-			Password string `validate:"required,alphanumeric"`
-			IsAdmin  bool   `validate:"boolean"`
-			Zero     int    `validate:"numeric,eq=0,lte=1,ne=1"`
-		}
-		people := make([]person, 0)
-
-		got := c.Decode(&people)
-		for i, err := range got {
-			switch i {
-			case 0:
-				if err.Error() != "line:2 column id: target is not greater than or equal to the threshold value: threshold=1.000000, value=0.000000" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 1:
-				if err.Error() != "line:3 column password: target is not an alphanumeric character: value=password-bad" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 2:
-				if err.Error() != "line:4 column password: target is required but is empty: value=" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 3:
-				if err.Error() != "line:5 column name: target is not an alphabetic character: value=1Joyless" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 4:
-				if err.Error() != "line:5 column zero: target is not equal to the threshold value: threshold=0.000000, value=1.000000" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 5:
-				if err.Error() != "line:5 column zero: target is equal to threshold the value: threshold=1.000000, value=1.000000" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 6:
-				if err.Error() != "line:6 column age: target is not less than the threshold value: threshold=120.000000, value=120.000000" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 7:
-				if err.Error() != "line:7 column is_admin: target is not a boolean: value=2" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 8:
-				if err.Error() != "line:8 column age: target is not greater than the threshold value: threshold=-1.000000, value=-1.000000" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 9:
-				if err.Error() != "line:8 column age: target is not greater than or equal to the threshold value: threshold=0.000000, value=-1.000000" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			case 10:
-				if err.Error() != "line:9 column id: target is not a numeric character: value=a" {
-					t.Errorf("CSV.Decode() got errors: %v", err)
-				}
-			}
-		}
-	})
-
 	t.Run("read `id,name,age` header with value", func(t *testing.T) {
 		t.Parallel()
 
@@ -192,6 +118,159 @@ func TestCSV_Decode(t *testing.T) {
 		}
 		if diff := cmp.Diff(people, want); diff != "" {
 			t.Errorf("CSV.Decode() mismatch (-got +want):\n%s", diff)
+		}
+	})
+
+	t.Run("validate min, max: success case", func(t *testing.T) {
+		t.Parallel()
+
+		input := `id,age
+1,0
+2,1
+3,120
+4,119
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			ID  int // no validate
+			Age int `validate:"min=0,max=120.0"`
+		}
+
+		people := make([]person, 0)
+		errs := c.Decode(&people)
+		if len(errs) != 0 {
+			t.Errorf("CSV.Decode() got errors: %v", errs)
+		}
+
+		want := []person{
+			{ID: 1, Age: 0},
+			{ID: 2, Age: 1},
+			{ID: 3, Age: 120},
+			{ID: 4, Age: 119},
+		}
+
+		if diff := cmp.Diff(people, want); diff != "" {
+			t.Errorf("CSV.Decode() mismatch (-got +want):\n%s", diff)
+		}
+	})
+}
+
+func Test_ErrCheck(t *testing.T) {
+	t.Parallel()
+
+	t.Run("error: `id,name,age,password` header", func(t *testing.T) {
+		t.Parallel()
+
+		f, err := os.Open(filepath.Join("testdata", "all_error.csv"))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		c, err := NewCSV(f)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			ID       int    `validate:"numeric,gte=1"`
+			Name     string `validate:"alpha"`
+			Age      int    `validate:"numeric,gt=-1,lt=120,gte=0"`
+			Password string `validate:"required,alphanumeric"`
+			IsAdmin  bool   `validate:"boolean"`
+			Zero     int    `validate:"numeric,eq=0,lte=1,ne=1"`
+		}
+		people := make([]person, 0)
+
+		got := c.Decode(&people)
+		for i, err := range got {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column id: target is not greater than or equal to the threshold value: threshold=1.000000, value=0.000000" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:3 column password: target is not an alphanumeric character: value=password-bad" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 2:
+				if err.Error() != "line:4 column password: target is required but is empty: value=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 3:
+				if err.Error() != "line:5 column name: target is not an alphabetic character: value=1Joyless" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 4:
+				if err.Error() != "line:5 column zero: target is not equal to the threshold value: threshold=0.000000, value=1.000000" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 5:
+				if err.Error() != "line:5 column zero: target is equal to threshold the value: threshold=1.000000, value=1.000000" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 6:
+				if err.Error() != "line:6 column age: target is not less than the threshold value: threshold=120.000000, value=120.000000" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 7:
+				if err.Error() != "line:7 column is_admin: target is not a boolean: value=2" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 8:
+				if err.Error() != "line:8 column age: target is not greater than the threshold value: threshold=-1.000000, value=-1.000000" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 9:
+				if err.Error() != "line:8 column age: target is not greater than or equal to the threshold value: threshold=0.000000, value=-1.000000" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 10:
+				if err.Error() != "line:9 column id: target is not a numeric character: value=a" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate min, max: error case", func(t *testing.T) {
+		t.Parallel()
+
+		input := `id,age
+1,0
+2,-1
+3,120
+4,120.1
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			ID  int // no validate
+			Age int `validate:"min=0,max=120.0"`
+		}
+
+		people := make([]person, 0)
+		errs := c.Decode(&people)
+
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column age: target is less than the minimum value: threshold=0.000000, value=-1.000000" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:5 column age: target is greater than the maximum value: threshold=120.000000, value=120.100000" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
 		}
 	})
 }
