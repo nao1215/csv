@@ -38,6 +38,8 @@ const (
 	minTagValue tagValue = "min"
 	// maxTagValue is the struct tag name for maximum fields.
 	maxTagValue tagValue = "max"
+	// lengthTagValue is the struct tag name for length fields.
+	lengthTagValue tagValue = "len"
 )
 
 // String returns the string representation of the tag.

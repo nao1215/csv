@@ -158,6 +158,41 @@ func TestCSV_Decode(t *testing.T) {
 			t.Errorf("CSV.Decode() mismatch (-got +want):\n%s", diff)
 		}
 	})
+
+	t.Run("validate len: success case", func(t *testing.T) {
+		t.Parallel()
+
+		input := `id,name
+1,abc
+2,あいう
+3,👩‍❤‍💋‍👩🇷🇺😂
+`
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			ID   int    // no validate
+			Name string `validate:"len=3"`
+		}
+		persons := make([]person, 0)
+
+		errs := c.Decode(&persons)
+		if len(errs) != 0 {
+			t.Errorf("CSV.Decode() got errors: %v", errs)
+		}
+
+		want := []person{
+			{ID: 1, Name: "abc"},
+			{ID: 2, Name: "あいう"},
+			{ID: 3, Name: "👩‍❤‍💋‍👩🇷🇺😂"},
+		}
+
+		if diff := cmp.Diff(persons, want); diff != "" {
+			t.Errorf("CSV.Decode() mismatch (-got +want):\n%s", diff)
+		}
+	})
 }
 
 func Test_ErrCheck(t *testing.T) {
@@ -246,7 +281,6 @@ func Test_ErrCheck(t *testing.T) {
 3,120
 4,120.1
 `
-
 		c, err := NewCSV(bytes.NewBufferString(input))
 		if err != nil {
 			t.Fatal(err)
@@ -268,6 +302,45 @@ func Test_ErrCheck(t *testing.T) {
 				}
 			case 1:
 				if err.Error() != "line:5 column age: target is greater than the maximum value: threshold=120.000000, value=120.100000" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate len: error case", func(t *testing.T) {
+		t.Parallel()
+
+		input := `id,name
+1,abcd
+2,あいうえ
+3,👩‍❤‍💋‍👩🇷🇺😂🏯
+`
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			ID   int    // no validate
+			Name string `validate:"len=3"`
+		}
+		persons := make([]person, 0)
+
+		errs := c.Decode(&persons)
+
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target length is not equal to the threshold value: length threshold=3, value=abcd" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:3 column name: target length is not equal to the threshold value: length threshold=3, value=あいうえ" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 2:
+				if err.Error() != "line:4 column name: target length is not equal to the threshold value: length threshold=3, value=👩‍❤‍💋‍👩🇷🇺😂🏯" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			}

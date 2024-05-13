@@ -3,6 +3,8 @@ package csv
 import (
 	"fmt"
 	"strconv"
+
+	"github.com/rivo/uniseg"
 )
 
 // validator is a struct that contains the validation rules for a column.
@@ -353,6 +355,30 @@ func (m *maxValidator) Do(target any) error {
 
 	if value > m.threshold {
 		return fmt.Errorf("%w: threshold=%f, value=%f", ErrMax, m.threshold, value) //nolint
+	}
+	return nil
+}
+
+// lengthValidator is a struct that contains the validation rules for a length column.
+type lengthValidator struct {
+	threshold float64
+}
+
+// newLengthValidator returns a new lengthValidator.
+func newLengthValidator(threshold float64) *lengthValidator {
+	return &lengthValidator{threshold: threshold}
+}
+
+// Do validates the target length is equal to the threshold.
+func (l *lengthValidator) Do(target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return fmt.Errorf("%w: value=%v", ErrLength, target) //nolint
+	}
+
+	count := uniseg.GraphemeClusterCount(v)
+	if count != int(l.threshold) {
+		return fmt.Errorf("%w: length threshold=%d, value=%s", ErrLength, int(l.threshold), v) //nolint
 	}
 	return nil
 }
