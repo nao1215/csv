@@ -40,6 +40,8 @@ const (
 	maxTagValue tagValue = "max"
 	// lengthTagValue is the struct tag name for length fields.
 	lengthTagValue tagValue = "len"
+	// oneOfTagValue is the struct tag name for one of fields.
+	oneOfTagValue tagValue = "oneof"
 )
 
 // String returns the string representation of the tag.

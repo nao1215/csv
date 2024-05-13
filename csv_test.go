@@ -193,6 +193,41 @@ func TestCSV_Decode(t *testing.T) {
 			t.Errorf("CSV.Decode() mismatch (-got +want):\n%s", diff)
 		}
 	})
+
+	t.Run("validate oneof: success case", func(t *testing.T) {
+		t.Parallel()
+
+		input := `id,gender
+1,male
+2,female
+3,prefer_not_to
+`
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			ID     int    // no validate
+			Gender string `validate:"oneof=male female prefer_not_to"`
+		}
+
+		people := make([]person, 0)
+		errs := c.Decode(&people)
+		if len(errs) != 0 {
+			t.Errorf("CSV.Decode() got errors: %v", errs)
+		}
+
+		want := []person{
+			{ID: 1, Gender: "male"},
+			{ID: 2, Gender: "female"},
+			{ID: 3, Gender: "prefer_not_to"},
+		}
+
+		if diff := cmp.Diff(people, want); diff != "" {
+			t.Errorf("CSV.Decode() mismatch (-got +want):\n%s", diff)
+		}
+	})
 }
 
 func Test_ErrCheck(t *testing.T) {
@@ -341,6 +376,45 @@ func Test_ErrCheck(t *testing.T) {
 				}
 			case 2:
 				if err.Error() != "line:4 column name: target length is not equal to the threshold value: length threshold=3, value=👩‍❤‍💋‍👩🇷🇺😂🏯" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate oneof: error case", func(t *testing.T) {
+		t.Parallel()
+
+		input := `id,gender
+1,smale
+2,child
+3,prefer_not_tooa
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			ID     int    // no validate
+			Gender string `validate:"oneof=male female prefer_not_to"`
+		}
+
+		people := make([]person, 0)
+		errs := c.Decode(&people)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column gender: target is not one of the values: oneof=male female prefer_not_to, value=smale" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:3 column gender: target is not one of the values: oneof=male female prefer_not_to, value=child" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 2:
+				if err.Error() != "line:4 column gender: target is not one of the values: oneof=male female prefer_not_to, value=prefer_not_tooa" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			}
