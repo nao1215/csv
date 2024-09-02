@@ -10,7 +10,16 @@
 
 The csv package is a library for performing validation when reading CSV or TSV files. Validation rules are specified using struct tags. The csv package read returns which columns of which rows do not adhere to the specified rules.
   
-We are implementing internationalization (i18n) for error messages to make them easier for non-engineers to understand.
+We are implementing internationalization (i18n) for error messages. 
+
+### Supported languages
+
+- English
+- Japanese
+- Russian
+
+If you want to add a new language, please create a pull request.
+Ref. https://github.com/nao1215/csv/pull/8
 
 ## Why need csv package?
 

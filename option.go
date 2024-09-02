@@ -30,3 +30,11 @@ func WithJapaneseLanguage() Option {
 		return nil
 	}
 }
+
+// WithRussianLanguage is an Option that sets the i18n bundle to Russian.
+func WithRussianLanguage() Option {
+	return func(c *CSV) error {
+		c.i18nLocalizer = i18n.NewLocalizer(c.i18nBundle, "ru")
+		return nil
+	}
+}
