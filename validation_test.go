@@ -4,7 +4,20 @@ import (
 	"testing"
 
 	"github.com/motemen/go-testutil/dataloc"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"golang.org/x/text/language"
+	"gopkg.in/yaml.v2"
 )
+
+// helperLocalizer is a helper function that returns a new localizer.
+func helperLocalizer(t *testing.T) *i18n.Localizer {
+	t.Helper()
+	bundle := i18n.NewBundle(language.English)
+	bundle.RegisterUnmarshalFunc("yaml", yaml.Unmarshal)
+	bundle.LoadMessageFileFS(LocaleFS, "i18n/en.yaml")
+	bundle.LoadMessageFileFS(LocaleFS, "i18n/ja.yaml")
+	return i18n.NewLocalizer(bundle, "en")
+}
 
 func Test_booleanValidator_Do(t *testing.T) {
 	t.Parallel()
@@ -54,7 +67,7 @@ func Test_booleanValidator_Do(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			b := &booleanValidator{}
-			if err := b.Do(tt.args.target); (err != nil) != tt.wantErr {
+			if err := b.Do(helperLocalizer(t), tt.args.target); (err != nil) != tt.wantErr {
 				t.Errorf("booleanValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
 			}
 		})
@@ -106,7 +119,7 @@ func Test_alphaValidator_Do(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &alphabetValidator{}
-			if err := a.Do(tt.args.target); (err != nil) != tt.wantErr {
+			if err := a.Do(helperLocalizer(t), tt.args.target); (err != nil) != tt.wantErr {
 				t.Errorf("alphaValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
 			}
 		})
@@ -158,7 +171,7 @@ func Test_numericValidator_Do(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			n := &numericValidator{}
-			if err := n.Do(tt.arg); (err != nil) != tt.wantErr {
+			if err := n.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
 				t.Errorf("numericValidator.Do() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})

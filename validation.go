@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/rivo/uniseg"
 )
 
@@ -13,7 +14,7 @@ type validators []validator
 
 // validator is the interface that wraps the Do method.
 type validator interface {
-	Do(target any) error
+	Do(localizer *i18n.Localizer, target any) error
 }
 
 // booleanValidator is a struct that contains the validation rules for a boolean column.
@@ -26,13 +27,13 @@ func newBooleanValidator() *booleanValidator {
 
 // Do validates the target as a boolean.
 // If the target is an int, it will be validated as a boolean if it's 0 or 1.
-func (b *booleanValidator) Do(target any) error {
+func (b *booleanValidator) Do(localizer *i18n.Localizer, target any) error {
 	if v, ok := target.(string); ok {
 		if v == "true" || v == "false" || v == "0" || v == "1" {
 			return nil
 		}
 	}
-	return fmt.Errorf("%w: value=%v", ErrInvalidBoolean, target) //nolint
+	return NewError(localizer, ErrInvalidBooleanID, fmt.Sprintf("value=%v", target))
 }
 
 // alphabetValidator is a struct that contains the validation rules for an alpha column.
@@ -44,15 +45,15 @@ func newAlphaValidator() *alphabetValidator {
 }
 
 // Do validates the target string only contains alphabetic character.
-func (a *alphabetValidator) Do(target any) error {
+func (a *alphabetValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrInvalidAlphabet, target) //nolint
+		return NewError(localizer, ErrInvalidAlphabetID, fmt.Sprintf("value=%v", target))
 	}
 
 	for _, r := range v {
 		if !isAlpha(r) {
-			return fmt.Errorf("%w: value=%v", ErrInvalidAlphabet, target) //nolint
+			return NewError(localizer, ErrInvalidAlphabetID, fmt.Sprintf("value=%v", target))
 		}
 	}
 	return nil
@@ -72,10 +73,10 @@ func newNumericValidator() *numericValidator {
 }
 
 // Do validates the target as a numeric.
-func (n *numericValidator) Do(target any) error {
+func (n *numericValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrInvalidNumeric, target) //nolint
+		return NewError(localizer, ErrInvalidNumericID, fmt.Sprintf("value=%v", target))
 	}
 
 	if v == "" {
@@ -83,7 +84,7 @@ func (n *numericValidator) Do(target any) error {
 	}
 
 	if _, err := strconv.Atoi(v); err != nil {
-		return fmt.Errorf("%w: value=%s", ErrInvalidNumeric, v) //nolint
+		return NewError(localizer, ErrInvalidNumericID, fmt.Sprintf("value=%v", target))
 	}
 	return nil
 }
@@ -102,15 +103,15 @@ func newAlphanumericValidator() *alphanumericValidator {
 }
 
 // Do validates the target string only contains alphanumeric character.
-func (a *alphanumericValidator) Do(target any) error {
+func (a *alphanumericValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrInvalidAlphanumeric, target) //nolint
+		return NewError(localizer, ErrInvalidAlphanumericID, fmt.Sprintf("value=%v", target))
 	}
 
 	for _, r := range v {
 		if !isAlpha(r) && !isNumeric(r) {
-			return fmt.Errorf("%w: value=%v", ErrInvalidAlphanumeric, target) //nolint
+			return NewError(localizer, ErrInvalidAlphanumericID, fmt.Sprintf("value=%v", target))
 		}
 	}
 	return nil
@@ -125,14 +126,14 @@ func newRequiredValidator() *requiredValidator {
 }
 
 // Do validates the target is not empty.
-func (r *requiredValidator) Do(target any) error {
+func (r *requiredValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrRequired, target) //nolint
+		return NewError(localizer, ErrRequiredID, fmt.Sprintf("value=%v", target))
 	}
 
 	if v == "" {
-		return fmt.Errorf("%w: value=%v", ErrRequired, target) //nolint
+		return NewError(localizer, ErrRequiredID, fmt.Sprintf("value=%v", target))
 	}
 	return nil
 }
@@ -148,19 +149,18 @@ func newEqualValidator(threshold float64) *equalValidator {
 }
 
 // Do validates the target is equal to the threshold.
-func (e *equalValidator) Do(target any) error {
+func (e *equalValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrEqual, target) //nolint
+		return NewError(localizer, ErrEqualID, fmt.Sprintf("value=%v", target))
 	}
 
 	value, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		return fmt.Errorf("%w: value=%v", ErrEqual, target) //nolint
+		return NewError(localizer, ErrEqualID, fmt.Sprintf("value=%v", target))
 	}
-
 	if value != e.threshold {
-		return fmt.Errorf("%w: threshold=%f, value=%f", ErrEqual, e.threshold, value) //nolint
+		return NewError(localizer, ErrEqualID, fmt.Sprintf("threshold=%v, value=%v", e.threshold, value))
 	}
 	return nil
 }
@@ -176,19 +176,19 @@ func newNotEqualValidator(threshold float64) *notEqualValidator {
 }
 
 // Do validates the target is not equal to the threshold.
-func (n *notEqualValidator) Do(target any) error {
+func (n *notEqualValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrNotEqual, target) //nolint
+		return NewError(localizer, ErrNotEqualID, fmt.Sprintf("value=%v", target))
 	}
 
 	value, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		return fmt.Errorf("%w: value=%v", ErrNotEqual, target) //nolint
+		return NewError(localizer, ErrNotEqualID, fmt.Sprintf("value=%v", target))
 	}
 
 	if value == n.threshold {
-		return fmt.Errorf("%w: threshold=%f, value=%f", ErrNotEqual, n.threshold, value) //nolint
+		return NewError(localizer, ErrNotEqualID, fmt.Sprintf("threshold=%v, value=%v", n.threshold, value))
 	}
 	return nil
 }
@@ -204,19 +204,19 @@ func newGreaterThanValidator(threshold float64) *greaterThanValidator {
 }
 
 // Do validates the target is greater than the threshold.
-func (g *greaterThanValidator) Do(target any) error {
+func (g *greaterThanValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrGreaterThan, target) //nolint
+		return NewError(localizer, ErrGreaterThanID, fmt.Sprintf("value=%v", target))
 	}
 
 	value, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		return fmt.Errorf("%w: value=%v", ErrGreaterThan, target) //nolint
+		return NewError(localizer, ErrGreaterThanID, fmt.Sprintf("value=%v", target))
 	}
 
 	if value <= g.threshold {
-		return fmt.Errorf("%w: threshold=%f, value=%f", ErrGreaterThan, g.threshold, value) //nolint
+		return NewError(localizer, ErrGreaterThanID, fmt.Sprintf("threshold=%v, value=%v", g.threshold, value))
 	}
 	return nil
 }
@@ -232,19 +232,19 @@ func newGreaterThanEqualValidator(threshold float64) *greaterThanEqualValidator 
 }
 
 // Do validates the target is greater than or equal to the threshold.
-func (g *greaterThanEqualValidator) Do(target any) error {
+func (g *greaterThanEqualValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrGreaterThanEqual, target) //nolint
+		return NewError(localizer, ErrGreaterThanEqualID, fmt.Sprintf("value=%v", target))
 	}
 
 	value, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		return fmt.Errorf("%w: value=%v", ErrGreaterThanEqual, target) //nolint
+		return NewError(localizer, ErrGreaterThanEqualID, fmt.Sprintf("value=%v", target))
 	}
 
 	if value < g.threshold {
-		return fmt.Errorf("%w: threshold=%f, value=%f", ErrGreaterThanEqual, g.threshold, value) //nolint
+		return NewError(localizer, ErrGreaterThanEqualID, fmt.Sprintf("threshold=%v, value=%v", g.threshold, value))
 	}
 	return nil
 }
@@ -260,18 +260,18 @@ func newLessThanValidator(threshold float64) *lessThanValidator {
 }
 
 // Do validates the target is less than the threshold.
-func (l *lessThanValidator) Do(target any) error {
+func (l *lessThanValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrLessThan, target) //nolint
+		return NewError(localizer, ErrLessThanID, fmt.Sprintf("value=%v", target))
 	}
 
 	value, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		return fmt.Errorf("%w: value=%v", ErrLessThan, target) //nolint
+		return NewError(localizer, ErrLessThanID, fmt.Sprintf("value=%v", target))
 	}
 	if value >= l.threshold {
-		return fmt.Errorf("%w: threshold=%f, value=%f", ErrLessThan, l.threshold, value) //nolint
+		return NewError(localizer, ErrLessThanID, fmt.Sprintf("threshold=%v, value=%v", l.threshold, value))
 	}
 	return nil
 }
@@ -287,19 +287,19 @@ func newLessThanEqualValidator(threshold float64) *lessThanEqualValidator {
 }
 
 // Do validates the target is less than or equal to the threshold.
-func (l *lessThanEqualValidator) Do(target any) error {
+func (l *lessThanEqualValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrLessThanEqual, target) //nolint
+		return NewError(localizer, ErrLessThanEqualID, fmt.Sprintf("value=%v", target))
 	}
 
 	value, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		return fmt.Errorf("%w: value=%v", ErrLessThanEqual, target) //nolint
+		return NewError(localizer, ErrLessThanEqualID, fmt.Sprintf("value=%v", target))
 	}
 
 	if value > l.threshold {
-		return fmt.Errorf("%w: threshold=%f, value=%f", ErrLessThanEqual, l.threshold, value) //nolint
+		return NewError(localizer, ErrLessThanEqualID, fmt.Sprintf("threshold=%v, value=%v", l.threshold, value))
 	}
 	return nil
 }
@@ -315,19 +315,19 @@ func newMinValidator(threshold float64) *minValidator {
 }
 
 // Do validates the target is greater than or equal to the threshold.
-func (m *minValidator) Do(target any) error {
+func (m *minValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrMin, target) //nolint
+		return NewError(localizer, ErrMinID, fmt.Sprintf("value=%v", target))
 	}
 
 	value, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		return fmt.Errorf("%w: value=%v", ErrMin, target) //nolint
+		return NewError(localizer, ErrMinID, fmt.Sprintf("value=%v", target))
 	}
 
 	if value < m.threshold {
-		return fmt.Errorf("%w: threshold=%f, value=%f", ErrMin, m.threshold, value) //nolint
+		return NewError(localizer, ErrMinID, fmt.Sprintf("threshold=%v, value=%v", m.threshold, value))
 	}
 	return nil
 }
@@ -343,19 +343,19 @@ func newMaxValidator(threshold float64) *maxValidator {
 }
 
 // Do validates the target is less than or equal to the threshold.
-func (m *maxValidator) Do(target any) error {
+func (m *maxValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrMax, target) //nolint
+		return NewError(localizer, ErrMaxID, fmt.Sprintf("value=%v", target))
 	}
 
 	value, err := strconv.ParseFloat(v, 64)
 	if err != nil {
-		return fmt.Errorf("%w: value=%v", ErrMax, target) //nolint
+		return NewError(localizer, ErrMaxID, fmt.Sprintf("value=%v", target))
 	}
 
 	if value > m.threshold {
-		return fmt.Errorf("%w: threshold=%f, value=%f", ErrMax, m.threshold, value) //nolint
+		return NewError(localizer, ErrMaxID, fmt.Sprintf("threshold=%v, value=%v", m.threshold, value))
 	}
 	return nil
 }
@@ -371,15 +371,15 @@ func newLengthValidator(threshold float64) *lengthValidator {
 }
 
 // Do validates the target length is equal to the threshold.
-func (l *lengthValidator) Do(target any) error {
+func (l *lengthValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrLength, target) //nolint
+		return NewError(localizer, ErrLengthID, fmt.Sprintf("value=%v", target))
 	}
 
 	count := uniseg.GraphemeClusterCount(v)
 	if count != int(l.threshold) {
-		return fmt.Errorf("%w: length threshold=%d, value=%s", ErrLength, int(l.threshold), v) //nolint
+		return NewError(localizer, ErrLengthID, fmt.Sprintf("length threshold=%v, value=%v", l.threshold, target))
 	}
 	return nil
 }
@@ -395,10 +395,10 @@ func newOneOfValidator(oneOf []string) *oneOfValidator {
 }
 
 // Do validates the target is one of the oneOf values.
-func (o *oneOfValidator) Do(target any) error {
+func (o *oneOfValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
 	if !ok {
-		return fmt.Errorf("%w: value=%v", ErrOneOf, target) //nolint
+		return NewError(localizer, ErrOneOfID, fmt.Sprintf("value=%v", target))
 	}
 
 	for _, s := range o.oneOf {
@@ -406,5 +406,5 @@ func (o *oneOfValidator) Do(target any) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("%w: oneof=%s, value=%v", ErrOneOf, strings.Join(o.oneOf, " "), target) //nolint
+	return NewError(localizer, ErrOneOfID, fmt.Sprintf("oneof=%s, value=%v", strings.Join(o.oneOf, " "), target))
 }

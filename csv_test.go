@@ -260,7 +260,7 @@ func Test_ErrCheck(t *testing.T) {
 		for i, err := range got {
 			switch i {
 			case 0:
-				if err.Error() != "line:2 column id: target is not greater than or equal to the threshold value: threshold=1.000000, value=0.000000" {
+				if err.Error() != "line:2 column id: target is not greater than or equal to the threshold value: threshold=1, value=0" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			case 1:
@@ -276,15 +276,15 @@ func Test_ErrCheck(t *testing.T) {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			case 4:
-				if err.Error() != "line:5 column zero: target is not equal to the threshold value: threshold=0.000000, value=1.000000" {
+				if err.Error() != "line:5 column zero: target is not equal to the threshold value: threshold=0, value=1" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			case 5:
-				if err.Error() != "line:5 column zero: target is equal to threshold the value: threshold=1.000000, value=1.000000" {
+				if err.Error() != "line:5 column zero: target is equal to the threshold value: threshold=1, value=1" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			case 6:
-				if err.Error() != "line:6 column age: target is not less than the threshold value: threshold=120.000000, value=120.000000" {
+				if err.Error() != "line:6 column age: target is not less than the threshold value: threshold=120, value=120" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			case 7:
@@ -292,11 +292,11 @@ func Test_ErrCheck(t *testing.T) {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			case 8:
-				if err.Error() != "line:8 column age: target is not greater than the threshold value: threshold=-1.000000, value=-1.000000" {
+				if err.Error() != "line:8 column age: target is not greater than the threshold value: threshold=-1, value=-1" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			case 9:
-				if err.Error() != "line:8 column age: target is not greater than or equal to the threshold value: threshold=0.000000, value=-1.000000" {
+				if err.Error() != "line:8 column age: target is not greater than or equal to the threshold value: threshold=0, value=-1" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			case 10:
@@ -332,11 +332,11 @@ func Test_ErrCheck(t *testing.T) {
 		for i, err := range errs {
 			switch i {
 			case 0:
-				if err.Error() != "line:3 column age: target is less than the minimum value: threshold=0.000000, value=-1.000000" {
+				if err.Error() != "line:3 column age: target is less than the minimum value: threshold=0, value=-1" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			case 1:
-				if err.Error() != "line:5 column age: target is greater than the maximum value: threshold=120.000000, value=120.100000" {
+				if err.Error() != "line:5 column age: target is greater than the maximum value: threshold=120, value=120.1" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			}

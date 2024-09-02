@@ -4,12 +4,20 @@
 package csv
 
 import (
+	"embed"
 	"encoding/csv"
 	"fmt"
 	"io"
 	"reflect"
 	"strconv"
+
+	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"golang.org/x/text/language"
+	"gopkg.in/yaml.v2"
 )
+
+//go:embed i18n/*
+var LocaleFS embed.FS
 
 // CSV is a struct that implements CSV Reader and Writer.
 type CSV struct {
@@ -22,6 +30,12 @@ type CSV struct {
 	// ruleSets is slice of ruleSet.
 	// The order of the ruleSet is the same as the order of the columns in the csv.
 	ruleSet ruleSet
+	// i18nBundle is the i18n bundle. It is used to translate error messages.
+	// The default language is English.
+	i18nBundle *i18n.Bundle
+	// i18nLocalizer is the i18n localizer. It is used to localize error messages.
+	// The default language is English.
+	i18nLocalizer *i18n.Localizer
 }
 
 type (
@@ -38,6 +52,15 @@ func NewCSV(r io.Reader, opts ...Option) (*CSV, error) {
 	csv := &CSV{
 		reader: csv.NewReader(r),
 	}
+	csv.i18nBundle = i18n.NewBundle(language.English)
+	csv.i18nBundle.RegisterUnmarshalFunc("yaml", yaml.Unmarshal)
+	if _, err := csv.i18nBundle.LoadMessageFileFS(LocaleFS, "i18n/en.yaml"); err != nil {
+		return nil, NewError(csv.i18nLocalizer, "ErrLoadMessageFile", err.Error())
+	}
+	if _, err := csv.i18nBundle.LoadMessageFileFS(LocaleFS, "i18n/ja.yaml"); err != nil {
+		return nil, NewError(csv.i18nLocalizer, "ErrLoadMessageFile", err.Error())
+	}
+	csv.i18nLocalizer = i18n.NewLocalizer(csv.i18nBundle, "en")
 
 	for _, opt := range opts {
 		if err := opt(csv); err != nil {
@@ -49,8 +72,6 @@ func NewCSV(r io.Reader, opts ...Option) (*CSV, error) {
 
 // Decode reads the CSV and returns the columns that have syntax errors on a per-line basis.
 // The strutSlicePointer is a pointer to structure slice where validation rules are set in struct tags.
-//
-// Example:
 func (c *CSV) Decode(structSlicePointer any) []error {
 	errors := make([]error, 0)
 	if err := c.parseStructTag(structSlicePointer); err != nil {
@@ -84,7 +105,7 @@ func (c *CSV) Decode(structSlicePointer any) []error {
 		for i, v := range record {
 			validators := c.ruleSet[i]
 			for _, validator := range validators {
-				if err := validator.Do(v); err != nil {
+				if err := validator.Do(c.i18nLocalizer, v); err != nil {
 					errors = append(errors, fmt.Errorf("line:%d column %s: %w", line, c.header[i], err))
 				}
 			}

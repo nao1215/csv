@@ -1,0 +1,59 @@
+- id: "ErrStructSlicePointer"
+  translation: "value is not a pointer to a struct slice"
+
+- id: "ErrInvalidOneOfFormat"
+  translation: "target is not one of the values"
+
+- id: "ErrInvalidThresholdFormat"
+  translation: "threshold format is invalid"
+
+- id: "ErrInvalidBoolean"
+  translation: "target is not a boolean"
+
+- id: "ErrInvalidAlphabet"
+  translation: "target is not an alphabetic character"
+
+- id: "ErrInvalidNumeric"
+  translation: "target is not a numeric character"
+
+- id: "ErrInvalidAlphanumeric"
+  translation: "target is not an alphanumeric character"
+
+- id: "ErrRequired"
+  translation: "target is required but is empty"
+
+- id: "ErrEqual"
+  translation: "target is not equal to the threshold value"
+
+- id: "ErrInvalidThreshold"
+  translation: "threshold value is invalid"
+
+- id: "ErrNotEqual"
+  translation: "target is equal to the threshold value"
+
+- id: "ErrGreaterThan"
+  translation: "target is not greater than the threshold value"
+
+- id: "ErrGreaterThanEqual"
+  translation: "target is not greater than or equal to the threshold value"
+
+- id: "ErrLessThan"
+  translation: "target is not less than the threshold value"
+
+- id: "ErrLessThanEqual"
+  translation: "target is not less than or equal to the threshold value"
+
+- id: "ErrMin"
+  translation: "target is less than the minimum value"
+
+- id: "ErrMax"
+  translation: "target is greater than the maximum value"
+
+- id: "ErrLength"
+  translation: "target length is not equal to the threshold value"
+
+- id: "ErrOneOf"
+  translation: "target is not one of the values"
+
+- id: "ErrLoadMessageFile"
+  translation: "failed to load message file"
