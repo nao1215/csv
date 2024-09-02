@@ -69,12 +69,13 @@ a,Yulia,25
 	// line:2 column age: target is not greater than the threshold value: threshold=24, value=23
 	// line:3 column id: target is not a numeric character: value=a
 	// line:4 column name: target is not an alphabetic character: value=Den1s
+}
 ```
 
 ### Example: japanese error message
 
 ```go
-func ExampleCSVInJapanese() {
+func main() {
 	input := `id,name,age
 1,Gina,23
 a,Yulia,25
