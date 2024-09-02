@@ -52,15 +52,10 @@ func NewCSV(r io.Reader, opts ...Option) (*CSV, error) {
 	csv := &CSV{
 		reader: csv.NewReader(r),
 	}
-	csv.i18nBundle = i18n.NewBundle(language.English)
-	csv.i18nBundle.RegisterUnmarshalFunc("yaml", yaml.Unmarshal)
-	if _, err := csv.i18nBundle.LoadMessageFileFS(LocaleFS, "i18n/en.yaml"); err != nil {
-		return nil, NewError(csv.i18nLocalizer, "ErrLoadMessageFile", err.Error())
+
+	if err := csv.newI18n(); err != nil {
+		return nil, err
 	}
-	if _, err := csv.i18nBundle.LoadMessageFileFS(LocaleFS, "i18n/ja.yaml"); err != nil {
-		return nil, NewError(csv.i18nLocalizer, "ErrLoadMessageFile", err.Error())
-	}
-	csv.i18nLocalizer = i18n.NewLocalizer(csv.i18nBundle, "en")
 
 	for _, opt := range opts {
 		if err := opt(csv); err != nil {
@@ -68,6 +63,20 @@ func NewCSV(r io.Reader, opts ...Option) (*CSV, error) {
 		}
 	}
 	return csv, nil
+}
+
+// newI18n initializes the i18n bundle and localizer.
+func (c *CSV) newI18n() error {
+	c.i18nBundle = i18n.NewBundle(language.English)
+	c.i18nBundle.RegisterUnmarshalFunc("yaml", yaml.Unmarshal)
+
+	for _, lang := range []string{"en", "ja", "ru"} {
+		if _, err := c.i18nBundle.LoadMessageFileFS(LocaleFS, fmt.Sprintf("i18n/%s.yaml", lang)); err != nil {
+			return NewError(c.i18nLocalizer, "ErrLoadMessageFile", err.Error())
+		}
+	}
+	c.i18nLocalizer = i18n.NewLocalizer(c.i18nBundle, "en")
+	return nil
 }
 
 // Decode reads the CSV and returns the columns that have syntax errors on a per-line basis.

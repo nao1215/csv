@@ -1,0 +1,59 @@
+- id: "ErrStructSlicePointer"
+  translation: "значение не является указателем на срез структур"
+
+- id: "ErrInvalidOneOfFormat"
+  translation: "целевое значение не является одним из допустимых значений"
+
+- id: "ErrInvalidThresholdFormat"
+  translation: "неверный формат порогового значения"
+
+- id: "ErrInvalidBoolean"
+  translation: "целевое значение не является булевым типом"
+
+- id: "ErrInvalidAlphabet"
+  translation: "целевое значение не является алфавитным символом"
+
+- id: "ErrInvalidNumeric"
+  translation: "целевое значение не является числовым символом"
+
+- id: "ErrInvalidAlphanumeric"
+  translation: "целевое значение не является буквенно-цифровым символом"
+
+- id: "ErrRequired"
+  translation: "целевое значение обязательно, но оно пустое"
+
+- id: "ErrEqual"
+  translation: "целевое значение не равно пороговому значению"
+
+- id: "ErrInvalidThreshold"
+  translation: "пороговое значение недействительно"
+
+- id: "ErrNotEqual"
+  translation: "целевое значение равно пороговому значению"
+
+- id: "ErrGreaterThan"
+  translation: "целевое значение не больше порогового значения"
+
+- id: "ErrGreaterThanEqual"
+  translation: "целевое значение не больше или равно пороговому значению"
+
+- id: "ErrLessThan"
+  translation: "целевое значение не меньше порогового значения"
+
+- id: "ErrLessThanEqual"
+  translation: "целевое значение не меньше или равно пороговому значению"
+
+- id: "ErrMin"
+  translation: "целевое значение меньше минимального значения"
+
+- id: "ErrMax"
+  translation: "целевое значение больше максимального значения"
+
+- id: "ErrLength"
+  translation: "длина целевого значения не равна пороговому значению"
+
+- id: "ErrOneOf"
+  translation: "целевое значение не является одним из допустимых значений"
+
+- id: "ErrLoadMessageFile"
+  translation: "не удалось загрузить файл сообщения"
