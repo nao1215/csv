@@ -450,3 +450,26 @@ func (u *uppercaseValidator) Do(localizer *i18n.Localizer, target any) error {
 	}
 	return nil
 }
+
+// asciiValidator is a struct that contains the validation rules for an ASCII column.
+type asciiValidator struct{}
+
+// newASCIIValidator returns a new asciiValidator.
+func newASCIIValidator() *asciiValidator {
+	return &asciiValidator{}
+}
+
+// Do validates the target is an ASCII string.
+func (a *asciiValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrASCIIID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, r := range v {
+		if r > 127 {
+			return NewError(localizer, ErrASCIIID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	return nil
+}

@@ -2,6 +2,7 @@ package csv
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
@@ -493,6 +494,35 @@ ABC
 				}
 			case 2:
 				if err.Error() != "line:5 column name: target is not an uppercase character: value=あいう" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate ascii", func(t *testing.T) {
+		t.Parallel()
+
+		input := fmt.Sprintf(
+			"name\n%s\n%s\n",
+			"\"!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\`]^_abcdefghijklmnopqrstuvwxyz{|}~\"",
+			"あいう",
+		)
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+		type ascii struct {
+			Name string `validate:"ascii"`
+		}
+
+		asciis := make([]ascii, 0)
+		errs := c.Decode(&asciis)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not an ASCII character: value=あいう" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			}

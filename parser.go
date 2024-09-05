@@ -131,6 +131,8 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 			validatorList = append(validatorList, newLowercaseValidator())
 		case strings.HasPrefix(t, uppercaseTagValue.String()):
 			validatorList = append(validatorList, newUppercaseValidator())
+		case strings.HasPrefix(t, asciiTagValue.String()):
+			validatorList = append(validatorList, newASCIIValidator())
 		}
 	}
 	return validatorList, nil

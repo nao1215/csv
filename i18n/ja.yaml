@@ -69,3 +69,6 @@
 
 - id: "ErrUppercase"
   translation: "値が大文字ではありません"
+
+- id: "ErrASCII"
+  translation: "値がASCII文字ではありません"

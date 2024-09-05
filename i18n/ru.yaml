@@ -63,3 +63,6 @@
 
 - id: "ErrUppercase"
   translation: "целевое значение не является заглавным символом"
+
+- id: "ErrASCII"
+  translation: "целевое значение не является ASCII символом"
