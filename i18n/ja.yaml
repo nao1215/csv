@@ -63,3 +63,9 @@
 
 - id: "ErrLoadMessageFile"
   translation: "メッセージファイルの読み込みに失敗しました"
+
+- id: "ErrLowercase"
+  translation: "値が小文字ではありません"
+
+- id: "ErrUppercase"
+  translation: "値が大文字ではありません"

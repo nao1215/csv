@@ -408,3 +408,45 @@ func (o *oneOfValidator) Do(localizer *i18n.Localizer, target any) error {
 	}
 	return NewError(localizer, ErrOneOfID, fmt.Sprintf("oneof=%s, value=%v", strings.Join(o.oneOf, " "), target))
 }
+
+// lowercaseValidator is a struct that contains the validation rules for a lowercase column.
+type lowercaseValidator struct{}
+
+// newLowercaseValidator returns a new lowercaseValidator.
+func newLowercaseValidator() *lowercaseValidator {
+	return &lowercaseValidator{}
+}
+
+// Do validates the target is a lowercase string.
+func (l *lowercaseValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrLowercaseID, fmt.Sprintf("value=%v", target))
+	}
+
+	if v != strings.ToLower(v) {
+		return NewError(localizer, ErrLowercaseID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// uppercaseValidator is a struct that contains the validation rules for an uppercase column.
+type uppercaseValidator struct{}
+
+// newUppercaseValidator returns a new uppercaseValidator.
+func newUppercaseValidator() *uppercaseValidator {
+	return &uppercaseValidator{}
+}
+
+// Do validates the target is an uppercase string.
+func (u *uppercaseValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrUppercaseID, fmt.Sprintf("value=%v", target))
+	}
+
+	if v != strings.ToUpper(v) {
+		return NewError(localizer, ErrUppercaseID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}

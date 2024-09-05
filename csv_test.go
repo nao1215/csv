@@ -420,4 +420,82 @@ func Test_ErrCheck(t *testing.T) {
 			}
 		}
 	})
+
+	t.Run("validate lowercase", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+Abc
+abc
+ABC
+あいう
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			Name string `validate:"lowercase"`
+		}
+
+		persons := make([]person, 0)
+		errs := c.Decode(&persons)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target is not a lowercase character: value=Abc" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:4 column name: target is not a lowercase character: value=ABC" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 2:
+				if err.Error() != "line:5 column name: target is not a lowercase character: value=あいう" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate uppercase", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+Abc
+abc
+ABC
+あいう
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			Name string `validate:"uppercase"`
+		}
+
+		persons := make([]person, 0)
+		errs := c.Decode(&persons)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target is not an uppercase character: value=Abc" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:3 column name: target is not an uppercase character: value=abc" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 2:
+				if err.Error() != "line:5 column name: target is not an uppercase character: value=あいう" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
 }

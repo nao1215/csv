@@ -36,7 +36,9 @@ func Test_parseValidateTag(t *testing.T) {
 
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			got, err := parseValidateTag(tt.args.tags)
+			c := &CSV{}
+
+			got, err := c.parseValidateTag(tt.args.tags)
 			if err != nil {
 				t.Errorf("parseValidateTag() error = %v, test case at %s", err, dataloc.L(tt.name))
 			}
