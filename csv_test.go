@@ -2,6 +2,7 @@ package csv
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
@@ -415,6 +416,150 @@ func Test_ErrCheck(t *testing.T) {
 				}
 			case 2:
 				if err.Error() != "line:4 column gender: target is not one of the values: oneof=male female prefer_not_to, value=prefer_not_tooa" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate lowercase", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+Abc
+abc
+ABC
+あいう
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			Name string `validate:"lowercase"`
+		}
+
+		persons := make([]person, 0)
+		errs := c.Decode(&persons)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target is not a lowercase character: value=Abc" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:4 column name: target is not a lowercase character: value=ABC" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 2:
+				if err.Error() != "line:5 column name: target is not a lowercase character: value=あいう" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate uppercase", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+Abc
+abc
+ABC
+あいう
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type person struct {
+			Name string `validate:"uppercase"`
+		}
+
+		persons := make([]person, 0)
+		errs := c.Decode(&persons)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target is not an uppercase character: value=Abc" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:3 column name: target is not an uppercase character: value=abc" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 2:
+				if err.Error() != "line:5 column name: target is not an uppercase character: value=あいう" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate ascii", func(t *testing.T) {
+		t.Parallel()
+
+		input := fmt.Sprintf(
+			"name\n%s\n%s\n",
+			"\"!#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\`]^_abcdefghijklmnopqrstuvwxyz{|}~\"",
+			"あいう",
+		)
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+		type ascii struct {
+			Name string `validate:"ascii"`
+		}
+
+		asciis := make([]ascii, 0)
+		errs := c.Decode(&asciis)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not an ASCII character: value=あいう" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate email", func(t *testing.T) {
+		t.Parallel()
+
+		input := `email
+simple@example.com
+very.common@example.com
+disposable.style.email.with+symbol@example.com
+user.name+tag+sorting@example.com
+admin@mailserver1
+badあ@example.com
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type email struct {
+			Email string `validate:"email"`
+		}
+
+		emails := make([]email, 0)
+		errs := c.Decode(&emails)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:6 column email: target is not a valid email address: value=admin@mailserver1" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:7 column email: target is not a valid email address: value=badあ@example.com" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			}

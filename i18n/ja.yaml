@@ -2,58 +2,58 @@
   translation: "値が構造体スライスへのポインタではありません"
 
 - id: "ErrInvalidOneOfFormat"
-  translation: "ターゲットは値のいずれかではありません"
+  translation: "値が指定値のいずれかではありません"
 
 - id: "ErrInvalidThresholdFormat"
   translation: "しきい値の形式が無効です"
 
 - id: "ErrInvalidBoolean"
-  translation: "ターゲットがブール値ではありません"
+  translation: "値がブール値ではありません"
 
 - id: "ErrInvalidAlphabet"
-  translation: "ターゲットがアルファベット文字ではありません"
+  translation: "値がアルファベット文字ではありません"
 
 - id: "ErrInvalidNumeric"
-  translation: "ターゲットが数字ではありません"
+  translation: "値が数字ではありません"
 
 - id: "ErrInvalidAlphanumeric"
-  translation: "ターゲットが英数字ではありません"
+  translation: "値が英数字ではありません"
 
 - id: "ErrRequired"
-  translation: "ターゲットは必須ですが、空です"
+  translation: "必須パラメータが空です"
 
 - id: "ErrEqual"
-  translation: "ターゲットがしきい値と等しくありません"
+  translation: "値がしきい値と等しくありません"
 
 - id: "ErrInvalidThreshold"
   translation: "しきい値が無効です"
 
 - id: "ErrNotEqual"
-  translation: "ターゲットがしきい値と等しいです"
+  translation: "値がしきい値と等しいです"
 
 - id: "ErrGreaterThan"
-  translation: "ターゲットがしきい値より大きくありません"
+  translation: "値がしきい値より大きくありません"
 
 - id: "ErrGreaterThanEqual"
-  translation: "ターゲットがしきい値以上ではありません"
+  translation: "値がしきい値以上ではありません"
 
 - id: "ErrLessThan"
-  translation: "ターゲットがしきい値より小さくありません"
+  translation: "値がしきい値より小さくありません"
 
 - id: "ErrLessThanEqual"
-  translation: "ターゲットがしきい値以下ではありません"
+  translation: "値がしきい値以下ではありません"
 
 - id: "ErrMin"
-  translation: "ターゲットが最小値を下回っています"
+  translation: "値が最小値を下回っています"
 
 - id: "ErrMax"
-  translation: "ターゲットが最大値を超えています"
+  translation: "値が最大値を超えています"
 
 - id: "ErrLength"
-  translation: "ターゲットの長さがしきい値と等しくありません"
+  translation: "値の長さがしきい値と等しくありません"
 
 - id: "ErrOneOf"
-  translation: "ターゲットが値のいずれかではありません"
+  translation: "値が指定値のいずれかではありません"
 
 - id: "ErrInvalidStruct"
   translation: "構造体の範囲外のインデックスです"
@@ -63,3 +63,15 @@
 
 - id: "ErrLoadMessageFile"
   translation: "メッセージファイルの読み込みに失敗しました"
+
+- id: "ErrLowercase"
+  translation: "値が小文字ではありません"
+
+- id: "ErrUppercase"
+  translation: "値が大文字ではありません"
+
+- id: "ErrASCII"
+  translation: "値がASCII文字ではありません"
+
+- id: "ErrEmail"
+  translation: "値がメールアドレスではありません"

@@ -111,9 +111,9 @@ a,Yulia,25
 	}
 
 	// Output:
-	// line:2 column age: ターゲットがしきい値より大きくありません: threshold=24, value=23
-	// line:3 column id: ターゲットが数字ではありません: value=a
-	// line:4 column name: ターゲットがアルファベット文字ではありません: value=Den1s
+	// line:2 column age: 値がしきい値より大きくありません: threshold=24, value=23
+	// line:3 column id: 値が数字ではありません: value=a
+	// line:4 column name: 値がアルファベット文字ではありません: value=Den1s
 }
 ```
 
@@ -121,30 +121,44 @@ a,Yulia,25
 
 You set the validation rules following the "validate:" tag according to the rules in the table below. If you need to set multiple rules, please enumerate them separated by commas.
 
-#### Validation rule without arguments
+#### Strings
 
 | Tag Name          | Description                                       |
 |-------------------|---------------------------------------------------|
-| boolean           | Check whether value is boolean or not.           |
 | alpha             | Check whether value is alphabetic or not           |
-| numeric           | Check whether value is numeric or not              |
 | alphanumeric     | Check whether value is alphanumeric or not        |
-| required          | Check whether value is empty or not                |
+| ascii             | Check whether value is ASCII or not                |
+| boolean           | Check whether value is boolean or not.           |
+| lowercase         | Check whether value is lowercase or not           |
+| numeric           | Check whether value is numeric or not              |
+| uppercase         | Check whether value is uppercase or not           |
 
-#### Validation rule with numeric argument
+#### Format
+
+| Tag Name          | Description                                       |
+|-------------------|---------------------------------------------------|
+| email             | Check whether value is an email address or not     |
+
+#### Comparisons
 
 | Tag Name          | Description                                       |
 |-------------------|---------------------------------------------------|
 | eq                | Check whether value is equal to the specified value.<br> e.g. `validate:"eq=1"` |
-| ne                | Check whether value is not equal to the specified value <br> e.g. `validate:"ne=1"` |
 | gt                | Check whether value is greater than the specified value <br> e.g. `validate:"gt=1"` |
 | gte               | Check whether value is greater than or equal to the specified value <br> e.g. `validate:"gte=1"` |
 | lt                | Check whether value is less than the specified value <br> e.g. `validate:"lt=1"` |
 | lte               | Check whether value is less than or equal to the specified value <br> e.g. `validate:"lte=1"` |
-| min               | Check whether value is greater than or equal to the specified value <br> e.g. `validate:"min=1"` |
-| max               | Check whether value is less than or equal to the specified value <br> e.g. `validate:"max=100"` |
+| ne                | Check whether value is not equal to the specified value <br> e.g. `validate:"ne=1"` |
+
+#### Other
+
+| Tag Name          | Description                                       |
+|-------------------|---------------------------------------------------|
 | len 			    | Check whether the length of the value is equal to the specified value <br> e.g. `validate:"len=10"` |
+| max               | Check whether value is less than or equal to the specified value <br> e.g. `validate:"max=100"` |
+| min               | Check whether value is greater than or equal to the specified value <br> e.g. `validate:"min=1"` |
 | oneof             | Check whether value is included in the specified values <br> e.g. `validate:"oneof=male female prefer_not_to"` |
+| required          | Check whether value is empty or not                |
 
 ## License
 [MIT License](./LICENSE)

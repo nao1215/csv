@@ -57,3 +57,15 @@
 
 - id: "ErrLoadMessageFile"
   translation: "не удалось загрузить файл сообщения"
+
+- id: "ErrLowercase"
+  translation: "целевое значение не является строчным символом"
+
+- id: "ErrUppercase"
+  translation: "целевое значение не является заглавным символом"
+
+- id: "ErrASCII"
+  translation: "целевое значение не является ASCII символом"
+
+- id: "ErrEmail"
+  translation: "целевое значение не является адресом электронной почты"

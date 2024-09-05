@@ -42,6 +42,14 @@ const (
 	lengthTagValue tagValue = "len"
 	// oneOfTagValue is the struct tag name for one of fields.
 	oneOfTagValue tagValue = "oneof"
+	// lowercaseTagValue is the struct tag name for lowercase fields.
+	lowercaseTagValue tagValue = "lowercase"
+	// uppercaseTagValue is the struct tag name for uppercase fields.
+	uppercaseTagValue tagValue = "uppercase"
+	// asciiTagValue is the struct tag name for ascii fields.
+	asciiTagValue tagValue = "ascii"
+	// emailTagValue is the struct tag name for email fields.
+	emailTagValue tagValue = "email"
 )
 
 // String returns the string representation of the tag.

@@ -68,9 +68,9 @@ a,Yulia,25
 	}
 
 	// Output:
-	// line:2 column age: ターゲットがしきい値より大きくありません: threshold=24, value=23
-	// line:3 column id: ターゲットが数字ではありません: value=a
-	// line:4 column name: ターゲットがアルファベット文字ではありません: value=Den1s
+	// line:2 column age: 値がしきい値より大きくありません: threshold=24, value=23
+	// line:3 column id: 値が数字ではありません: value=a
+	// line:4 column name: 値がアルファベット文字ではありません: value=Den1s
 }
 
 func ExampleWithRussianLanguage() {
