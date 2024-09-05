@@ -66,3 +66,6 @@
 
 - id: "ErrASCII"
   translation: "target is not an ASCII character"
+
+- id: "ErrEmail"
+  translation: "target is not a valid email address"

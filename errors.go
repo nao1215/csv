@@ -96,4 +96,6 @@ var (
 	ErrUppercaseID = "ErrUppercase"
 	// ErrASCIIID is the error ID used when the target is not an ASCII character.
 	ErrASCIIID = "ErrASCII"
+	// ErrEmailID is the error ID used when the target is not an email.
+	ErrEmailID = "ErrEmail"
 )

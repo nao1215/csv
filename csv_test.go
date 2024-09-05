@@ -528,4 +528,41 @@ ABC
 			}
 		}
 	})
+
+	t.Run("validate email", func(t *testing.T) {
+		t.Parallel()
+
+		input := `email
+simple@example.com
+very.common@example.com
+disposable.style.email.with+symbol@example.com
+user.name+tag+sorting@example.com
+admin@mailserver1
+badあ@example.com
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type email struct {
+			Email string `validate:"email"`
+		}
+
+		emails := make([]email, 0)
+		errs := c.Decode(&emails)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:6 column email: target is not a valid email address: value=admin@mailserver1" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			case 1:
+				if err.Error() != "line:7 column email: target is not a valid email address: value=badあ@example.com" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
 }
