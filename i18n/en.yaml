@@ -63,3 +63,6 @@
 
 - id: "ErrUppercase"
   translation: "target is not an uppercase character"
+
+- id: "ErrASCII"
+  translation: "target is not an ASCII character"

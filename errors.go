@@ -94,4 +94,6 @@ var (
 	ErrLowercaseID = "ErrLowercase"
 	// ErrUppercaseID is the error ID used when the target is not an uppercase character.
 	ErrUppercaseID = "ErrUppercase"
+	// ErrASCIIID is the error ID used when the target is not an ASCII character.
+	ErrASCIIID = "ErrASCII"
 )

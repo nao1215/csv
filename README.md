@@ -127,6 +127,7 @@ You set the validation rules following the "validate:" tag according to the rule
 |-------------------|---------------------------------------------------|
 | alpha             | Check whether value is alphabetic or not           |
 | alphanumeric     | Check whether value is alphanumeric or not        |
+| ascii             | Check whether value is ASCII or not                |
 | boolean           | Check whether value is boolean or not.           |
 | lowercase         | Check whether value is lowercase or not           |
 | numeric           | Check whether value is numeric or not              |
