@@ -48,6 +48,8 @@ const (
 	uppercaseTagValue tagValue = "uppercase"
 	// asciiTagValue is the struct tag name for ascii fields.
 	asciiTagValue tagValue = "ascii"
+	// emailTagValue is the struct tag name for email fields.
+	emailTagValue tagValue = "email"
 )
 
 // String returns the string representation of the tag.

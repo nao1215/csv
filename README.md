@@ -133,6 +133,12 @@ You set the validation rules following the "validate:" tag according to the rule
 | numeric           | Check whether value is numeric or not              |
 | uppercase         | Check whether value is uppercase or not           |
 
+#### Format
+
+| Tag Name          | Description                                       |
+|-------------------|---------------------------------------------------|
+| email             | Check whether value is an email address or not     |
+
 #### Comparisons
 
 | Tag Name          | Description                                       |

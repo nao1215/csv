@@ -72,3 +72,6 @@
 
 - id: "ErrASCII"
   translation: "値がASCII文字ではありません"
+
+- id: "ErrEmail"
+  translation: "値がメールアドレスではありません"

@@ -2,6 +2,7 @@ package csv
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -461,15 +462,43 @@ func newASCIIValidator() *asciiValidator {
 
 // Do validates the target is an ASCII string.
 func (a *asciiValidator) Do(localizer *i18n.Localizer, target any) error {
+	const maxASCII = 127
+
 	v, ok := target.(string)
 	if !ok {
 		return NewError(localizer, ErrASCIIID, fmt.Sprintf("value=%v", target))
 	}
 
 	for _, r := range v {
-		if r > 127 {
+		if r > maxASCII {
 			return NewError(localizer, ErrASCIIID, fmt.Sprintf("value=%v", target))
 		}
+	}
+	return nil
+}
+
+// emailValidator is a struct that contains the validation rules for an email column.
+type emailValidator struct {
+	regexp *regexp.Regexp
+}
+
+// newEmailValidator returns a new emailValidator.
+func newEmailValidator() *emailValidator {
+	const emailRegexPattern = `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
+	return &emailValidator{
+		regexp: regexp.MustCompile(emailRegexPattern),
+	}
+}
+
+// Do validates the target is an email.
+func (e *emailValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrEmailID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !e.regexp.MatchString(v) {
+		return NewError(localizer, ErrEmailID, fmt.Sprintf("value=%v", target))
 	}
 	return nil
 }
