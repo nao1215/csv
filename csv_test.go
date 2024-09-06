@@ -617,10 +617,41 @@ example sentence
 		for i, err := range errs {
 			switch i {
 			case 0:
-				if err.Error() != "target is not one of the values: contains=needle bad_value" {
+				if err.Error() != "'contains' tag format is invalid: contains=needle bad_value" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			}
 		}
 	})
+
+	t.Run("validate containsany", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+you can't find a needle in a haystack
+example sentence
+I sleep in a bed
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type containsAny struct {
+			Name string `validate:"containsany=needle bed"`
+		}
+
+		containsAnyList := make([]containsAny, 0)
+		errs := c.Decode(&containsAnyList)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target does not contain any of the specified values: containsany=needle bed, value=example sentence" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 }

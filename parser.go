@@ -1,6 +1,7 @@
 package csv
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 	"strconv"
@@ -122,9 +123,9 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 			}
 			validatorList = append(validatorList, newLengthValidator(threshold))
 		case strings.HasPrefix(t, oneOfTagValue.String()):
-			oneOf, err := c.parseOneOf(t)
+			oneOf, err := c.parseSpecifiedValues(t)
 			if err != nil {
-				return nil, err
+				return nil, NewError(c.i18nLocalizer, ErrInvalidOneOfFormatID, t)
 			}
 			validatorList = append(validatorList, newOneOfValidator(oneOf))
 		case strings.HasPrefix(t, lowercaseTagValue.String()):
@@ -135,15 +136,24 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 			validatorList = append(validatorList, newASCIIValidator())
 		case strings.HasPrefix(t, emailTagValue.String()):
 			validatorList = append(validatorList, newEmailValidator())
-		case strings.HasPrefix(t, containsTagValue.String()):
-			oneOf, err := c.parseOneOf(t)
+		case strings.HasPrefix(t, containsTagValue.String()) && !strings.HasPrefix(t, containsAnyTagValue.String()):
+			values, err := c.parseSpecifiedValues(t)
 			if err != nil {
 				return nil, err
 			}
-			if len(oneOf) != 1 {
-				return nil, NewError(c.i18nLocalizer, ErrInvalidOneOfFormatID, t)
+			if len(values) != 1 {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidContainsFormatID, t)
 			}
-			validatorList = append(validatorList, newContainsValidator(oneOf[0]))
+			validatorList = append(validatorList, newContainsValidator(values[0]))
+		case strings.HasPrefix(t, containsAnyTagValue.String()):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) == 0 {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidContainsAnyFormatID, t)
+			}
+			validatorList = append(validatorList, newContainsAnyValidator(values))
 		}
 	}
 	return validatorList, nil
@@ -164,13 +174,13 @@ func (c *CSV) parseThreshold(tagValue string) (float64, error) {
 	return 0, NewError(c.i18nLocalizer, ErrInvalidThresholdFormatID, tagValue)
 }
 
-// parseOneOf parses the oneOf value.
+// parseSpecifiedValues parses the tag values.
 // tagValue is the value of the struct tag. e.g. oneof=male female prefer_not_to
-func (c *CSV) parseOneOf(tagValue string) ([]string, error) {
+func (c *CSV) parseSpecifiedValues(tagValue string) ([]string, error) {
 	parts := strings.Split(tagValue, "=")
 
 	if len(parts) == 2 {
 		return strings.Split(parts[1], " "), nil
 	}
-	return nil, NewError(c.i18nLocalizer, ErrInvalidOneOfFormatID, tagValue)
+	return nil, errors.New("invalid tag values format")
 }

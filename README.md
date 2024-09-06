@@ -130,6 +130,7 @@ You set the validation rules following the "validate:" tag according to the rule
 | ascii             | Check whether value is ASCII or not                |
 | boolean           | Check whether value is boolean or not.           |
 | contains          | Check whether value contains the specified substring <br> e.g. `validate:"contains=abc"` |
+| containsany       | Check whether value contains any of the specified characters <br> e.g. `validate:"containsany=abc def"` |
 | lowercase         | Check whether value is lowercase or not           |
 | numeric           | Check whether value is numeric or not              |
 | uppercase         | Check whether value is uppercase or not           |

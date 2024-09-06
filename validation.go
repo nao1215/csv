@@ -525,3 +525,28 @@ func (c *containsValidator) Do(localizer *i18n.Localizer, target any) error {
 	}
 	return nil
 }
+
+// containsAnyValidator is a struct that contains the validation rules for a contains any column.
+type containsAnyValidator struct {
+	contains []string
+}
+
+// newContainsAnyValidator returns a new containsAnyValidator.
+func newContainsAnyValidator(contains []string) *containsAnyValidator {
+	return &containsAnyValidator{contains: contains}
+}
+
+// Do validates the target contains any of the contains values.
+func (c *containsAnyValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrContainsAnyID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, s := range c.contains {
+		if strings.Contains(v, s) {
+			return nil
+		}
+	}
+	return NewError(localizer, ErrContainsAnyID, fmt.Sprintf("containsany=%s, value=%v", strings.Join(c.contains, " "), target))
+}

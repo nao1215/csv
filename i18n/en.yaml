@@ -75,3 +75,9 @@
 
 - id: "ErrInvalidContainsFormat"
   translation: "'contains' tag format is invalid"
+
+- id: "ErrContainsAny"
+  translation: "target does not contain any of the specified values"
+
+- id: "ErrInvalidContainsAnyFormat"
+  translation: "'containsany' tag format is invalid"

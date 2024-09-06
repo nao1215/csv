@@ -75,3 +75,9 @@
 
 - id: "ErrInvalidContains"
   translation: "Формат тега 'contains' недопустим"
+
+- id: "ErrContainsAny"
+  translation: "целевое значение не содержит ни одного из указанных значений"
+
+- id: "ErrInvalidContainsAny"
+  translation: "Формат тега 'containsany' недопустим"
