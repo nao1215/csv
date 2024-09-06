@@ -52,6 +52,8 @@ const (
 	emailTagValue tagValue = "email"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
+	// containsAnyTagValue is the struct tag name for contains any fields.
+	containsAnyTagValue tagValue = "containsany"
 )
 
 // String returns the string representation of the tag.

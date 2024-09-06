@@ -81,3 +81,9 @@
 
 - id: "ErrInvalidContainsFormat"
   translation: "'contains'タグの形式が無効です"
+
+- id: "ErrContainsAny"
+  translation: "指定された値のいずれも含んでいません"
+
+- id: "ErrInvalidContainsAnyFormat"
+  translation: "'containsany'タグの形式が無効です"

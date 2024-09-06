@@ -102,4 +102,8 @@ var (
 	ErrContainsID = "ErrContains"
 	// ErrInvalidContainsFormatID is the error ID used when the contains format is invalid.
 	ErrInvalidContainsFormatID = "ErrInvalidContainsFormat"
+	// ErrContainsAnyID is the error ID used when the target does not contain any of the specified values.
+	ErrContainsAnyID = "ErrContainsAny"
+	// ErrInvalidContainsAnyFormatID is the error ID used when the contains any format is invalid.
+	ErrInvalidContainsAnyFormatID = "ErrInvalidContainsAnyFormat"
 )
