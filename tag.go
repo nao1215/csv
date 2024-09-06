@@ -50,6 +50,8 @@ const (
 	asciiTagValue tagValue = "ascii"
 	// emailTagValue is the struct tag name for email fields.
 	emailTagValue tagValue = "email"
+	// containsTagValue is the struct tag name for contains fields.
+	containsTagValue tagValue = "contains"
 )
 
 // String returns the string representation of the tag.

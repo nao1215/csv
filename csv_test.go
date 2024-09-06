@@ -565,4 +565,62 @@ badあ@example.com
 			}
 		}
 	})
+
+	t.Run("validate contains", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+search for a needle in a haystack
+example sentence
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type contains struct {
+			Name string `validate:"contains=needle"`
+		}
+
+		containsList := make([]contains, 0)
+		errs := c.Decode(&containsList)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target does not contain the specified value: contains=needle, value=example sentence" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid contains tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+search for a needle in a haystack
+example sentence
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type contains struct {
+			Name string `validate:"contains=needle bad_value"`
+		}
+
+		containsList := make([]contains, 0)
+		errs := c.Decode(&containsList)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "target is not one of the values: contains=needle bad_value" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
 }

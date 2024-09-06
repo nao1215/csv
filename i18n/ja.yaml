@@ -75,3 +75,9 @@
 
 - id: "ErrEmail"
   translation: "値がメールアドレスではありません"
+
+- id: "ErrContains"
+  translation: "指定された値を含んでいません"
+
+- id: "ErrInvalidContainsFormat"
+  translation: "'contains'タグの形式が無効です"
