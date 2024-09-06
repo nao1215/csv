@@ -502,3 +502,26 @@ func (e *emailValidator) Do(localizer *i18n.Localizer, target any) error {
 	}
 	return nil
 }
+
+// containsValidator is a struct that contains the validation rules for a contains column.
+type containsValidator struct {
+	contains string
+}
+
+// newContainsValidator returns a new containsValidator.
+func newContainsValidator(contains string) *containsValidator {
+	return &containsValidator{contains: contains}
+}
+
+// Do validates the target contains the contains value.
+func (c *containsValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrContainsID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !strings.Contains(v, c.contains) {
+		return NewError(localizer, ErrContainsID, fmt.Sprintf("contains=%s, value=%v", c.contains, target))
+	}
+	return nil
+}

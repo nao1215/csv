@@ -69,3 +69,9 @@
 
 - id: "ErrEmail"
   translation: "целевое значение не является адресом электронной почты"
+
+- id: "ErrContains"
+  translation: "целевое значение не содержит подстроку"
+
+- id: "ErrInvalidContains"
+  translation: "Формат тега 'contains' недопустим"

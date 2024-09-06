@@ -69,3 +69,9 @@
 
 - id: "ErrEmail"
   translation: "target is not a valid email address"
+
+- id: "ErrContains"
+  translation: "target does not contain the specified value"
+
+- id: "ErrInvalidContainsFormat"
+  translation: "'contains' tag format is invalid"

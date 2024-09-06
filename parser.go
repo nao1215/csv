@@ -135,6 +135,15 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 			validatorList = append(validatorList, newASCIIValidator())
 		case strings.HasPrefix(t, emailTagValue.String()):
 			validatorList = append(validatorList, newEmailValidator())
+		case strings.HasPrefix(t, containsTagValue.String()):
+			oneOf, err := c.parseOneOf(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(oneOf) != 1 {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidOneOfFormatID, t)
+			}
+			validatorList = append(validatorList, newContainsValidator(oneOf[0]))
 		}
 	}
 	return validatorList, nil
