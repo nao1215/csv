@@ -12,6 +12,13 @@ The csv package is a library for performing validation when reading CSV or TSV f
   
 We are implementing internationalization (i18n) for error messages. 
 
+### Supported OS and Go versions
+
+- Linux
+- macOS
+- Windows
+- go version 1.21 or later
+
 ### Supported languages
 
 - English
