@@ -17,7 +17,7 @@ We are implementing internationalization (i18n) for error messages.
 - Linux
 - macOS
 - Windows
-- go version 1.21 or later
+- go version 1.23 or later
 
 ### Supported languages
 
