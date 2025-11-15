@@ -1,11 +1,9 @@
-// Package csv returns which columns have syntax errors on a per-line basis when reading CSV.
-// It also has the capability to convert the character encoding to UTF-8 if the CSV character
-// encoding is not UTF-8.
 package csv
 
 import (
 	"embed"
 	"encoding/csv"
+	"errors"
 	"fmt"
 	"io"
 	"reflect"
@@ -16,6 +14,8 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// LocaleFS embeds translation files located in the i18n directory.
+//
 //go:embed i18n/*
 var LocaleFS embed.FS
 
@@ -143,7 +143,7 @@ func (c *CSV) readHeader() error {
 // setStructFieldValue sets the value of a field in a struct.
 func setStructFieldValue(structValue reflect.Value, index int, value string) error {
 	if index >= structValue.NumField() {
-		return fmt.Errorf("index out of range for struct")
+		return errors.New("index out of range for struct")
 	}
 
 	fieldValue := structValue.Field(index)

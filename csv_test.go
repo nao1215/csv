@@ -19,7 +19,11 @@ func TestCSV_Decode(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		defer f.Close() //nolint: errcheck
+		defer func() {
+			if err := f.Close(); err != nil {
+				t.Fatalf("failed to close file: %v", err)
+			}
+		}()
 
 		c, err := NewCSV(f)
 		if err != nil {
@@ -57,7 +61,11 @@ func TestCSV_Decode(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		defer f.Close() //nolint: errcheck
+		defer func() {
+			if err := f.Close(); err != nil {
+				t.Fatalf("failed to close file: %v", err)
+			}
+		}()
 
 		c, err := NewCSV(f, WithHeaderless())
 		if err != nil {
@@ -93,7 +101,11 @@ func TestCSV_Decode(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		defer f.Close() //nolint: errcheck
+		defer func() {
+			if err := f.Close(); err != nil {
+				t.Fatalf("failed to close file: %v", err)
+			}
+		}()
 
 		c, err := NewCSV(f, WithTabDelimiter())
 		if err != nil {
@@ -653,5 +665,4 @@ I sleep in a bed
 			}
 		}
 	})
-
 }

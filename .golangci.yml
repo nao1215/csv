@@ -1,38 +1,59 @@
 version: "2"
 run:
-  go: "1.23"
+  go: "1.24"
 linters:
-  default: none
   enable:
     - asciicheck
+    - bidichk
     - bodyclose
+    - canonicalheader
+    - containedctx
+    - copyloopvar
+    - decorder
     - dogsled
     - durationcheck
-    - errcheck
+    - errchkjson
+    - errname
     - errorlint
-    - exhaustive
+    - fatcontext
     - forcetypeassert
+    - gocheckcompilerdirectives
     - gochecknoinits
     - goconst
-    - gocritic
+    - gomoddirectives
     - gosec
-    - govet
-    - ineffassign
+    - interfacebloat
+    - intrange
+    - makezero
+    - mirror
     - misspell
     - nakedret
+    - nilerr
     - noctx
+    - nolintlint
+    - nosprintfhostport
+    - perfsprint
     - prealloc
+    - predeclared
+    - reassign
+    - revive
     - rowserrcheck
+    - sloglint
     - sqlclosecheck
     - staticcheck
     - tagliatelle
     - thelper
     - unconvert
     - unparam
-    - unused
+    - usestdlibvars
+    - usetesting
     - wastedassign
     - whitespace
   settings:
+    errcheck:
+      disable-default-exclusions: false
+      check-type-assertions: true
+      check-blank: true
     tagliatelle:
       case:
         rules:
@@ -40,12 +61,42 @@ linters:
         use-field-name: true
   exclusions:
     generated: lax
+    rules:
+      - linters:
+          - goconst
+        path: .*_test\.go
+      - linters:
+          - errcheck
+        source: defer
+      - linters:
+          - gochecknoinits
+        path: filesql\.go
+        source: func init\(\)
+      - path: (.+)\.go$
+        text: fmt.Fprintf
+      - path: (.+)\.go$
+        text: fmt.Fprintln
+      - path: (.+)\.go$
+        text: fmt.Fprint
+      - path: (.+)\.go$
+        text: fmt.Printf
+      - path: (.+)\.go$
+        text: fmt.Sscanf
+      - path: (.+)\.go$
+        text: buf.WriteByte
+      - path: (.+)\.go$
+        text: buf.WriteRune
+      - path: (.+)\.go$
+        text: Close
     paths:
       - third_party$
       - builtin$
       - examples$
+issues:
+  max-same-issues: 0
 formatters:
   enable:
+    - gofmt
     - goimports
   exclusions:
     generated: lax
