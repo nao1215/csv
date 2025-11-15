@@ -14,8 +14,12 @@ func helperLocalizer(t *testing.T) *i18n.Localizer {
 	t.Helper()
 	bundle := i18n.NewBundle(language.English)
 	bundle.RegisterUnmarshalFunc("yaml", yaml.Unmarshal)
-	bundle.LoadMessageFileFS(LocaleFS, "i18n/en.yaml")
-	bundle.LoadMessageFileFS(LocaleFS, "i18n/ja.yaml")
+	if _, err := bundle.LoadMessageFileFS(LocaleFS, "i18n/en.yaml"); err != nil {
+		t.Fatalf("load en locale: %v", err)
+	}
+	if _, err := bundle.LoadMessageFileFS(LocaleFS, "i18n/ja.yaml"); err != nil {
+		t.Fatalf("load ja locale: %v", err)
+	}
 	return i18n.NewLocalizer(bundle, "en")
 }
 
@@ -63,7 +67,6 @@ func Test_booleanValidator_Do(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			b := &booleanValidator{}
@@ -167,7 +170,6 @@ func Test_numericValidator_Do(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			n := &numericValidator{}

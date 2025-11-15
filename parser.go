@@ -38,7 +38,8 @@ func (c *CSV) parseStructTag(structSlicePointer any) error {
 func (c *CSV) extractRuleSet(structType reflect.Type) (ruleSet, error) {
 	ruleSet := make(ruleSet, 0, structType.NumField())
 
-	for i := 0; i < structType.NumField(); i++ {
+	fieldCount := structType.NumField()
+	for i := range fieldCount {
 		tag := structType.Field(i).Tag
 		validators, err := c.parseValidateTag(tag.Get(validateTag.String()))
 		if err != nil {
