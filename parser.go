@@ -172,16 +172,7 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 			validatorList = append(validatorList, newUUIDValidator())
 		case strings.HasPrefix(t, emailTagValue.String()):
 			validatorList = append(validatorList, newEmailValidator())
-		case strings.HasPrefix(t, startsWithTagValue.String()):
-			values, err := c.parseSpecifiedValues(t)
-			if err != nil {
-				return nil, err
-			}
-			if len(values) != 1 || values[0] == "" {
-				return nil, NewError(c.i18nLocalizer, ErrInvalidStartsWithFormatID, t)
-			}
-			validatorList = append(validatorList, newStartsWithValidator(values[0]))
-		case strings.HasPrefix(t, startsNotWithTagValue.String()):
+		case strings.HasPrefix(t, startsNotWithTagValue.String()+"="):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {
 				return nil, err
@@ -190,16 +181,16 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 				return nil, NewError(c.i18nLocalizer, ErrInvalidStartsNotWithFormatID, t)
 			}
 			validatorList = append(validatorList, newStartsNotWithValidator(values[0]))
-		case strings.HasPrefix(t, endsWithTagValue.String()):
+		case strings.HasPrefix(t, startsWithTagValue.String()+"="):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {
 				return nil, err
 			}
 			if len(values) != 1 || values[0] == "" {
-				return nil, NewError(c.i18nLocalizer, ErrInvalidEndsWithFormatID, t)
+				return nil, NewError(c.i18nLocalizer, ErrInvalidStartsWithFormatID, t)
 			}
-			validatorList = append(validatorList, newEndsWithValidator(values[0]))
-		case strings.HasPrefix(t, endsNotWithTagValue.String()):
+			validatorList = append(validatorList, newStartsWithValidator(values[0]))
+		case strings.HasPrefix(t, endsNotWithTagValue.String()+"="):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {
 				return nil, err
@@ -208,6 +199,15 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 				return nil, NewError(c.i18nLocalizer, ErrInvalidEndsNotWithFormatID, t)
 			}
 			validatorList = append(validatorList, newEndsNotWithValidator(values[0]))
+		case strings.HasPrefix(t, endsWithTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidEndsWithFormatID, t)
+			}
+			validatorList = append(validatorList, newEndsWithValidator(values[0]))
 		case strings.HasPrefix(t, excludesAllTagValue.String()):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {
