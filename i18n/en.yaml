@@ -25,6 +25,12 @@
 - id: "ErrInvalidNumber"
   translation: "target is not a valid number"
 
+- id: "ErrInvalidEqualFieldFormat"
+  translation: "'eqfield' tag format is invalid"
+
+- id: "ErrEqualField"
+  translation: "field is not equal to the specified field"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "target is not an alphanumeric character"
 

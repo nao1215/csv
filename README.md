@@ -100,9 +100,6 @@ for _, err := range errs {
 | number       | Signed integer or decimal number         |
 | numeric      | Numeric only                             |
 | printascii   | Printable ASCII characters only          |
-| cidr         | Valid CIDR (IPv4 or IPv6)                |
-| cidrv4       | Valid IPv4 CIDR                          |
-| cidrv6       | Valid IPv6 CIDR                          |
 | startsnotwith| Must not start with the specified substring |
 | startswith   | Starts with the specified substring      |
 | uppercase    | Uppercase only                           |
@@ -123,6 +120,9 @@ for _, err := range errs {
 
 | Tag Name | Description                      |
 | -------- | -------------------------------- |
+| cidr         | Valid CIDR (IPv4 or IPv6)                |
+| cidrv4       | Valid IPv4 CIDR                          |
+| cidrv6       | Valid IPv6 CIDR                          |
 | ip_addr  | IPv4 or IPv6 address             |
 | ip4_addr | IPv4 address only                |
 | ip6_addr | IPv6 address only                |
@@ -133,6 +133,7 @@ for _, err := range errs {
 | -------- | ---------------------------- |
 | eq       | Equal to the specified value |
 | eq_ignore_case | Equal to the specified value (case-insensitive) |
+| eqfield    | Equal to another field in the same struct (flat) |
 | gt       | Greater than                 |
 | gte      | Greater or equal             |
 | lt       | Less than                    |

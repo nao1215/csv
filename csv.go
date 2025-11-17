@@ -30,6 +30,9 @@ type CSV struct {
 	// ruleSets is slice of ruleSet.
 	// The order of the ruleSet is the same as the order of the columns in the csv.
 	ruleSet ruleSet
+	// crossFieldRules holds validation rules that require multiple fields within the same row.
+	// The index matches the column index (field index) for which the rule applies.
+	crossFieldRules crossFieldRuleSet
 	// i18nBundle is the i18n bundle. It is used to translate error messages.
 	// The default language is English.
 	i18nBundle *i18n.Bundle
@@ -120,9 +123,44 @@ func (c *CSV) Decode(structSlicePointer any) []error {
 			}
 			_ = setStructFieldValue(structValue, i, v) //nolint:errcheck // user will not see this error.
 		}
+		c.validateCrossFieldRules(structValue, line, &errors)
 		structSliceValue.Set(reflect.Append(structSliceValue, structValue))
 	}
 	return errors
+}
+
+// validateCrossFieldRules runs cross-field validations for a single struct value (one CSV row).
+// It assumes flat structs and compares to other fields in the same struct.
+func (c *CSV) validateCrossFieldRules(structValue reflect.Value, line int, errors *[]error) {
+	for fieldIdx, rules := range c.crossFieldRules {
+		if len(rules) == 0 {
+			continue
+		}
+		srcField := structValue.Field(fieldIdx)
+		srcName := structValue.Type().Field(fieldIdx).Name
+		colName := srcName
+		if fieldIdx < len(c.header) {
+			colName = string(c.header[fieldIdx])
+		}
+
+		for _, rule := range rules {
+			targetField := structValue.FieldByName(rule.targetField)
+			if !targetField.IsValid() {
+				err := NewError(c.i18nLocalizer, ErrInvalidEqualFieldFormatID, rule.targetField)
+				*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))
+				continue
+			}
+
+			if !compareValuesEqual(srcField.Interface(), targetField.Interface()) {
+				err := NewError(
+					c.i18nLocalizer,
+					ErrEqualFieldID,
+					fmt.Sprintf("field=%s, other=%s", srcName, rule.targetField),
+				)
+				*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))
+			}
+		}
+	}
 }
 
 // readHeader reads the header of the CSV file.

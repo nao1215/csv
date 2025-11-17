@@ -25,6 +25,12 @@
 - id: "ErrInvalidNumber"
   translation: "целевое значение не является числом"
 
+- id: "ErrInvalidEqualFieldFormat"
+  translation: "Формат тега 'eqfield' недопустим"
+
+- id: "ErrEqualField"
+  translation: "значение поля не равно указанному полю"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "целевое значение не является буквенно-цифровым символом"
 

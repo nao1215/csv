@@ -25,6 +25,12 @@
 - id: "ErrInvalidNumber"
   translation: "値が数値ではありません"
 
+- id: "ErrInvalidEqualFieldFormat"
+  translation: "'eqfield'タグの形式が無効です"
+
+- id: "ErrEqualField"
+  translation: "フィールドが指定のフィールドと等しくありません"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"
 

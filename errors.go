@@ -66,6 +66,10 @@ var (
 	ErrInvalidNumericID = "ErrInvalidNumeric"
 	// ErrInvalidNumberID is the error ID used when the target is not a number.
 	ErrInvalidNumberID = "ErrInvalidNumber"
+	// ErrInvalidEqualFieldFormatID is the error ID used when the eqfield format is invalid.
+	ErrInvalidEqualFieldFormatID = "ErrInvalidEqualFieldFormat"
+	// ErrEqualFieldID is the error ID used when the target is not equal to the specified field.
+	ErrEqualFieldID = "ErrEqualField"
 	// ErrInvalidAlphanumericID is the error ID used when the target is not an alphanumeric character.
 	ErrInvalidAlphanumericID = "ErrInvalidAlphanumeric"
 	// ErrInvalidAlphanumericUnicodeID is the error ID used when the target is not an alphanumeric unicode character.
