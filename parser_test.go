@@ -66,10 +66,31 @@ func Test_parseValidateTag(t *testing.T) {
 			},
 		},
 		{
-			name: "should return ip validator",
-			args: args{tags: "ip"},
+			name: "should return ip_addr validator",
+			args: args{tags: "ip_addr"},
 			want: validators{
-				newIPValidator(),
+				newIPAddrValidator(),
+			},
+		},
+		{
+			name: "should return ip4_addr validator",
+			args: args{tags: "ip4_addr"},
+			want: validators{
+				newIP4AddrValidator(),
+			},
+		},
+		{
+			name: "should return ip6_addr validator",
+			args: args{tags: "ip6_addr"},
+			want: validators{
+				newIP6AddrValidator(),
+			},
+		},
+		{
+			name: "should return uuid validator",
+			args: args{tags: "uuid"},
+			want: validators{
+				newUUIDValidator(),
 			},
 		},
 	}

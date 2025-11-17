@@ -88,8 +88,17 @@
 - id: "ErrURLEncoded"
   translation: "целевое значение не является URL-кодированным"
 
-- id: "ErrIP"
+- id: "ErrIPAddr"
   translation: "целевое значение не является допустимым IP-адресом"
+
+- id: "ErrIPv4"
+  translation: "целевое значение не является допустимым IPv4-адресом"
+
+- id: "ErrIPv6"
+  translation: "целевое значение не является допустимым IPv6-адресом"
+
+- id: "ErrUUID"
+  translation: "целевое значение не является допустимым UUID"
 
 - id: "ErrEmail"
   translation: "целевое значение не является адресом электронной почты"

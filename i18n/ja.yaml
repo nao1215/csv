@@ -94,8 +94,17 @@
 - id: "ErrURLEncoded"
   translation: "値がURLエンコードされていません"
 
-- id: "ErrIP"
+- id: "ErrIPAddr"
   translation: "値がIPアドレスではありません"
+
+- id: "ErrIPv4"
+  translation: "値がIPv4アドレスではありません"
+
+- id: "ErrIPv6"
+  translation: "値がIPv6アドレスではありません"
+
+- id: "ErrUUID"
+  translation: "値がUUIDではありません"
 
 - id: "ErrEmail"
   translation: "値がメールアドレスではありません"

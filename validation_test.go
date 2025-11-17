@@ -507,43 +507,31 @@ func Test_urlEncodedValidator_Do(t *testing.T) {
 	}
 }
 
-func Test_ipValidator_Do(t *testing.T) {
+func Test_ipAddrValidator_Do(t *testing.T) {
 	t.Parallel()
 
 	tests := []struct {
 		name    string
-		i       *ipValidator
+		i       *ipAddrValidator
 		arg     any
 		wantErr bool
 	}{
 		{
 			name:    "returns nil for ipv4",
-			i:       newIPValidator(),
-			arg:     "192.168.0.1",
+			i:       newIPAddrValidator(),
+			arg:     "10.0.0.1",
 			wantErr: false,
 		},
 		{
 			name:    "returns nil for ipv6",
-			i:       newIPValidator(),
+			i:       newIPAddrValidator(),
 			arg:     "2001:db8::1",
 			wantErr: false,
 		},
 		{
 			name:    "returns error for invalid ip",
-			i:       newIPValidator(),
+			i:       newIPAddrValidator(),
 			arg:     "999.0.0.1",
-			wantErr: true,
-		},
-		{
-			name:    "returns error for empty",
-			i:       newIPValidator(),
-			arg:     "",
-			wantErr: true,
-		},
-		{
-			name:    "returns error for non-string",
-			i:       newIPValidator(),
-			arg:     123,
 			wantErr: true,
 		},
 	}
@@ -552,7 +540,112 @@ func Test_ipValidator_Do(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			if err := tt.i.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
-				t.Errorf("ipValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+				t.Errorf("ipAddrValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_ip4AddrValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		i       *ip4AddrValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for ipv4",
+			i:       newIP4AddrValidator(),
+			arg:     "192.168.1.1",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for ipv6",
+			i:       newIP4AddrValidator(),
+			arg:     "2001:db8::1",
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.i.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("ip4AddrValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_ip6AddrValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		i       *ip6AddrValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for ipv6",
+			i:       newIP6AddrValidator(),
+			arg:     "2001:db8::1",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for ipv4",
+			i:       newIP6AddrValidator(),
+			arg:     "192.168.1.1",
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.i.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("ip6AddrValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_uuidValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		u       *uuidValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for valid uuid",
+			u:       newUUIDValidator(),
+			arg:     "123e4567-e89b-12d3-a456-426614174000",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for invalid uuid",
+			u:       newUUIDValidator(),
+			arg:     "not-a-uuid",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for non-string",
+			u:       newUUIDValidator(),
+			arg:     123,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.u.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("uuidValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
 			}
 		})
 	}

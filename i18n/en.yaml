@@ -88,8 +88,17 @@
 - id: "ErrURLEncoded"
   translation: "target is not URL-encoded"
 
-- id: "ErrIP"
+- id: "ErrIPAddr"
   translation: "target is not a valid IP address"
+
+- id: "ErrIPv4"
+  translation: "target is not a valid IPv4 address"
+
+- id: "ErrIPv6"
+  translation: "target is not a valid IPv6 address"
+
+- id: "ErrUUID"
+  translation: "target is not a valid UUID"
 
 - id: "ErrEmail"
   translation: "target is not a valid email address"

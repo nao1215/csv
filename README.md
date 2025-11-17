@@ -102,7 +102,15 @@ for _, err := range errs {
 | http_url   | Valid HTTP(S) URL with host                                                                 |
 | https_url  | Valid HTTPS URL with host                                                                   |
 | url_encoded| URL-encoded string (percent escapes, no malformed `%` sequences)                            |
-| ip         | IPv4 or IPv6 address                                                                        |
+| uuid       | UUID string (with hyphens)                                                                  |
+
+#### Network rules
+
+| Tag Name | Description                      |
+| -------- | -------------------------------- |
+| ip_addr  | IPv4 or IPv6 address             |
+| ip4_addr | IPv4 address only                |
+| ip6_addr | IPv6 address only                |
 
 #### Comparison rules
 
