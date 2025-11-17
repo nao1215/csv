@@ -70,6 +70,29 @@ func isAlpha(r rune) bool {
 	return r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z'
 }
 
+// alphaSpaceValidator validates strings that contain only alphabetic characters or spaces.
+type alphaSpaceValidator struct{}
+
+// newAlphaSpaceValidator returns a new alphaSpaceValidator.
+func newAlphaSpaceValidator() *alphaSpaceValidator {
+	return &alphaSpaceValidator{}
+}
+
+// Do validates the target string only contains alphabetic characters or spaces.
+func (a *alphaSpaceValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidAlphaSpaceID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, r := range v {
+		if !isAlpha(r) && r != ' ' {
+			return NewError(localizer, ErrInvalidAlphaSpaceID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	return nil
+}
+
 // numericValidator is a struct that contains the validation rules for a numeric column.
 type numericValidator struct{}
 

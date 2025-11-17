@@ -61,6 +61,8 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 		switch {
 		case strings.HasPrefix(t, booleanTagValue.String()):
 			validatorList = append(validatorList, newBooleanValidator())
+		case strings.HasPrefix(t, alphaSpaceTagValue.String()):
+			validatorList = append(validatorList, newAlphaSpaceValidator())
 		case strings.HasPrefix(t, alphaTagValue.String()) && !strings.HasPrefix(t, alphanumericTagValue.String()):
 			validatorList = append(validatorList, newAlphaValidator())
 		case strings.HasPrefix(t, numericTagValue.String()):

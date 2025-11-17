@@ -16,6 +16,8 @@ const (
 	booleanTagValue tagValue = "boolean"
 	// alphaTagValue is the struct tag name for alpha only fields.
 	alphaTagValue tagValue = "alpha"
+	// alphaSpaceTagValue is the struct tag name for alpha with spaces fields.
+	alphaSpaceTagValue tagValue = "alphaspace"
 	// numericTagValue is the struct tag name for numeric fields.
 	numericTagValue tagValue = "numeric"
 	// alphanumericTagValue is the struct tag name for alphanumeric fields.

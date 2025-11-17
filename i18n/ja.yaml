@@ -13,6 +13,9 @@
 - id: "ErrInvalidAlphabet"
   translation: "値がアルファベット文字ではありません"
 
+- id: "ErrInvalidAlphaSpace"
+  translation: "値がアルファベットまたはスペースではありません"
+
 - id: "ErrInvalidNumeric"
   translation: "値が数字ではありません"
 

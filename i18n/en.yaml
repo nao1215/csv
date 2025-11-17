@@ -13,6 +13,9 @@
 - id: "ErrInvalidAlphabet"
   translation: "target is not an alphabetic character"
 
+- id: "ErrInvalidAlphaSpace"
+  translation: "target is not alphabetic or space"
+
 - id: "ErrInvalidNumeric"
   translation: "target is not a numeric character"
 

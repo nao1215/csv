@@ -749,6 +749,35 @@ Value
 		}
 	})
 
+	t.Run("validate alphaspace", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+hello world
+hello_world
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type alphaSpace struct {
+			Name string `validate:"alphaspace"`
+		}
+
+		list := make([]alphaSpace, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not alphabetic or space: value=hello_world" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate contains", func(t *testing.T) {
 		t.Parallel()
 

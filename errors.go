@@ -58,6 +58,8 @@ var (
 	ErrInvalidBooleanID = "ErrInvalidBoolean"
 	// ErrInvalidAlphabetID is the error ID used when the target is not an alphabetic character.
 	ErrInvalidAlphabetID = "ErrInvalidAlphabet"
+	// ErrInvalidAlphaSpaceID is the error ID used when the target is not an alphabetic character or space.
+	ErrInvalidAlphaSpaceID = "ErrInvalidAlphaSpace"
 	// ErrInvalidNumericID is the error ID used when the target is not a numeric character.
 	ErrInvalidNumericID = "ErrInvalidNumeric"
 	// ErrInvalidAlphanumericID is the error ID used when the target is not an alphanumeric character.
