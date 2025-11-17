@@ -16,7 +16,8 @@ type crossFieldRule struct {
 type crossFieldOp string
 
 const (
-	crossFieldOpEqual crossFieldOp = "eqfield"
+	crossFieldOpEqual    crossFieldOp = "eqfield"
+	crossFieldOpContains crossFieldOp = "fieldcontains"
 )
 
 // crossFieldRuleSet is a slice of crossFieldRule.

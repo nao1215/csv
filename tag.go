@@ -62,6 +62,8 @@ const (
 	numberTagValue tagValue = "number"
 	// containsRuneTagValue is the struct tag name for contains rune fields.
 	containsRuneTagValue tagValue = "containsrune"
+	// fieldContainsTagValue is the struct tag name for fieldcontains (string contains other field) rule.
+	fieldContainsTagValue tagValue = "fieldcontains"
 	// uriTagValue is the struct tag name for uri fields.
 	uriTagValue tagValue = "uri"
 	// urlTagValue is the struct tag name for url fields.

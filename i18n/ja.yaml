@@ -28,8 +28,14 @@
 - id: "ErrInvalidEqualFieldFormat"
   translation: "'eqfield'タグの形式が無効です"
 
+- id: "ErrInvalidFieldContainsFormat"
+  translation: "'fieldcontains'タグの形式が無効です"
+
 - id: "ErrEqualField"
   translation: "フィールドが指定のフィールドと等しくありません"
+
+- id: "ErrFieldContains"
+  translation: "フィールドが指定のフィールド値を含んでいません"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"
