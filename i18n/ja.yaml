@@ -34,6 +34,9 @@
 - id: "ErrInvalidFieldExcludesFormat"
   translation: "'fieldexcludes'タグの形式が無効です"
 
+- id: "ErrInvalidGteFieldFormat"
+  translation: "'gtefield'タグの形式が無効です"
+
 - id: "ErrEqualField"
   translation: "フィールドが指定のフィールドと等しくありません"
 
@@ -42,6 +45,9 @@
 
 - id: "ErrFieldExcludes"
   translation: "フィールドが禁止されているフィールド値を含んでいます"
+
+- id: "ErrGteField"
+  translation: "フィールドが指定のフィールド以上ではありません"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"

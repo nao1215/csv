@@ -178,6 +178,21 @@ func (c *CSV) validateCrossFieldRules(structValue reflect.Value, line int, error
 					)
 					*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))
 				}
+			case crossFieldOpGte:
+				ok, cmpAllowed := compareValuesGTE(srcField.Interface(), targetField.Interface())
+				if !cmpAllowed {
+					err := NewError(c.i18nLocalizer, ErrGteFieldID, fmt.Sprintf("field=%s, other=%s", srcName, rule.targetField))
+					*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))
+					continue
+				}
+				if !ok {
+					err := NewError(
+						c.i18nLocalizer,
+						ErrGteFieldID,
+						fmt.Sprintf("field=%s, other=%s", srcName, rule.targetField),
+					)
+					*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))
+				}
 			case crossFieldOpExcludes:
 				srcStr, okSrc := srcField.Interface().(string)
 				targetStr, okTgt := targetField.Interface().(string)

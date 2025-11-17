@@ -135,6 +135,7 @@ for _, err := range errs {
 | eq_ignore_case | Equal to the specified value (case-insensitive) |
 | eqfield    | Equal to another field in the same struct (flat) |
 | fieldcontains | Field contains the value of another field (same row) |
+| fieldexcludes | Field does not contain the value of another field (same row) |
 | gt       | Greater than                 |
 | gte      | Greater or equal             |
 | lt       | Less than                    |

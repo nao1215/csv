@@ -948,6 +948,27 @@ func compareValuesEqual(a, b any) bool {
 	}
 }
 
+// compareValuesGTE reports whether a >= b for supported types.
+// Strings are compared by length to mirror go-playground behavior for gt/gte on strings.
+func compareValuesGTE(a, b any) (bool, bool) {
+	switch va := a.(type) {
+	case string:
+		vb, ok := b.(string)
+		if !ok {
+			return false, false
+		}
+		return len(va) >= len(vb), true
+	case int, int8, int16, int32, int64:
+		return toInt64(a) >= toInt64(b), true
+	case uint, uint8, uint16, uint32, uint64:
+		return toUint64(a) >= toUint64(b), true
+	case float32, float64:
+		return toFloat64(a) >= toFloat64(b), true
+	default:
+		return false, false
+	}
+}
+
 // Helpers to normalize numeric types.
 func toInt64(v any) int64 {
 	switch n := v.(type) {

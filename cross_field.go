@@ -19,6 +19,7 @@ const (
 	crossFieldOpEqual    crossFieldOp = "eqfield"
 	crossFieldOpContains crossFieldOp = "fieldcontains"
 	crossFieldOpExcludes crossFieldOp = "fieldexcludes"
+	crossFieldOpGte      crossFieldOp = "gtefield"
 )
 
 // crossFieldRuleSet is a slice of crossFieldRule.

@@ -72,12 +72,16 @@ var (
 	ErrInvalidFieldContainsFormatID = "ErrInvalidFieldContainsFormat"
 	// ErrInvalidFieldExcludesFormatID is the error ID used when the fieldexcludes format is invalid.
 	ErrInvalidFieldExcludesFormatID = "ErrInvalidFieldExcludesFormat"
+	// ErrInvalidGteFieldFormatID is the error ID used when the gtefield format is invalid.
+	ErrInvalidGteFieldFormatID = "ErrInvalidGteFieldFormat"
 	// ErrEqualFieldID is the error ID used when the target is not equal to the specified field.
 	ErrEqualFieldID = "ErrEqualField"
 	// ErrFieldContainsID is the error ID used when the target does not contain the specified field value.
 	ErrFieldContainsID = "ErrFieldContains"
 	// ErrFieldExcludesID is the error ID used when the target contains the specified excluded field value.
 	ErrFieldExcludesID = "ErrFieldExcludes"
+	// ErrGteFieldID is the error ID used when the target is not greater than or equal to the specified field.
+	ErrGteFieldID = "ErrGteField"
 	// ErrInvalidAlphanumericID is the error ID used when the target is not an alphanumeric character.
 	ErrInvalidAlphanumericID = "ErrInvalidAlphanumeric"
 	// ErrInvalidAlphanumericUnicodeID is the error ID used when the target is not an alphanumeric unicode character.

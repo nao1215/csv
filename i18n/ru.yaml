@@ -34,6 +34,9 @@
 - id: "ErrInvalidFieldExcludesFormat"
   translation: "Формат тега 'fieldexcludes' недопустим"
 
+- id: "ErrInvalidGteFieldFormat"
+  translation: "Формат тега 'gtefield' недопустим"
+
 - id: "ErrEqualField"
   translation: "значение поля не равно указанному полю"
 
@@ -42,6 +45,9 @@
 
 - id: "ErrFieldExcludes"
   translation: "значение поля содержит запрещенное значение из другого поля"
+
+- id: "ErrGteField"
+  translation: "значение поля не больше или равно указанному полю"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "целевое значение не является буквенно-цифровым символом"

@@ -34,6 +34,9 @@
 - id: "ErrInvalidFieldExcludesFormat"
   translation: "'fieldexcludes' tag format is invalid"
 
+- id: "ErrInvalidGteFieldFormat"
+  translation: "'gtefield' tag format is invalid"
+
 - id: "ErrEqualField"
   translation: "field is not equal to the specified field"
 
@@ -42,6 +45,9 @@
 
 - id: "ErrFieldExcludes"
   translation: "field contains the prohibited field value"
+
+- id: "ErrGteField"
+  translation: "field is not greater than or equal to the specified field"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "target is not an alphanumeric character"
