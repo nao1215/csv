@@ -110,8 +110,14 @@ var (
 	ErrHTTPSURLID = "ErrHTTPSURL"
 	// ErrURLEncodedID is the error ID used when the target is not URL encoded.
 	ErrURLEncodedID = "ErrURLEncoded"
-	// ErrIPID is the error ID used when the target is not an IP address.
-	ErrIPID = "ErrIP"
+	// ErrIPAddrID is the error ID used when the target is not an IP address (ip_addr).
+	ErrIPAddrID = "ErrIPAddr"
+	// ErrIPv4ID is the error ID used when the target is not an IPv4 address.
+	ErrIPv4ID = "ErrIPv4"
+	// ErrIPv6ID is the error ID used when the target is not an IPv6 address.
+	ErrIPv6ID = "ErrIPv6"
+	// ErrUUIDID is the error ID used when the target is not a UUID.
+	ErrUUIDID = "ErrUUID"
 	// ErrEmailID is the error ID used when the target is not an email.
 	ErrEmailID = "ErrEmail"
 	// ErrStartsWithID is the error ID used when the target does not start with the specified value.

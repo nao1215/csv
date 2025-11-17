@@ -60,6 +60,14 @@ const (
 	httpsURLTagValue tagValue = "https_url"
 	// urlEncodedTagValue is the struct tag name for url encoded fields.
 	urlEncodedTagValue tagValue = "url_encoded"
+	// ipAddrTagValue is the struct tag name for ip_addr fields (IPv4 or IPv6).
+	ipAddrTagValue tagValue = "ip_addr"
+	// ip4AddrTagValue is the struct tag name for ip4_addr fields (IPv4 only).
+	ip4AddrTagValue tagValue = "ip4_addr"
+	// ip6AddrTagValue is the struct tag name for ip6_addr fields (IPv6 only).
+	ip6AddrTagValue tagValue = "ip6_addr"
+	// uuidTagValue is the struct tag name for uuid fields.
+	uuidTagValue tagValue = "uuid"
 	// emailTagValue is the struct tag name for email fields.
 	emailTagValue tagValue = "email"
 	// startsWithTagValue is the struct tag name for startswith fields.
@@ -70,8 +78,6 @@ const (
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.
 	containsAnyTagValue tagValue = "containsany"
-	// ipTagValue is the struct tag name for ip fields.
-	ipTagValue tagValue = "ip"
 )
 
 // String returns the string representation of the tag.

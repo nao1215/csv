@@ -13,6 +13,7 @@ import (
 )
 
 const fileScheme = "file"
+const uuidRegexPattern = `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`
 
 // validator is a struct that contains the validation rules for a column.
 type validators []validator
@@ -545,23 +546,109 @@ func (u *urlValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
-// ipValidator validates IPv4 or IPv6 addresses.
-type ipValidator struct{}
+// ipAddrValidator accepts both IPv4 and IPv6 (alias of go-playground's `ip_addr`) but uses a dedicated error ID.
+type ipAddrValidator struct{}
 
-// newIPValidator returns a new ipValidator.
-func newIPValidator() *ipValidator {
-	return &ipValidator{}
+// newIPAddrValidator returns a new ipAddrValidator.
+func newIPAddrValidator() *ipAddrValidator {
+	return &ipAddrValidator{}
 }
 
-// Do validates the target is a valid IP address.
-func (i *ipValidator) Do(localizer *i18n.Localizer, target any) error {
+// Do validates the target is a valid IP address (IPv4 or IPv6).
+func (i *ipAddrValidator) Do(localizer *i18n.Localizer, target any) error {
+	_, err := validateIP(localizer, target, ErrIPAddrID)
+	return err
+}
+
+// ip4AddrValidator accepts IPv4 addresses only (alias of go-playground's `ip4_addr`).
+type ip4AddrValidator struct{}
+
+// newIP4AddrValidator returns a new ip4AddrValidator.
+func newIP4AddrValidator() *ip4AddrValidator {
+	return &ip4AddrValidator{}
+}
+
+// Do validates the target is a valid IPv4 address.
+func (i *ip4AddrValidator) Do(localizer *i18n.Localizer, target any) error {
+	return validateIPv4(localizer, target, ErrIPv4ID)
+}
+
+// ip6AddrValidator accepts IPv6 addresses only (alias of go-playground's `ip6_addr`).
+type ip6AddrValidator struct{}
+
+// newIP6AddrValidator returns a new ip6AddrValidator.
+func newIP6AddrValidator() *ip6AddrValidator {
+	return &ip6AddrValidator{}
+}
+
+// Do validates the target is a valid IPv6 address.
+func (i *ip6AddrValidator) Do(localizer *i18n.Localizer, target any) error {
+	return validateIPv6(localizer, target, ErrIPv6ID)
+}
+
+var uuidRegexp = regexp.MustCompile(uuidRegexPattern)
+
+// validateIP validates IPv4 or IPv6 strings and returns an error with the provided error ID.
+func validateIP(localizer *i18n.Localizer, target any, errorID string) (net.IP, error) {
 	v, ok := target.(string)
 	if !ok {
-		return NewError(localizer, ErrIPID, fmt.Sprintf("value=%v", target))
+		return nil, NewError(localizer, errorID, fmt.Sprintf("value=%v", target))
 	}
 
-	if v == "" || net.ParseIP(v) == nil {
-		return NewError(localizer, ErrIPID, fmt.Sprintf("value=%v", target))
+	if v == "" {
+		return nil, NewError(localizer, errorID, fmt.Sprintf("value=%v", target))
+	}
+
+	parsed := net.ParseIP(v)
+	if parsed == nil {
+		return nil, NewError(localizer, errorID, fmt.Sprintf("value=%v", target))
+	}
+	return parsed, nil
+}
+
+// validateIPv4 validates IPv4 strings.
+func validateIPv4(localizer *i18n.Localizer, target any, errorID string) error {
+	parsed, err := validateIP(localizer, target, errorID)
+	if err != nil {
+		return err
+	}
+
+	if parsed.To4() == nil {
+		return NewError(localizer, errorID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// validateIPv6 validates IPv6 strings.
+func validateIPv6(localizer *i18n.Localizer, target any, errorID string) error {
+	parsed, err := validateIP(localizer, target, errorID)
+	if err != nil {
+		return err
+	}
+
+	if parsed.To4() != nil {
+		return NewError(localizer, errorID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// uuidValidator validates UUID strings (accepts any version).
+type uuidValidator struct{}
+
+// newUUIDValidator returns a new uuidValidator.
+func newUUIDValidator() *uuidValidator {
+	return &uuidValidator{}
+}
+
+// Do validates the target is a UUID.
+func (u *uuidValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrUUIDID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !uuidRegexp.MatchString(v) {
+		return NewError(localizer, ErrUUIDID, fmt.Sprintf("value=%v", target))
 	}
 	return nil
 }
