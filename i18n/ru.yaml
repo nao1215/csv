@@ -118,6 +118,9 @@
 - id: "ErrStartsWith"
   translation: "целевое значение не начинается с указанного значения"
 
+- id: "ErrStartsNotWith"
+  translation: "целевое значение не должно начинаться с указанного значения"
+
 - id: "ErrEndsWith"
   translation: "целевое значение не заканчивается указанным значением"
 
@@ -153,6 +156,9 @@
 
 - id: "ErrInvalidStartsWithFormat"
   translation: "Формат тега 'startswith' недопустим"
+
+- id: "ErrInvalidStartsNotWithFormat"
+  translation: "Формат тега 'startsnotwith' недопустим"
 
 - id: "ErrInvalidEndsWithFormat"
   translation: "Формат тега 'endswith' недопустим"

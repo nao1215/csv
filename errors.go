@@ -132,8 +132,12 @@ var (
 	ErrEmailID = "ErrEmail"
 	// ErrStartsWithID is the error ID used when the target does not start with the specified value.
 	ErrStartsWithID = "ErrStartsWith"
+	// ErrStartsNotWithID is the error ID used when the target starts with the specified value (should not).
+	ErrStartsNotWithID = "ErrStartsNotWith"
 	// ErrInvalidStartsWithFormatID is the error ID used when the startswith format is invalid.
 	ErrInvalidStartsWithFormatID = "ErrInvalidStartsWithFormat"
+	// ErrInvalidStartsNotWithFormatID is the error ID used when the startsnotwith format is invalid.
+	ErrInvalidStartsNotWithFormatID = "ErrInvalidStartsNotWithFormat"
 	// ErrEndsWithID is the error ID used when the target does not end with the specified value.
 	ErrEndsWithID = "ErrEndsWith"
 	// ErrInvalidEndsWithFormatID is the error ID used when the endswith format is invalid.

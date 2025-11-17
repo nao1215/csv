@@ -124,6 +124,9 @@
 - id: "ErrStartsWith"
   translation: "指定した値で始まっていません"
 
+- id: "ErrStartsNotWith"
+  translation: "指定した値で始まってはいけません"
+
 - id: "ErrEndsWith"
   translation: "指定した値で終わっていません"
 
@@ -159,6 +162,9 @@
 
 - id: "ErrInvalidStartsWithFormat"
   translation: "'startswith'タグの形式が無効です"
+
+- id: "ErrInvalidStartsNotWithFormat"
+  translation: "'startsnotwith'タグの形式が無効です"
 
 - id: "ErrInvalidEndsWithFormat"
   translation: "'endswith'タグの形式が無効です"

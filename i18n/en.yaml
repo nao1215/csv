@@ -118,6 +118,9 @@
 - id: "ErrStartsWith"
   translation: "target does not start with the specified value"
 
+- id: "ErrStartsNotWith"
+  translation: "target starts with the prohibited prefix"
+
 - id: "ErrEndsWith"
   translation: "target does not end with the specified value"
 
@@ -153,6 +156,9 @@
 
 - id: "ErrInvalidStartsWithFormat"
   translation: "'startswith' tag format is invalid"
+
+- id: "ErrInvalidStartsNotWithFormat"
+  translation: "'startsnotwith' tag format is invalid"
 
 - id: "ErrInvalidEndsWithFormat"
   translation: "'endswith' tag format is invalid"

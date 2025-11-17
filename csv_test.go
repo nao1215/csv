@@ -635,6 +635,63 @@ prefix-value
 		}
 	})
 
+	t.Run("validate startsnotwith", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+prefix-value
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type startsNotWith struct {
+			Name string `validate:"startsnotwith=pre"`
+		}
+
+		list := make([]startsNotWith, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target starts with the prohibited prefix: startsnotwith=pre, value=prefix-value" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid startsnotwith tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type startsNotWith struct {
+			Name string `validate:"startsnotwith="`
+		}
+
+		list := make([]startsNotWith, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'startsnotwith' tag format is invalid: startsnotwith=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate endswith", func(t *testing.T) {
 		t.Parallel()
 

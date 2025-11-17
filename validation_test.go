@@ -458,6 +458,45 @@ func Test_endsNotWithValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_startsNotWithValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		s       *startsNotWithValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target does not start with prefix",
+			s:       newStartsNotWithValidator("pre"),
+			arg:     "value",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target starts with prefix",
+			s:       newStartsNotWithValidator("pre"),
+			arg:     "prefix",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			s:       newStartsNotWithValidator("pre"),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.s.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("startsNotWithValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_excludesValidator_Do(t *testing.T) {
 	t.Parallel()
 

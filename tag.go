@@ -80,6 +80,8 @@ const (
 	emailTagValue tagValue = "email"
 	// startsWithTagValue is the struct tag name for startswith fields.
 	startsWithTagValue tagValue = "startswith"
+	// startsNotWithTagValue is the struct tag name for startsnotwith fields.
+	startsNotWithTagValue tagValue = "startsnotwith"
 	// endsWithTagValue is the struct tag name for endswith fields.
 	endsWithTagValue tagValue = "endswith"
 	// endsNotWithTagValue is the struct tag name for endsnotwith fields.

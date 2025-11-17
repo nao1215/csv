@@ -855,6 +855,29 @@ func (s *startsWithValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
+// startsNotWithValidator validates that the target does not start with the prefix.
+type startsNotWithValidator struct {
+	prefix string
+}
+
+// newStartsNotWithValidator returns a new startsNotWithValidator.
+func newStartsNotWithValidator(prefix string) *startsNotWithValidator {
+	return &startsNotWithValidator{prefix: prefix}
+}
+
+// Do validates the target does not start with the prefix.
+func (s *startsNotWithValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrStartsNotWithID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.HasPrefix(v, s.prefix) {
+		return NewError(localizer, ErrStartsNotWithID, fmt.Sprintf("startsnotwith=%s, value=%v", s.prefix, target))
+	}
+	return nil
+}
+
 // equalIgnoreCaseValidator validates that two strings are equal, ignoring case.
 type equalIgnoreCaseValidator struct {
 	expected string
