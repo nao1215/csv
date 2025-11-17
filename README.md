@@ -103,6 +103,7 @@ for _, err := range errs {
 | Tag Name | Description                  |
 | -------- | ---------------------------- |
 | eq       | Equal to the specified value |
+| eq_ignore_case | Equal to the specified value (case-insensitive) |
 | gt       | Greater than                 |
 | gte      | Greater or equal             |
 | lt       | Less than                    |

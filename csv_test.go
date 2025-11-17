@@ -692,6 +692,63 @@ value-suffix
 		}
 	})
 
+	t.Run("validate eq_ignore_case", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+Match
+mismatch
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type eqIgnoreCase struct {
+			Name string `validate:"eq_ignore_case=match"`
+		}
+
+		eqs := make([]eqIgnoreCase, 0)
+		errs := c.Decode(&eqs)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not equal to the value (case-insensitive): eq_ignore_case=match, value=mismatch" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid eq_ignore_case tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+Value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type eqIgnoreCase struct {
+			Name string `validate:"eq_ignore_case="`
+		}
+
+		eqs := make([]eqIgnoreCase, 0)
+		errs := c.Decode(&eqs)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'eq_ignore_case' tag format is invalid: eq_ignore_case=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate contains", func(t *testing.T) {
 		t.Parallel()
 

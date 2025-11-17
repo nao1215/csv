@@ -66,10 +66,14 @@ var (
 	ErrRequiredID = "ErrRequired"
 	// ErrEqualID is the error ID used when the target is not equal to the threshold value.
 	ErrEqualID = "ErrEqual"
+	// ErrEqualIgnoreCaseID is the error ID used when the target is not equal to the specified value ignoring case.
+	ErrEqualIgnoreCaseID = "ErrEqualIgnoreCase"
 	// ErrInvalidThresholdID is the error ID used when the threshold value is invalid.
 	ErrInvalidThresholdID = "ErrInvalidThreshold"
 	// ErrNotEqualID is the error ID used when the target is equal to the threshold value.
 	ErrNotEqualID = "ErrNotEqual"
+	// ErrInvalidEqualIgnoreCaseFormatID is the error ID used when the eq_ignore_case format is invalid.
+	ErrInvalidEqualIgnoreCaseFormatID = "ErrInvalidEqualIgnoreCaseFormat"
 	// ErrGreaterThanID is the error ID used when the target is not greater than the threshold value.
 	ErrGreaterThanID = "ErrGreaterThan"
 	// ErrGreaterThanEqualID is the error ID used when the target is not greater than or equal to the threshold value.
