@@ -56,6 +56,8 @@ const (
 	uppercaseTagValue tagValue = "uppercase"
 	// asciiTagValue is the struct tag name for ascii fields.
 	asciiTagValue tagValue = "ascii"
+	// numberTagValue is the struct tag name for number fields.
+	numberTagValue tagValue = "number"
 	// containsRuneTagValue is the struct tag name for contains rune fields.
 	containsRuneTagValue tagValue = "containsrune"
 	// uriTagValue is the struct tag name for uri fields.

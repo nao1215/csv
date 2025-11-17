@@ -148,6 +148,33 @@ func isNumeric(r rune) bool {
 	return r >= '0' && r <= '9'
 }
 
+// numberValidator is a struct that contains the validation rules for a number column.
+// It accepts signed integers and decimals (ASCII), rejecting malformed numbers (e.g., ".5", "5.", "1.2.3").
+type numberValidator struct {
+	regexp *regexp.Regexp
+}
+
+// newNumberValidator returns a new numberValidator.
+func newNumberValidator() *numberValidator {
+	const numberPattern = `^[-+]?[0-9]+(\.[0-9]+)?$`
+	return &numberValidator{
+		regexp: regexp.MustCompile(numberPattern),
+	}
+}
+
+// Do validates the target as a number (integer or decimal with optional sign).
+func (n *numberValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidNumberID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !n.regexp.MatchString(v) {
+		return NewError(localizer, ErrInvalidNumberID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
 // alphanumericValidator is a struct that contains the validation rules for an alphanumeric column.
 type alphanumericValidator struct{}
 

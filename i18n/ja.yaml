@@ -22,6 +22,9 @@
 - id: "ErrInvalidNumeric"
   translation: "値が数字ではありません"
 
+- id: "ErrInvalidNumber"
+  translation: "値が数値ではありません"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"
 

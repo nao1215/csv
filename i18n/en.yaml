@@ -22,6 +22,9 @@
 - id: "ErrInvalidNumeric"
   translation: "target is not a numeric character"
 
+- id: "ErrInvalidNumber"
+  translation: "target is not a valid number"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "target is not an alphanumeric character"
 

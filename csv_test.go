@@ -977,6 +977,36 @@ value
 		}
 	})
 
+	t.Run("validate number", func(t *testing.T) {
+		t.Parallel()
+
+		input := `value
+123
+-10.5
+bad
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type number struct {
+			Value string `validate:"number"`
+		}
+
+		list := make([]number, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:4 column value: target is not a valid number: value=bad" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate multibyte", func(t *testing.T) {
 		t.Parallel()
 

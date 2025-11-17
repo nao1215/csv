@@ -22,6 +22,9 @@
 - id: "ErrInvalidNumeric"
   translation: "целевое значение не является числовым символом"
 
+- id: "ErrInvalidNumber"
+  translation: "целевое значение не является числом"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "целевое значение не является буквенно-цифровым символом"
 

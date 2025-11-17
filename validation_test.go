@@ -263,6 +263,69 @@ func Test_numericValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_numberValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		n       *numberValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil for integer",
+			n:       newNumberValidator(),
+			arg:     "123",
+			wantErr: false,
+		},
+		{
+			name:    "should return nil for signed integer",
+			n:       newNumberValidator(),
+			arg:     "-10",
+			wantErr: false,
+		},
+		{
+			name:    "should return nil for decimal",
+			n:       newNumberValidator(),
+			arg:     "+3.14",
+			wantErr: false,
+		},
+		{
+			name:    "should return error for trailing dot",
+			n:       newNumberValidator(),
+			arg:     "1.",
+			wantErr: true,
+		},
+		{
+			name:    "should return error for leading dot",
+			n:       newNumberValidator(),
+			arg:     ".5",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if not string",
+			n:       newNumberValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+		{
+			name:    "should return error if empty string",
+			n:       newNumberValidator(),
+			arg:     "",
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.n.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("numberValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_containsRuneValidator_Do(t *testing.T) {
 	t.Parallel()
 

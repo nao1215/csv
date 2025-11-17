@@ -64,6 +64,8 @@ var (
 	ErrInvalidAlphaUnicodeID = "ErrInvalidAlphaUnicode"
 	// ErrInvalidNumericID is the error ID used when the target is not a numeric character.
 	ErrInvalidNumericID = "ErrInvalidNumeric"
+	// ErrInvalidNumberID is the error ID used when the target is not a number.
+	ErrInvalidNumberID = "ErrInvalidNumber"
 	// ErrInvalidAlphanumericID is the error ID used when the target is not an alphanumeric character.
 	ErrInvalidAlphanumericID = "ErrInvalidAlphanumeric"
 	// ErrInvalidAlphanumericUnicodeID is the error ID used when the target is not an alphanumeric unicode character.
