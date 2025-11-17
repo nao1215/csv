@@ -40,6 +40,9 @@
 - id: "ErrInvalidGtFieldFormat"
   translation: "'gtfield'タグの形式が無効です"
 
+- id: "ErrInvalidLteFieldFormat"
+  translation: "'ltefield'タグの形式が無効です"
+
 - id: "ErrEqualField"
   translation: "フィールドが指定のフィールドと等しくありません"
 
@@ -54,6 +57,9 @@
 
 - id: "ErrGtField"
   translation: "フィールドが指定のフィールドより大きくありません"
+
+- id: "ErrLteField"
+  translation: "フィールドが指定のフィールド以下ではありません"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"

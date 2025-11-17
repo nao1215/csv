@@ -144,8 +144,11 @@ for _, err := range errs {
 | eq_ignore_case | Equal to the specified value (case-insensitive) |
 | gt       | Greater than                 |
 | gte      | Greater or equal             |
+| gtfield  | Greater than another field in the same row |
+| gtefield | Greater or equal to another field in the same row |
 | lt       | Less than                    |
 | lte      | Less or equal                |
+| ltefield | Less or equal to another field in the same row |
 | ne_ignore_case | Not equal to the specified value (case-insensitive) |
 | ne       | Not equal                    |
 

@@ -40,6 +40,9 @@
 - id: "ErrInvalidGtFieldFormat"
   translation: "Формат тега 'gtfield' недопустим"
 
+- id: "ErrInvalidLteFieldFormat"
+  translation: "Формат тега 'ltefield' недопустим"
+
 - id: "ErrEqualField"
   translation: "значение поля не равно указанному полю"
 
@@ -54,6 +57,9 @@
 
 - id: "ErrGtField"
   translation: "значение поля не больше указанного поля"
+
+- id: "ErrLteField"
+  translation: "значение поля не меньше или равно указанному полю"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "целевое значение не является буквенно-цифровым символом"
