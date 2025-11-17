@@ -22,6 +22,8 @@ const (
 	numericTagValue tagValue = "numeric"
 	// alphanumericTagValue is the struct tag name for alphanumeric fields.
 	alphanumericTagValue tagValue = "alphanumeric"
+	// alphanumericUnicodeTagValue is the struct tag name for alphanumeric unicode fields.
+	alphanumericUnicodeTagValue tagValue = "alphanumunicode"
 	// requiredTagValue is the struct tag name for required fields.
 	requiredTagValue tagValue = "required"
 	// equalTagValue is the struct tag name for equal fields.

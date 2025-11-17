@@ -22,6 +22,9 @@
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"
 
+- id: "ErrInvalidAlphanumericUnicode"
+  translation: "値が英数字（ユニコード）ではありません"
+
 - id: "ErrRequired"
   translation: "必須パラメータが空です"
 

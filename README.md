@@ -83,6 +83,7 @@ for _, err := range errs {
 | alpha        | Alphabetic characters only               |
 | alphaspace   | Alphabetic characters and spaces         |
 | alphanumeric | Alphanumeric characters                  |
+| alphanumunicode | Unicode letters and digits            |
 | ascii        | ASCII characters only                    |
 | boolean      | Boolean values                           |
 | contains     | Contains substring                       |

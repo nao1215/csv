@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/rivo/uniseg"
@@ -141,6 +142,29 @@ func (a *alphanumericValidator) Do(localizer *i18n.Localizer, target any) error 
 	for _, r := range v {
 		if !isAlpha(r) && !isNumeric(r) {
 			return NewError(localizer, ErrInvalidAlphanumericID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	return nil
+}
+
+// alphanumericUnicodeValidator validates alphanumeric unicode strings.
+type alphanumericUnicodeValidator struct{}
+
+// newAlphanumericUnicodeValidator returns a new alphanumericUnicodeValidator.
+func newAlphanumericUnicodeValidator() *alphanumericUnicodeValidator {
+	return &alphanumericUnicodeValidator{}
+}
+
+// Do validates the target string only contains unicode letters or digits.
+func (a *alphanumericUnicodeValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidAlphanumericUnicodeID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, r := range v {
+		if !unicode.IsLetter(r) && !unicode.IsDigit(r) {
+			return NewError(localizer, ErrInvalidAlphanumericUnicodeID, fmt.Sprintf("value=%v", target))
 		}
 	}
 	return nil

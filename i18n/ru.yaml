@@ -22,6 +22,9 @@
 - id: "ErrInvalidAlphanumeric"
   translation: "целевое значение не является буквенно-цифровым символом"
 
+- id: "ErrInvalidAlphanumericUnicode"
+  translation: "целевое значение не является буквенно-цифровым символом (Unicode)"
+
 - id: "ErrRequired"
   translation: "целевое значение обязательно, но оно пустое"
 

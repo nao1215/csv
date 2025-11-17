@@ -22,6 +22,9 @@
 - id: "ErrInvalidAlphanumeric"
   translation: "target is not an alphanumeric character"
 
+- id: "ErrInvalidAlphanumericUnicode"
+  translation: "target is not an alphanumeric unicode character"
+
 - id: "ErrRequired"
   translation: "target is required but is empty"
 

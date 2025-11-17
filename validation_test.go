@@ -224,6 +224,45 @@ func Test_numericValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_alphanumericUnicodeValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		a       *alphanumericUnicodeValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target is alphanumeric unicode",
+			a:       newAlphanumericUnicodeValidator(),
+			arg:     "東京123abc",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target contains symbol",
+			a:       newAlphanumericUnicodeValidator(),
+			arg:     "東京123abc!",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			a:       newAlphanumericUnicodeValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.a.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("alphanumericUnicodeValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_startsWithValidator_Do(t *testing.T) {
 	t.Parallel()
 
