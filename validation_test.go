@@ -263,6 +263,45 @@ func Test_numericValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_containsRuneValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		c       *containsRuneValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target contains rune",
+			c:       newContainsRuneValidator('界'),
+			arg:     "こんにちは世界",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target does not contain rune",
+			c:       newContainsRuneValidator('界'),
+			arg:     "こんにちは",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			c:       newContainsRuneValidator('界'),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.c.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("containsRuneValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_alphanumericUnicodeValidator_Do(t *testing.T) {
 	t.Parallel()
 

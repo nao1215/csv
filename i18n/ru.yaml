@@ -28,6 +28,9 @@
 - id: "ErrInvalidAlphanumericUnicode"
   translation: "целевое значение не является буквенно-цифровым символом (Unicode)"
 
+- id: "ErrInvalidContainsRune"
+  translation: "целевое значение не содержит указанный символ (руну)"
+
 - id: "ErrRequired"
   translation: "целевое значение обязательно, но оно пустое"
 
@@ -135,3 +138,6 @@
 
 - id: "ErrInvalidEndsWithFormat"
   translation: "Формат тега 'endswith' недопустим"
+
+- id: "ErrInvalidContainsRuneFormat"
+  translation: "Формат тега 'containsrune' недопустим"

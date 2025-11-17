@@ -28,6 +28,9 @@
 - id: "ErrInvalidAlphanumericUnicode"
   translation: "target is not an alphanumeric unicode character"
 
+- id: "ErrInvalidContainsRune"
+  translation: "target does not contain the specified rune"
+
 - id: "ErrRequired"
   translation: "target is required but is empty"
 
@@ -135,3 +138,6 @@
 
 - id: "ErrInvalidEndsWithFormat"
   translation: "'endswith' tag format is invalid"
+
+- id: "ErrInvalidContainsRuneFormat"
+  translation: "'containsrune' tag format is invalid"

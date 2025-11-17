@@ -68,6 +68,10 @@ var (
 	ErrInvalidAlphanumericID = "ErrInvalidAlphanumeric"
 	// ErrInvalidAlphanumericUnicodeID is the error ID used when the target is not an alphanumeric unicode character.
 	ErrInvalidAlphanumericUnicodeID = "ErrInvalidAlphanumericUnicode"
+	// ErrInvalidContainsRuneID is the error ID used when the target does not contain the specified rune.
+	ErrInvalidContainsRuneID = "ErrInvalidContainsRune"
+	// ErrInvalidContainsRuneFormatID is the error ID used when the containsrune format is invalid.
+	ErrInvalidContainsRuneFormatID = "ErrInvalidContainsRuneFormat"
 	// ErrRequiredID is the error ID used when the target is required but is empty.
 	ErrRequiredID = "ErrRequired"
 	// ErrEqualID is the error ID used when the target is not equal to the threshold value.

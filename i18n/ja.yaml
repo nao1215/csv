@@ -28,6 +28,9 @@
 - id: "ErrInvalidAlphanumericUnicode"
   translation: "値が英数字（ユニコード）ではありません"
 
+- id: "ErrInvalidContainsRune"
+  translation: "指定したルーンを含んでいません"
+
 - id: "ErrRequired"
   translation: "必須パラメータが空です"
 
@@ -141,3 +144,6 @@
 
 - id: "ErrInvalidEndsWithFormat"
   translation: "'endswith'タグの形式が無効です"
+
+- id: "ErrInvalidContainsRuneFormat"
+  translation: "'containsrune'タグの形式が無効です"

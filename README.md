@@ -91,6 +91,7 @@ for _, err := range errs {
 | containsany  | Contains any of the specified characters |
 | startswith   | Starts with the specified substring      |
 | endswith     | Ends with the specified substring        |
+| containsrune | Contains the specified rune              |
 | lowercase    | Lowercase only                           |
 | numeric      | Numeric only                             |
 | uppercase    | Uppercase only                           |

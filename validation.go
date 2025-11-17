@@ -947,3 +947,26 @@ func (c *containsAnyValidator) Do(localizer *i18n.Localizer, target any) error {
 	}
 	return NewError(localizer, ErrContainsAnyID, fmt.Sprintf("containsany=%s, value=%v", strings.Join(c.contains, " "), target))
 }
+
+// containsRuneValidator validates that target contains the specified rune.
+type containsRuneValidator struct {
+	r rune
+}
+
+// newContainsRuneValidator returns a new containsRuneValidator.
+func newContainsRuneValidator(r rune) *containsRuneValidator {
+	return &containsRuneValidator{r: r}
+}
+
+// Do validates the target string contains the rune.
+func (c *containsRuneValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidContainsRuneID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !strings.ContainsRune(v, c.r) {
+		return NewError(localizer, ErrInvalidContainsRuneID, fmt.Sprintf("containsrune=%c, value=%v", c.r, target))
+	}
+	return nil
+}
