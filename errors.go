@@ -138,6 +138,10 @@ var (
 	ErrEndsWithID = "ErrEndsWith"
 	// ErrInvalidEndsWithFormatID is the error ID used when the endswith format is invalid.
 	ErrInvalidEndsWithFormatID = "ErrInvalidEndsWithFormat"
+	// ErrEndsNotWithID is the error ID used when the target ends with the specified value (should not).
+	ErrEndsNotWithID = "ErrEndsNotWith"
+	// ErrInvalidEndsNotWithFormatID is the error ID used when the endsnotwith format is invalid.
+	ErrInvalidEndsNotWithFormatID = "ErrInvalidEndsNotWithFormat"
 	// ErrContainsID is the error ID used when the target does not contain the specified value.
 	ErrContainsID = "ErrContains"
 	// ErrInvalidContainsFormatID is the error ID used when the contains format is invalid.

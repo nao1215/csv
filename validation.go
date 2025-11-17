@@ -900,6 +900,29 @@ func (e *endsWithValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
+// endsNotWithValidator is a struct that contains the validation rules for an endsnotwith column.
+type endsNotWithValidator struct {
+	suffix string
+}
+
+// newEndsNotWithValidator returns a new endsNotWithValidator.
+func newEndsNotWithValidator(suffix string) *endsNotWithValidator {
+	return &endsNotWithValidator{suffix: suffix}
+}
+
+// Do validates the target does not end with the suffix.
+func (e *endsNotWithValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrEndsNotWithID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.HasSuffix(v, e.suffix) {
+		return NewError(localizer, ErrEndsNotWithID, fmt.Sprintf("endsnotwith=%s, value=%v", e.suffix, target))
+	}
+	return nil
+}
+
 // containsValidator is a struct that contains the validation rules for a contains column.
 type containsValidator struct {
 	contains string

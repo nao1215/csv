@@ -121,6 +121,9 @@
 - id: "ErrEndsWith"
   translation: "target does not end with the specified value"
 
+- id: "ErrEndsNotWith"
+  translation: "target ends with the prohibited suffix"
+
 - id: "ErrContains"
   translation: "target does not contain the specified value"
 
@@ -138,6 +141,9 @@
 
 - id: "ErrInvalidEndsWithFormat"
   translation: "'endswith' tag format is invalid"
+
+- id: "ErrInvalidEndsNotWithFormat"
+  translation: "'endsnotwith' tag format is invalid"
 
 - id: "ErrInvalidContainsRuneFormat"
   translation: "'containsrune' tag format is invalid"

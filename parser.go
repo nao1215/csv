@@ -188,6 +188,15 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 				return nil, NewError(c.i18nLocalizer, ErrInvalidEndsWithFormatID, t)
 			}
 			validatorList = append(validatorList, newEndsWithValidator(values[0]))
+		case strings.HasPrefix(t, endsNotWithTagValue.String()):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidEndsNotWithFormatID, t)
+			}
+			validatorList = append(validatorList, newEndsNotWithValidator(values[0]))
 		case strings.HasPrefix(t, containsRuneTagValue.String()):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {

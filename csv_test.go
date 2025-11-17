@@ -692,6 +692,63 @@ value-suffix
 		}
 	})
 
+	t.Run("validate endsnotwith", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value-suffix
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type endsNotWith struct {
+			Name string `validate:"endsnotwith=fix"`
+		}
+
+		list := make([]endsNotWith, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target ends with the prohibited suffix: endsnotwith=fix, value=value-suffix" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid endsnotwith tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type endsNotWith struct {
+			Name string `validate:"endsnotwith="`
+		}
+
+		list := make([]endsNotWith, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'endsnotwith' tag format is invalid: endsnotwith=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate eq_ignore_case", func(t *testing.T) {
 		t.Parallel()
 

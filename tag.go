@@ -82,6 +82,8 @@ const (
 	startsWithTagValue tagValue = "startswith"
 	// endsWithTagValue is the struct tag name for endswith fields.
 	endsWithTagValue tagValue = "endswith"
+	// endsNotWithTagValue is the struct tag name for endsnotwith fields.
+	endsNotWithTagValue tagValue = "endsnotwith"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.

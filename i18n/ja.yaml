@@ -127,6 +127,9 @@
 - id: "ErrEndsWith"
   translation: "指定した値で終わっていません"
 
+- id: "ErrEndsNotWith"
+  translation: "指定した値で終わってはいけません"
+
 - id: "ErrContains"
   translation: "指定された値を含んでいません"
 
@@ -144,6 +147,9 @@
 
 - id: "ErrInvalidEndsWithFormat"
   translation: "'endswith'タグの形式が無効です"
+
+- id: "ErrInvalidEndsNotWithFormat"
+  translation: "'endsnotwith'タグの形式が無効です"
 
 - id: "ErrInvalidContainsRuneFormat"
   translation: "'containsrune'タグの形式が無効です"
