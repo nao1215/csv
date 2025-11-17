@@ -146,6 +146,10 @@ var (
 	ErrExcludesID = "ErrExcludes"
 	// ErrInvalidExcludesFormatID is the error ID used when the excludes format is invalid.
 	ErrInvalidExcludesFormatID = "ErrInvalidExcludesFormat"
+	// ErrExcludesAllID is the error ID used when the target contains any of the specified excluded runes.
+	ErrExcludesAllID = "ErrExcludesAll"
+	// ErrInvalidExcludesAllFormatID is the error ID used when the excludesall format is invalid.
+	ErrInvalidExcludesAllFormatID = "ErrInvalidExcludesAllFormat"
 	// ErrContainsID is the error ID used when the target does not contain the specified value.
 	ErrContainsID = "ErrContains"
 	// ErrInvalidContainsFormatID is the error ID used when the contains format is invalid.

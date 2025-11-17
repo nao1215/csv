@@ -127,6 +127,9 @@
 - id: "ErrExcludes"
   translation: "target contains a prohibited substring"
 
+- id: "ErrExcludesAll"
+  translation: "target contains one of the prohibited runes"
+
 - id: "ErrContains"
   translation: "target does not contain the specified value"
 
@@ -150,6 +153,9 @@
 
 - id: "ErrInvalidExcludesFormat"
   translation: "'excludes' tag format is invalid"
+
+- id: "ErrInvalidExcludesAllFormat"
+  translation: "'excludesall' tag format is invalid"
 
 - id: "ErrInvalidContainsRuneFormat"
   translation: "'containsrune' tag format is invalid"

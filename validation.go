@@ -946,6 +946,34 @@ func (e *excludesValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
+// excludesAllValidator is a struct that contains the validation rules for excludesall column.
+// It fails if the target contains any rune from the excludes set (go-playground/validator parity).
+type excludesAllValidator struct {
+	excludes string
+}
+
+// newExcludesAllValidator returns a new excludesAllValidator.
+func newExcludesAllValidator(excludes string) *excludesAllValidator {
+	return &excludesAllValidator{excludes: excludes}
+}
+
+// Do validates the target does not contain any rune from excludes.
+func (e *excludesAllValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrExcludesAllID, fmt.Sprintf("value=%v", target))
+	}
+
+	if v == "" || e.excludes == "" {
+		return nil
+	}
+
+	if strings.ContainsAny(v, e.excludes) {
+		return NewError(localizer, ErrExcludesAllID, fmt.Sprintf("excludesall=%s, value=%v", e.excludes, target))
+	}
+	return nil
+}
+
 // containsValidator is a struct that contains the validation rules for a contains column.
 type containsValidator struct {
 	contains string

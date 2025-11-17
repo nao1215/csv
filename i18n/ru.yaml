@@ -127,6 +127,9 @@
 - id: "ErrExcludes"
   translation: "целевое значение содержит запрещенную подстроку"
 
+- id: "ErrExcludesAll"
+  translation: "целевое значение содержит один из запрещенных символов"
+
 - id: "ErrContains"
   translation: "целевое значение не содержит подстроку"
 
@@ -150,6 +153,9 @@
 
 - id: "ErrInvalidExcludesFormat"
   translation: "Формат тега 'excludes' недопустим"
+
+- id: "ErrInvalidExcludesAllFormat"
+  translation: "Формат тега 'excludesall' недопустим"
 
 - id: "ErrInvalidContainsRuneFormat"
   translation: "Формат тега 'containsrune' недопустим"
