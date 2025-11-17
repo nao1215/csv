@@ -503,6 +503,29 @@ func (e *emailValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
+// startsWithValidator is a struct that contains the validation rules for a startswith column.
+type startsWithValidator struct {
+	prefix string
+}
+
+// newStartsWithValidator returns a new startsWithValidator.
+func newStartsWithValidator(prefix string) *startsWithValidator {
+	return &startsWithValidator{prefix: prefix}
+}
+
+// Do validates the target starts with the prefix.
+func (s *startsWithValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrStartsWithID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !strings.HasPrefix(v, s.prefix) {
+		return NewError(localizer, ErrStartsWithID, fmt.Sprintf("startswith=%s, value=%v", s.prefix, target))
+	}
+	return nil
+}
+
 // containsValidator is a struct that contains the validation rules for a contains column.
 type containsValidator struct {
 	contains string

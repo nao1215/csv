@@ -70,6 +70,9 @@
 - id: "ErrEmail"
   translation: "целевое значение не является адресом электронной почты"
 
+- id: "ErrStartsWith"
+  translation: "целевое значение не начинается с указанного значения"
+
 - id: "ErrContains"
   translation: "целевое значение не содержит подстроку"
 
@@ -81,3 +84,6 @@
 
 - id: "ErrInvalidContainsAny"
   translation: "Формат тега 'containsany' недопустим"
+
+- id: "ErrInvalidStartsWithFormat"
+  translation: "Формат тега 'startswith' недопустим"

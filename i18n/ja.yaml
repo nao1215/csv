@@ -76,6 +76,9 @@
 - id: "ErrEmail"
   translation: "値がメールアドレスではありません"
 
+- id: "ErrStartsWith"
+  translation: "指定した値で始まっていません"
+
 - id: "ErrContains"
   translation: "指定された値を含んでいません"
 
@@ -87,3 +90,6 @@
 
 - id: "ErrInvalidContainsAnyFormat"
   translation: "'containsany'タグの形式が無効です"
+
+- id: "ErrInvalidStartsWithFormat"
+  translation: "'startswith'タグの形式が無効です"

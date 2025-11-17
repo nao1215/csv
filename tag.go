@@ -50,6 +50,8 @@ const (
 	asciiTagValue tagValue = "ascii"
 	// emailTagValue is the struct tag name for email fields.
 	emailTagValue tagValue = "email"
+	// startsWithTagValue is the struct tag name for startswith fields.
+	startsWithTagValue tagValue = "startswith"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.
