@@ -43,6 +43,9 @@
 - id: "ErrInvalidLteFieldFormat"
   translation: "'ltefield' tag format is invalid"
 
+- id: "ErrInvalidLtFieldFormat"
+  translation: "'ltfield' tag format is invalid"
+
 - id: "ErrEqualField"
   translation: "field is not equal to the specified field"
 
@@ -61,6 +64,8 @@
 - id: "ErrLteField"
   translation: "field is not less than or equal to the specified field"
 
+- id: "ErrLtField"
+  translation: "field is not less than the specified field"
 - id: "ErrInvalidAlphanumeric"
   translation: "target is not an alphanumeric character"
 

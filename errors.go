@@ -78,6 +78,8 @@ var (
 	ErrInvalidGtFieldFormatID = "ErrInvalidGtFieldFormat"
 	// ErrInvalidLteFieldFormatID is the error ID used when the ltefield format is invalid.
 	ErrInvalidLteFieldFormatID = "ErrInvalidLteFieldFormat"
+	// ErrInvalidLtFieldFormatID is the error ID used when the ltfield format is invalid.
+	ErrInvalidLtFieldFormatID = "ErrInvalidLtFieldFormat"
 	// ErrEqualFieldID is the error ID used when the target is not equal to the specified field.
 	ErrEqualFieldID = "ErrEqualField"
 	// ErrFieldContainsID is the error ID used when the target does not contain the specified field value.
@@ -90,6 +92,8 @@ var (
 	ErrGtFieldID = "ErrGtField"
 	// ErrLteFieldID is the error ID used when the target is not less than or equal to the specified field.
 	ErrLteFieldID = "ErrLteField"
+	// ErrLtFieldID is the error ID used when the target is not less than the specified field.
+	ErrLtFieldID = "ErrLtField"
 	// ErrInvalidAlphanumericID is the error ID used when the target is not an alphanumeric character.
 	ErrInvalidAlphanumericID = "ErrInvalidAlphanumeric"
 	// ErrInvalidAlphanumericUnicodeID is the error ID used when the target is not an alphanumeric unicode character.

@@ -43,6 +43,9 @@
 - id: "ErrInvalidLteFieldFormat"
   translation: "'ltefield'タグの形式が無効です"
 
+- id: "ErrInvalidLtFieldFormat"
+  translation: "'ltfield'タグの形式が無効です"
+
 - id: "ErrEqualField"
   translation: "フィールドが指定のフィールドと等しくありません"
 
@@ -61,6 +64,8 @@
 - id: "ErrLteField"
   translation: "フィールドが指定のフィールド以下ではありません"
 
+- id: "ErrLtField"
+  translation: "フィールドが指定のフィールドより小さくありません"
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"
 

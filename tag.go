@@ -118,6 +118,8 @@ const (
 	greaterThanFieldTagValue tagValue = "gtfield"
 	// lessThanEqualFieldTagValue is the struct tag name for less than or equal to another field (same struct, flat).
 	lessThanEqualFieldTagValue tagValue = "ltefield"
+	// lessThanFieldTagValue is the struct tag name for less than another field (same struct, flat).
+	lessThanFieldTagValue tagValue = "ltfield"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.

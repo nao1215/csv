@@ -43,6 +43,9 @@
 - id: "ErrInvalidLteFieldFormat"
   translation: "Формат тега 'ltefield' недопустим"
 
+- id: "ErrInvalidLtFieldFormat"
+  translation: "Формат тега 'ltfield' недопустим"
+
 - id: "ErrEqualField"
   translation: "значение поля не равно указанному полю"
 
@@ -60,6 +63,9 @@
 
 - id: "ErrLteField"
   translation: "значение поля не меньше или равно указанному полю"
+
+- id: "ErrLtField"
+  translation: "значение поля не меньше указанного поля"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "целевое значение не является буквенно-цифровым символом"

@@ -22,6 +22,7 @@ const (
 	crossFieldOpGte      crossFieldOp = "gtefield"
 	crossFieldOpGt       crossFieldOp = "gtfield"
 	crossFieldOpLte      crossFieldOp = "ltefield"
+	crossFieldOpLt       crossFieldOp = "ltfield"
 )
 
 // crossFieldRuleSet is a slice of crossFieldRule.

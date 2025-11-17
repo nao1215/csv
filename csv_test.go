@@ -1445,6 +1445,36 @@ hello world,noway
 		}
 	})
 
+	t.Run("validate ltfield", func(t *testing.T) {
+		t.Parallel()
+
+		input := `value,limit
+4,5
+5,5
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type row struct {
+			Value int `validate:"ltfield=Limit"`
+			Limit int
+		}
+
+		list := make([]row, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column value: field is not less than the specified field: field=Value, other=Limit" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate alphaspace", func(t *testing.T) {
 		t.Parallel()
 
