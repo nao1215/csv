@@ -43,11 +43,17 @@
 - id: "ErrEqualIgnoreCase"
   translation: "大文字小文字を無視した比較で値が一致しません"
 
+- id: "ErrNotEqualIgnoreCase"
+  translation: "大文字小文字を無視した比較で値が一致しています"
+
 - id: "ErrInvalidThreshold"
   translation: "しきい値が無効です"
 
 - id: "ErrInvalidEqualIgnoreCaseFormat"
   translation: "'eq_ignore_case'タグの形式が無効です"
+
+- id: "ErrInvalidNotEqualIgnoreCaseFormat"
+  translation: "'ne_ignore_case'タグの形式が無効です"
 
 - id: "ErrNotEqual"
   translation: "値がしきい値と等しいです"

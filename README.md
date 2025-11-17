@@ -137,6 +137,7 @@ for _, err := range errs {
 | gte      | Greater or equal             |
 | lt       | Less than                    |
 | lte      | Less or equal                |
+| ne_ignore_case | Not equal to the specified value (case-insensitive) |
 | ne       | Not equal                    |
 
 #### Other rules

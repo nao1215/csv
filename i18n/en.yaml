@@ -43,11 +43,17 @@
 - id: "ErrEqualIgnoreCase"
   translation: "target is not equal to the value (case-insensitive)"
 
+- id: "ErrNotEqualIgnoreCase"
+  translation: "target is equal to the value (case-insensitive)"
+
 - id: "ErrInvalidThreshold"
   translation: "threshold value is invalid"
 
 - id: "ErrInvalidEqualIgnoreCaseFormat"
   translation: "'eq_ignore_case' tag format is invalid"
+
+- id: "ErrInvalidNotEqualIgnoreCaseFormat"
+  translation: "'ne_ignore_case' tag format is invalid"
 
 - id: "ErrNotEqual"
   translation: "target is equal to the threshold value"
