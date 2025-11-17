@@ -147,7 +147,24 @@ func (c *CSV) validateCrossFieldRules(structValue reflect.Value, line int, error
 		for _, rule := range rules {
 			targetField := structValue.FieldByName(rule.targetField)
 			if !targetField.IsValid() {
-				err := NewError(c.i18nLocalizer, ErrInvalidEqualFieldFormatID, rule.targetField)
+				formatErrID := ErrInvalidEqualFieldFormatID
+				switch rule.op {
+				case crossFieldOpNotEqual:
+					formatErrID = ErrInvalidNeFieldFormatID
+				case crossFieldOpContains:
+					formatErrID = ErrInvalidFieldContainsFormatID
+				case crossFieldOpExcludes:
+					formatErrID = ErrInvalidFieldExcludesFormatID
+				case crossFieldOpGte:
+					formatErrID = ErrInvalidGteFieldFormatID
+				case crossFieldOpGt:
+					formatErrID = ErrInvalidGtFieldFormatID
+				case crossFieldOpLte:
+					formatErrID = ErrInvalidLteFieldFormatID
+				case crossFieldOpLt:
+					formatErrID = ErrInvalidLtFieldFormatID
+				}
+				err := NewError(c.i18nLocalizer, formatErrID, rule.targetField)
 				*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))
 				continue
 			}
@@ -158,6 +175,15 @@ func (c *CSV) validateCrossFieldRules(structValue reflect.Value, line int, error
 					err := NewError(
 						c.i18nLocalizer,
 						ErrEqualFieldID,
+						fmt.Sprintf("field=%s, other=%s", srcName, rule.targetField),
+					)
+					*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))
+				}
+			case crossFieldOpNotEqual:
+				if compareValuesEqual(srcField.Interface(), targetField.Interface()) {
+					err := NewError(
+						c.i18nLocalizer,
+						ErrNeFieldID,
 						fmt.Sprintf("field=%s, other=%s", srcName, rule.targetField),
 					)
 					*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))

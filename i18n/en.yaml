@@ -28,6 +28,9 @@
 - id: "ErrInvalidEqualFieldFormat"
   translation: "'eqfield' tag format is invalid"
 
+- id: "ErrInvalidNeFieldFormat"
+  translation: "'nefield' tag format is invalid"
+
 - id: "ErrInvalidFieldContainsFormat"
   translation: "'fieldcontains' tag format is invalid"
 
@@ -48,6 +51,9 @@
 
 - id: "ErrEqualField"
   translation: "field is not equal to the specified field"
+
+- id: "ErrNeField"
+  translation: "field is equal to the specified field"
 
 - id: "ErrFieldContains"
   translation: "field does not contain the specified field value"

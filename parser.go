@@ -95,6 +95,19 @@ func (c *CSV) parseValidateTag(tags string, fieldIndex int) (validators, error) 
 				targetField: values[0],
 				op:          crossFieldOpEqual,
 			})
+		case strings.HasPrefix(t, notEqualFieldTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidNeFieldFormatID, t)
+			}
+			c.crossFieldRules[fieldIndex] = append(c.crossFieldRules[fieldIndex], crossFieldRule{
+				fieldIndex:  fieldIndex,
+				targetField: values[0],
+				op:          crossFieldOpNotEqual,
+			})
 		case strings.HasPrefix(t, equalIgnoreCaseTagValue.String()):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {

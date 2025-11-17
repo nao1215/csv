@@ -48,6 +48,8 @@ const (
 	lengthTagValue tagValue = "len"
 	// equalIgnoreCaseTagValue is the struct tag name for case-insensitive equal fields.
 	equalIgnoreCaseTagValue tagValue = "eq_ignore_case"
+	// notEqualFieldTagValue is the struct tag name for not equal to another field (same struct, flat).
+	notEqualFieldTagValue tagValue = "nefield"
 	// greaterThanEqualFieldTagValue is the struct tag name for greater than or equal to another field.
 	greaterThanEqualFieldTagValue tagValue = "gtefield"
 	// oneOfTagValue is the struct tag name for one of fields.

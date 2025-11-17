@@ -1295,6 +1295,36 @@ secret,mismatch
 		}
 	})
 
+	t.Run("validate nefield", func(t *testing.T) {
+		t.Parallel()
+
+		input := `a,b
+foo,bar
+same,same
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type row struct {
+			A string `validate:"nefield=B"`
+			B string
+		}
+
+		list := make([]row, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column a: field is equal to the specified field: field=A, other=B" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate fieldcontains", func(t *testing.T) {
 		t.Parallel()
 

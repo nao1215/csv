@@ -11,12 +11,12 @@ type crossFieldRule struct {
 	op crossFieldOp
 }
 
-// crossFieldOp enumerates supported cross-field operations.
-// Only equality is implemented now; extend here when adding more operators.
+// crossFieldOp enumerates supported cross-field operations (same row only; flat structs).
 type crossFieldOp string
 
 const (
 	crossFieldOpEqual    crossFieldOp = "eqfield"
+	crossFieldOpNotEqual crossFieldOp = "nefield"
 	crossFieldOpContains crossFieldOp = "fieldcontains"
 	crossFieldOpExcludes crossFieldOp = "fieldexcludes"
 	crossFieldOpGte      crossFieldOp = "gtefield"

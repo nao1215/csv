@@ -28,6 +28,9 @@
 - id: "ErrInvalidEqualFieldFormat"
   translation: "Формат тега 'eqfield' недопустим"
 
+- id: "ErrInvalidNeFieldFormat"
+  translation: "Формат тега 'nefield' недопустим"
+
 - id: "ErrInvalidFieldContainsFormat"
   translation: "Формат тега 'fieldcontains' недопустим"
 
@@ -48,6 +51,9 @@
 
 - id: "ErrEqualField"
   translation: "значение поля не равно указанному полю"
+
+- id: "ErrNeField"
+  translation: "значение поля равно указанному полю"
 
 - id: "ErrFieldContains"
   translation: "значение поля не содержит значение указанного поля"
