@@ -73,6 +73,24 @@
 - id: "ErrASCII"
   translation: "целевое значение не является ASCII символом"
 
+- id: "ErrURI"
+  translation: "целевое значение не является допустимым URI"
+
+- id: "ErrURL"
+  translation: "целевое значение не является допустимым URL"
+
+- id: "ErrHTTPURL"
+  translation: "целевое значение не является допустимым HTTP/HTTPS URL"
+
+- id: "ErrHTTPSURL"
+  translation: "целевое значение не является допустимым HTTPS URL"
+
+- id: "ErrURLEncoded"
+  translation: "целевое значение не является URL-кодированным"
+
+- id: "ErrIP"
+  translation: "целевое значение не является допустимым IP-адресом"
+
 - id: "ErrEmail"
   translation: "целевое значение не является адресом электронной почты"
 

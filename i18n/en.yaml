@@ -73,6 +73,24 @@
 - id: "ErrASCII"
   translation: "target is not an ASCII character"
 
+- id: "ErrURI"
+  translation: "target is not a valid URI"
+
+- id: "ErrURL"
+  translation: "target is not a valid URL"
+
+- id: "ErrHTTPURL"
+  translation: "target is not a valid HTTP or HTTPS URL"
+
+- id: "ErrHTTPSURL"
+  translation: "target is not a valid HTTPS URL"
+
+- id: "ErrURLEncoded"
+  translation: "target is not URL-encoded"
+
+- id: "ErrIP"
+  translation: "target is not a valid IP address"
+
 - id: "ErrEmail"
   translation: "target is not a valid email address"
 

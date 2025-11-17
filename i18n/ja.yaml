@@ -79,6 +79,24 @@
 - id: "ErrASCII"
   translation: "値がASCII文字ではありません"
 
+- id: "ErrURI"
+  translation: "値がURIではありません"
+
+- id: "ErrURL"
+  translation: "値がURLではありません"
+
+- id: "ErrHTTPURL"
+  translation: "値がHTTP/HTTPSのURLではありません"
+
+- id: "ErrHTTPSURL"
+  translation: "値がHTTPSのURLではありません"
+
+- id: "ErrURLEncoded"
+  translation: "値がURLエンコードされていません"
+
+- id: "ErrIP"
+  translation: "値がIPアドレスではありません"
+
 - id: "ErrEmail"
   translation: "値がメールアドレスではありません"
 

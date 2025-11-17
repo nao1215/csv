@@ -2,6 +2,8 @@ package csv
 
 import (
 	"fmt"
+	"net"
+	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
@@ -9,6 +11,8 @@ import (
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/rivo/uniseg"
 )
+
+const fileScheme = "file"
 
 // validator is a struct that contains the validation rules for a column.
 type validators []validator
@@ -473,6 +477,173 @@ func (a *asciiValidator) Do(localizer *i18n.Localizer, target any) error {
 		if r > maxASCII {
 			return NewError(localizer, ErrASCIIID, fmt.Sprintf("value=%v", target))
 		}
+	}
+	return nil
+}
+
+// uriValidator validates generic URIs (scheme required, host optional).
+// It mirrors go-playground/validator's `uri` rule and accepts values like "foo://bar",
+// while still rejecting empty strings or malformed request URIs.
+type uriValidator struct{}
+
+// newURIValidator returns a new uriValidator.
+func newURIValidator() *uriValidator {
+	return &uriValidator{}
+}
+
+// Do validates the target is a URI.
+func (u *uriValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrURIID, fmt.Sprintf("value=%v", target))
+	}
+
+	if v == "" {
+		return NewError(localizer, ErrURIID, fmt.Sprintf("value=%v", target))
+	}
+
+	if i := strings.Index(v, "#"); i > -1 {
+		v = v[:i]
+	}
+
+	if _, err := url.ParseRequestURI(v); err != nil {
+		return NewError(localizer, ErrURIID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// urlValidator is a struct that contains the validation rules for a URL column.
+// It requires a scheme and either a host (for http/https/etc.) or a non-empty path for file:,
+// matching the simplified URL check from go-playground/validator's `url` rule.
+type urlValidator struct{}
+
+// newURLValidator returns a new urlValidator.
+func newURLValidator() *urlValidator {
+	return &urlValidator{}
+}
+
+// Do validates the target is a URL.
+func (u *urlValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrURLID, fmt.Sprintf("value=%v", target))
+	}
+
+	if v == "" {
+		return NewError(localizer, ErrURLID, fmt.Sprintf("value=%v", target))
+	}
+
+	parsed, err := url.Parse(strings.ToLower(v))
+	if err != nil || parsed.Scheme == "" {
+		return NewError(localizer, ErrURLID, fmt.Sprintf("value=%v", target))
+	}
+
+	isFileScheme := parsed.Scheme == fileScheme
+	if (isFileScheme && (parsed.Path == "" || parsed.Path == "/")) || (!isFileScheme && parsed.Host == "" && parsed.Fragment == "" && parsed.Opaque == "") {
+		return NewError(localizer, ErrURLID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// ipValidator validates IPv4 or IPv6 addresses.
+type ipValidator struct{}
+
+// newIPValidator returns a new ipValidator.
+func newIPValidator() *ipValidator {
+	return &ipValidator{}
+}
+
+// Do validates the target is a valid IP address.
+func (i *ipValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrIPID, fmt.Sprintf("value=%v", target))
+	}
+
+	if v == "" || net.ParseIP(v) == nil {
+		return NewError(localizer, ErrIPID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// httpURLValidator validates http or https URLs with a required host.
+type httpURLValidator struct{}
+
+// newHTTPURLValidator returns a new httpURLValidator.
+func newHTTPURLValidator() *httpURLValidator {
+	return &httpURLValidator{}
+}
+
+// Do validates the target is an HTTP or HTTPS URL with host present.
+func (u *httpURLValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrHTTPURLID, fmt.Sprintf("value=%v", target))
+	}
+
+	parsed, err := url.Parse(strings.ToLower(v))
+	if err != nil || parsed.Host == "" {
+		return NewError(localizer, ErrHTTPURLID, fmt.Sprintf("value=%v", target))
+	}
+
+	if parsed.Scheme != "http" && parsed.Scheme != "https" {
+		return NewError(localizer, ErrHTTPURLID, fmt.Sprintf("value=%v", target))
+	}
+
+	// Reuse the general URL shape check for consistency.
+	isFileScheme := parsed.Scheme == fileScheme
+	if (isFileScheme && (parsed.Path == "" || parsed.Path == "/")) || (!isFileScheme && parsed.Host == "" && parsed.Fragment == "" && parsed.Opaque == "") {
+		return NewError(localizer, ErrHTTPURLID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// httpsURLValidator validates https URLs with a required host.
+type httpsURLValidator struct{}
+
+// newHTTPSURLValidator returns a new httpsURLValidator.
+func newHTTPSURLValidator() *httpsURLValidator {
+	return &httpsURLValidator{}
+}
+
+// Do validates the target is an HTTPS URL with host present.
+func (u *httpsURLValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrHTTPSURLID, fmt.Sprintf("value=%v", target))
+	}
+
+	parsed, err := url.Parse(strings.ToLower(v))
+	if err != nil || parsed.Host == "" || parsed.Scheme != "https" {
+		return NewError(localizer, ErrHTTPSURLID, fmt.Sprintf("value=%v", target))
+	}
+
+	isFileScheme := parsed.Scheme == fileScheme
+	if (isFileScheme && (parsed.Path == "" || parsed.Path == "/")) || (!isFileScheme && parsed.Host == "" && parsed.Fragment == "" && parsed.Opaque == "") {
+		return NewError(localizer, ErrHTTPSURLID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+var urlEncodedRegexp = regexp.MustCompile(`^(?:[^%]|%[0-9A-Fa-f]{2})*$`)
+
+// urlEncodedValidator validates URL-encoded strings (no invalid % escapes).
+type urlEncodedValidator struct{}
+
+// newURLEncodedValidator returns a new urlEncodedValidator.
+func newURLEncodedValidator() *urlEncodedValidator {
+	return &urlEncodedValidator{}
+}
+
+// Do validates the target is URL encoded.
+func (u *urlEncodedValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrURLEncodedID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !urlEncodedRegexp.MatchString(v) {
+		return NewError(localizer, ErrURLEncodedID, fmt.Sprintf("value=%v", target))
 	}
 	return nil
 }
