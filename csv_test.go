@@ -1122,6 +1122,63 @@ Value
 		}
 	})
 
+	t.Run("validate ne_ignore_case", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+Match
+match
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type neIgnoreCase struct {
+			Name string `validate:"ne_ignore_case=match"`
+		}
+
+		list := make([]neIgnoreCase, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target is equal to the value (case-insensitive): ne_ignore_case=match, value=Match" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid ne_ignore_case tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+Value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type neIgnoreCase struct {
+			Name string `validate:"ne_ignore_case="`
+		}
+
+		list := make([]neIgnoreCase, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'ne_ignore_case' tag format is invalid: ne_ignore_case=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate alphaspace", func(t *testing.T) {
 		t.Parallel()
 

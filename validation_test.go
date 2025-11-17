@@ -1192,3 +1192,42 @@ func Test_equalIgnoreCaseValidator_Do(t *testing.T) {
 		})
 	}
 }
+
+func Test_notEqualIgnoreCaseValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		n       *notEqualIgnoreCaseValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target not equal ignoring case",
+			n:       newNotEqualIgnoreCaseValidator("Value"),
+			arg:     "other",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target equals ignoring case",
+			n:       newNotEqualIgnoreCaseValidator("Value"),
+			arg:     "value",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			n:       newNotEqualIgnoreCaseValidator("Value"),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.n.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("notEqualIgnoreCaseValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
