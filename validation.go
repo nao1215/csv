@@ -1019,6 +1019,29 @@ func (m *multibyteValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
+// printASCIIValidator validates printable ASCII strings.
+type printASCIIValidator struct{}
+
+// newPrintASCIIValidator returns a new printASCIIValidator.
+func newPrintASCIIValidator() *printASCIIValidator {
+	return &printASCIIValidator{}
+}
+
+// Do validates the target contains only printable ASCII characters (0x20-0x7E).
+func (p *printASCIIValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrPrintASCIIID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, r := range v {
+		if r < 0x20 || r > 0x7e {
+			return NewError(localizer, ErrPrintASCIIID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	return nil
+}
+
 // containsValidator is a struct that contains the validation rules for a contains column.
 type containsValidator struct {
 	contains string

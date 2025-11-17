@@ -949,6 +949,35 @@ hello
 		}
 	})
 
+	t.Run("validate printascii", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+hello
+こんにちは
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type printASCII struct {
+			Name string `validate:"printascii"`
+		}
+
+		list := make([]printASCII, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not printable ASCII: value=こんにちは" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate eq_ignore_case", func(t *testing.T) {
 		t.Parallel()
 

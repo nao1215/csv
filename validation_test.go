@@ -614,6 +614,51 @@ func Test_multibyteValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_printASCIIValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		p       *printASCIIValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target is printable ASCII",
+			p:       newPrintASCIIValidator(),
+			arg:     "Hello, World! 123",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target contains multibyte",
+			p:       newPrintASCIIValidator(),
+			arg:     "こんにちは",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target contains control char",
+			p:       newPrintASCIIValidator(),
+			arg:     "Hello\tWorld",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			p:       newPrintASCIIValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.p.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("printASCIIValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_urlValidator_Do(t *testing.T) {
 	t.Parallel()
 

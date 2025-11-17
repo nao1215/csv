@@ -97,6 +97,7 @@ for _, err := range errs {
 | excludesall  | Must not contain any of the specified runes |
 | excludesrune | Must not contain the specified rune      |
 | multibyte    | Contains at least one multibyte character|
+| printascii   | Printable ASCII characters only          |
 | lowercase    | Lowercase only                           |
 | numeric      | Numeric only                             |
 | uppercase    | Uppercase only                           |

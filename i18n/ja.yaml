@@ -142,6 +142,9 @@
 - id: "ErrMultibyte"
   translation: "マルチバイト文字を含んでいません"
 
+- id: "ErrPrintASCII"
+  translation: "印字可能なASCII文字ではありません"
+
 - id: "ErrContains"
   translation: "指定された値を含んでいません"
 

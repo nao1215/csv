@@ -92,6 +92,8 @@ const (
 	excludesRuneTagValue tagValue = "excludesrune"
 	// multibyteTagValue is the struct tag name for multibyte fields.
 	multibyteTagValue tagValue = "multibyte"
+	// printASCIITagValue is the struct tag name for printable ascii fields.
+	printASCIITagValue tagValue = "printascii"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.

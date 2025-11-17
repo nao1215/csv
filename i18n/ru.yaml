@@ -136,6 +136,9 @@
 - id: "ErrMultibyte"
   translation: "целевое значение не содержит многобайтные символы"
 
+- id: "ErrPrintASCII"
+  translation: "целевое значение не является печатаемым ASCII"
+
 - id: "ErrContains"
   translation: "целевое значение не содержит подстроку"
 

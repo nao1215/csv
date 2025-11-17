@@ -217,6 +217,8 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 				return nil, NewError(c.i18nLocalizer, ErrInvalidExcludesRuneFormatID, t)
 			}
 			validatorList = append(validatorList, newExcludesRuneValidator([]rune(values[0])[0]))
+		case strings.HasPrefix(t, printASCIITagValue.String()):
+			validatorList = append(validatorList, newPrintASCIIValidator())
 		case strings.HasPrefix(t, excludesTagValue.String()):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {

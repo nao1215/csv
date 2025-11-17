@@ -156,6 +156,8 @@ var (
 	ErrInvalidExcludesRuneFormatID = "ErrInvalidExcludesRuneFormat"
 	// ErrMultibyteID is the error ID used when the target does not contain multibyte characters.
 	ErrMultibyteID = "ErrMultibyte"
+	// ErrPrintASCIIID is the error ID used when the target contains non printable ASCII characters.
+	ErrPrintASCIIID = "ErrPrintASCII"
 	// ErrContainsID is the error ID used when the target does not contain the specified value.
 	ErrContainsID = "ErrContains"
 	// ErrInvalidContainsFormatID is the error ID used when the contains format is invalid.

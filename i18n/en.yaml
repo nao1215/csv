@@ -136,6 +136,9 @@
 - id: "ErrMultibyte"
   translation: "target does not contain multibyte characters"
 
+- id: "ErrPrintASCII"
+  translation: "target is not printable ASCII"
+
 - id: "ErrContains"
   translation: "target does not contain the specified value"
 
