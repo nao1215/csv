@@ -578,6 +578,63 @@ badあ@example.com
 		}
 	})
 
+	t.Run("validate startswith", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+prefix-value
+mismatch
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type startsWith struct {
+			Name string `validate:"startswith=pre"`
+		}
+
+		startsWithList := make([]startsWith, 0)
+		errs := c.Decode(&startsWithList)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target does not start with the specified value: startswith=pre, value=mismatch" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid startswith tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+prefix-value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type startsWith struct {
+			Name string `validate:"startswith="`
+		}
+
+		startsWithList := make([]startsWith, 0)
+		errs := c.Decode(&startsWithList)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'startswith' tag format is invalid: startswith=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate contains", func(t *testing.T) {
 		t.Parallel()
 

@@ -70,6 +70,9 @@
 - id: "ErrEmail"
   translation: "target is not a valid email address"
 
+- id: "ErrStartsWith"
+  translation: "target does not start with the specified value"
+
 - id: "ErrContains"
   translation: "target does not contain the specified value"
 
@@ -81,3 +84,6 @@
 
 - id: "ErrInvalidContainsAnyFormat"
   translation: "'containsany' tag format is invalid"
+
+- id: "ErrInvalidStartsWithFormat"
+  translation: "'startswith' tag format is invalid"

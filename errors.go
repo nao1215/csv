@@ -98,6 +98,10 @@ var (
 	ErrASCIIID = "ErrASCII"
 	// ErrEmailID is the error ID used when the target is not an email.
 	ErrEmailID = "ErrEmail"
+	// ErrStartsWithID is the error ID used when the target does not start with the specified value.
+	ErrStartsWithID = "ErrStartsWith"
+	// ErrInvalidStartsWithFormatID is the error ID used when the startswith format is invalid.
+	ErrInvalidStartsWithFormatID = "ErrInvalidStartsWithFormat"
 	// ErrContainsID is the error ID used when the target does not contain the specified value.
 	ErrContainsID = "ErrContains"
 	// ErrInvalidContainsFormatID is the error ID used when the contains format is invalid.

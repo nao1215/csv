@@ -86,6 +86,7 @@ for _, err := range errs {
 | boolean      | Boolean values                           |
 | contains     | Contains substring                       |
 | containsany  | Contains any of the specified characters |
+| startswith   | Starts with the specified substring      |
 | lowercase    | Lowercase only                           |
 | numeric      | Numeric only                             |
 | uppercase    | Uppercase only                           |
