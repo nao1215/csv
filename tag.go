@@ -114,6 +114,8 @@ const (
 	cidrv6TagValue tagValue = "cidrv6"
 	// equalFieldTagValue is the struct tag name for equal to another field (same struct, flat).
 	equalFieldTagValue tagValue = "eqfield"
+	// greaterThanFieldTagValue is the struct tag name for greater than another field (same struct, flat).
+	greaterThanFieldTagValue tagValue = "gtfield"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.

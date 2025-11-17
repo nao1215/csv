@@ -37,6 +37,9 @@
 - id: "ErrInvalidGteFieldFormat"
   translation: "'gtefield' tag format is invalid"
 
+- id: "ErrInvalidGtFieldFormat"
+  translation: "'gtfield' tag format is invalid"
+
 - id: "ErrEqualField"
   translation: "field is not equal to the specified field"
 
@@ -48,6 +51,9 @@
 
 - id: "ErrGteField"
   translation: "field is not greater than or equal to the specified field"
+
+- id: "ErrGtField"
+  translation: "field is not greater than the specified field"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "target is not an alphanumeric character"
