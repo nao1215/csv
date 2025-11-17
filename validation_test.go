@@ -129,6 +129,89 @@ func Test_alphaValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_alphaSpaceValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		a       *alphaSpaceValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target has alphabets and spaces",
+			a:       newAlphaSpaceValidator(),
+			arg:     "hello world",
+			wantErr: false,
+		},
+		{
+			name:    "should return nil if target is empty string",
+			a:       newAlphaSpaceValidator(),
+			arg:     "",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if contains number",
+			a:       newAlphaSpaceValidator(),
+			arg:     "hello world1",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if not a string",
+			a:       newAlphaSpaceValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := tt.a.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("alphaSpaceValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_alphaUnicodeValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		a       *alphaUnicodeValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target is unicode letters",
+			a:       newAlphaUnicodeValidator(),
+			arg:     "東京ΑΒΓабв",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if contains number",
+			a:       newAlphaUnicodeValidator(),
+			arg:     "東京1",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if not a string",
+			a:       newAlphaUnicodeValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.a.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("alphaUnicodeValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_numericValidator_Do(t *testing.T) {
 	t.Parallel()
 
@@ -175,6 +258,147 @@ func Test_numericValidator_Do(t *testing.T) {
 			n := &numericValidator{}
 			if err := n.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
 				t.Errorf("numericValidator.Do() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func Test_numberValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		n       *numberValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil for integer",
+			n:       newNumberValidator(),
+			arg:     "123",
+			wantErr: false,
+		},
+		{
+			name:    "should return nil for signed integer",
+			n:       newNumberValidator(),
+			arg:     "-10",
+			wantErr: false,
+		},
+		{
+			name:    "should return nil for decimal",
+			n:       newNumberValidator(),
+			arg:     "+3.14",
+			wantErr: false,
+		},
+		{
+			name:    "should return error for trailing dot",
+			n:       newNumberValidator(),
+			arg:     "1.",
+			wantErr: true,
+		},
+		{
+			name:    "should return error for leading dot",
+			n:       newNumberValidator(),
+			arg:     ".5",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if not string",
+			n:       newNumberValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+		{
+			name:    "should return error if empty string",
+			n:       newNumberValidator(),
+			arg:     "",
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.n.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("numberValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_containsRuneValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		c       *containsRuneValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target contains rune",
+			c:       newContainsRuneValidator('界'),
+			arg:     "こんにちは世界",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target does not contain rune",
+			c:       newContainsRuneValidator('界'),
+			arg:     "こんにちは",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			c:       newContainsRuneValidator('界'),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.c.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("containsRuneValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_alphanumericUnicodeValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		a       *alphanumericUnicodeValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target is alphanumeric unicode",
+			a:       newAlphanumericUnicodeValidator(),
+			arg:     "東京123abc",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target contains symbol",
+			a:       newAlphanumericUnicodeValidator(),
+			arg:     "東京123abc!",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			a:       newAlphanumericUnicodeValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.a.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("alphanumericUnicodeValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
 			}
 		})
 	}
@@ -253,6 +477,285 @@ func Test_endsWithValidator_Do(t *testing.T) {
 			t.Parallel()
 			if err := tt.e.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
 				t.Errorf("endsWithValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_endsNotWithValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		e       *endsNotWithValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target does not end with suffix",
+			e:       newEndsNotWithValidator("fix"),
+			arg:     "value",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target ends with suffix",
+			e:       newEndsNotWithValidator("fix"),
+			arg:     "suffix",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not a string",
+			e:       newEndsNotWithValidator("fix"),
+			arg:     10,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.e.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("endsNotWithValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_startsNotWithValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		s       *startsNotWithValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target does not start with prefix",
+			s:       newStartsNotWithValidator("pre"),
+			arg:     "value",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target starts with prefix",
+			s:       newStartsNotWithValidator("pre"),
+			arg:     "prefix",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			s:       newStartsNotWithValidator("pre"),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.s.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("startsNotWithValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_excludesValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		e       *excludesValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target does not contain excluded substring",
+			e:       newExcludesValidator("bad"),
+			arg:     "good value",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target contains excluded substring",
+			e:       newExcludesValidator("bad"),
+			arg:     "this is bad value",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not a string",
+			e:       newExcludesValidator("bad"),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.e.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("excludesValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_excludesAllValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		e       *excludesAllValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target does not contain any excluded runes",
+			e:       newExcludesAllValidator("!@"),
+			arg:     "hello world",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target contains excluded rune",
+			e:       newExcludesAllValidator("!@"),
+			arg:     "hello@world",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not a string",
+			e:       newExcludesAllValidator("!@"),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.e.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("excludesAllValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_excludesRuneValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		e       *excludesRuneValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target does not contain rune",
+			e:       newExcludesRuneValidator('禁'),
+			arg:     "許可",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target contains rune",
+			e:       newExcludesRuneValidator('禁'),
+			arg:     "禁止",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			e:       newExcludesRuneValidator('禁'),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.e.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("excludesRuneValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_multibyteValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		m       *multibyteValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target contains multibyte",
+			m:       newMultibyteValidator(),
+			arg:     "こんにちは",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target is ASCII only",
+			m:       newMultibyteValidator(),
+			arg:     "hello",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			m:       newMultibyteValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.m.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("multibyteValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_printASCIIValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		p       *printASCIIValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target is printable ASCII",
+			p:       newPrintASCIIValidator(),
+			arg:     "Hello, World! 123",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target contains multibyte",
+			p:       newPrintASCIIValidator(),
+			arg:     "こんにちは",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target contains control char",
+			p:       newPrintASCIIValidator(),
+			arg:     "Hello\tWorld",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			p:       newPrintASCIIValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.p.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("printASCIIValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
 			}
 		})
 	}

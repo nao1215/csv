@@ -16,10 +16,16 @@ const (
 	booleanTagValue tagValue = "boolean"
 	// alphaTagValue is the struct tag name for alpha only fields.
 	alphaTagValue tagValue = "alpha"
+	// alphaSpaceTagValue is the struct tag name for alpha with spaces fields.
+	alphaSpaceTagValue tagValue = "alphaspace"
+	// alphaUnicodeTagValue is the struct tag name for unicode alpha only fields.
+	alphaUnicodeTagValue tagValue = "alphaunicode"
 	// numericTagValue is the struct tag name for numeric fields.
 	numericTagValue tagValue = "numeric"
 	// alphanumericTagValue is the struct tag name for alphanumeric fields.
 	alphanumericTagValue tagValue = "alphanumeric"
+	// alphanumericUnicodeTagValue is the struct tag name for alphanumeric unicode fields.
+	alphanumericUnicodeTagValue tagValue = "alphanumunicode"
 	// requiredTagValue is the struct tag name for required fields.
 	requiredTagValue tagValue = "required"
 	// equalTagValue is the struct tag name for equal fields.
@@ -50,6 +56,10 @@ const (
 	uppercaseTagValue tagValue = "uppercase"
 	// asciiTagValue is the struct tag name for ascii fields.
 	asciiTagValue tagValue = "ascii"
+	// numberTagValue is the struct tag name for number fields.
+	numberTagValue tagValue = "number"
+	// containsRuneTagValue is the struct tag name for contains rune fields.
+	containsRuneTagValue tagValue = "containsrune"
 	// uriTagValue is the struct tag name for uri fields.
 	uriTagValue tagValue = "uri"
 	// urlTagValue is the struct tag name for url fields.
@@ -72,8 +82,22 @@ const (
 	emailTagValue tagValue = "email"
 	// startsWithTagValue is the struct tag name for startswith fields.
 	startsWithTagValue tagValue = "startswith"
+	// startsNotWithTagValue is the struct tag name for startsnotwith fields.
+	startsNotWithTagValue tagValue = "startsnotwith"
 	// endsWithTagValue is the struct tag name for endswith fields.
 	endsWithTagValue tagValue = "endswith"
+	// endsNotWithTagValue is the struct tag name for endsnotwith fields.
+	endsNotWithTagValue tagValue = "endsnotwith"
+	// excludesTagValue is the struct tag name for excludes fields.
+	excludesTagValue tagValue = "excludes"
+	// excludesAllTagValue is the struct tag name for excludesall fields.
+	excludesAllTagValue tagValue = "excludesall"
+	// excludesRuneTagValue is the struct tag name for excludesrune fields.
+	excludesRuneTagValue tagValue = "excludesrune"
+	// multibyteTagValue is the struct tag name for multibyte fields.
+	multibyteTagValue tagValue = "multibyte"
+	// printASCIITagValue is the struct tag name for printable ascii fields.
+	printASCIITagValue tagValue = "printascii"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.

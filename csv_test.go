@@ -635,6 +635,63 @@ prefix-value
 		}
 	})
 
+	t.Run("validate startsnotwith", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+prefix-value
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type startsNotWith struct {
+			Name string `validate:"startsnotwith=pre"`
+		}
+
+		list := make([]startsNotWith, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target starts with the prohibited prefix: startsnotwith=pre, value=prefix-value" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid startsnotwith tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type startsNotWith struct {
+			Name string `validate:"startsnotwith="`
+		}
+
+		list := make([]startsNotWith, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'startsnotwith' tag format is invalid: startsnotwith=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate endswith", func(t *testing.T) {
 		t.Parallel()
 
@@ -692,6 +749,322 @@ value-suffix
 		}
 	})
 
+	t.Run("validate endsnotwith", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value-suffix
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type endsNotWith struct {
+			Name string `validate:"endsnotwith=fix"`
+		}
+
+		list := make([]endsNotWith, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target ends with the prohibited suffix: endsnotwith=fix, value=value-suffix" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid endsnotwith tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type endsNotWith struct {
+			Name string `validate:"endsnotwith="`
+		}
+
+		list := make([]endsNotWith, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'endsnotwith' tag format is invalid: endsnotwith=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate excludes", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+this is bad value
+this is ok
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludes struct {
+			Name string `validate:"excludes=bad"`
+		}
+
+		list := make([]excludes, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target contains a prohibited substring: excludes=bad, value=this is bad value" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid excludes tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludes struct {
+			Name string `validate:"excludes=bad another"`
+		}
+
+		list := make([]excludes, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'excludes' tag format is invalid: excludes=bad another" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate excludesall", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+hello!
+hello
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludesAll struct {
+			Name string `validate:"excludesall=!@"`
+		}
+
+		list := make([]excludesAll, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target contains one of the prohibited runes: excludesall=!@, value=hello!" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid excludesall tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+hello
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludesAll struct {
+			Name string `validate:"excludesall="`
+		}
+
+		list := make([]excludesAll, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'excludesall' tag format is invalid: excludesall=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate excludesrune", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+禁止
+許可
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludesRune struct {
+			Name string `validate:"excludesrune=禁"`
+		}
+
+		list := make([]excludesRune, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target contains the prohibited rune: excludesrune=禁, value=禁止" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid excludesrune tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludesRune struct {
+			Name string `validate:"excludesrune="`
+		}
+
+		list := make([]excludesRune, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'excludesrune' tag format is invalid: excludesrune=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate number", func(t *testing.T) {
+		t.Parallel()
+
+		input := `value
+123
+-10.5
+bad
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type number struct {
+			Value string `validate:"number"`
+		}
+
+		list := make([]number, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:4 column value: target is not a valid number: value=bad" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate multibyte", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+hello
+こんにちは
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type multibyte struct {
+			Name string `validate:"multibyte"`
+		}
+
+		list := make([]multibyte, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target does not contain multibyte characters: value=hello" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate printascii", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+hello
+こんにちは
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type printASCII struct {
+			Name string `validate:"printascii"`
+		}
+
+		list := make([]printASCII, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not printable ASCII: value=こんにちは" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate eq_ignore_case", func(t *testing.T) {
 		t.Parallel()
 
@@ -743,6 +1116,150 @@ Value
 			switch i {
 			case 0:
 				if err.Error() != "'eq_ignore_case' tag format is invalid: eq_ignore_case=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate alphaspace", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+hello world
+hello_world
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type alphaSpace struct {
+			Name string `validate:"alphaspace"`
+		}
+
+		list := make([]alphaSpace, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not alphabetic or space: value=hello_world" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate alphanumunicode", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+東京123
+東京123!
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type alphaNumUni struct {
+			Name string `validate:"alphanumunicode"`
+		}
+
+		list := make([]alphaNumUni, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not an alphanumeric unicode character: value=東京123!" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate alphaunicode", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+東京
+東京1
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type alphaUni struct {
+			Name string `validate:"alphaunicode"`
+		}
+
+		list := make([]alphaUni, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not a unicode alphabetic character: value=東京1" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate containsrune", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+こんにちは世界
+こんにちは
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type containsRune struct {
+			Name string `validate:"containsrune=界"`
+		}
+
+		list := make([]containsRune, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target does not contain the specified rune: containsrune=界, value=こんにちは" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid containsrune tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+hello
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type containsRune struct {
+			Name string `validate:"containsrune="`
+		}
+
+		list := make([]containsRune, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'containsrune' tag format is invalid: containsrune=" {
 					t.Errorf("CSV.Decode() got errors: %v", err)
 				}
 			}

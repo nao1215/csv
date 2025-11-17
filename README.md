@@ -81,15 +81,27 @@ for _, err := range errs {
 | Tag Name     | Description                              |
 | ------------ | ---------------------------------------- |
 | alpha        | Alphabetic characters only               |
+| alphaunicode | Unicode alphabetic characters            |
 | alphanumeric | Alphanumeric characters                  |
+| alphanumunicode | Unicode letters and digits            |
+| alphaspace   | Alphabetic characters and spaces         |
 | ascii        | ASCII characters only                    |
 | boolean      | Boolean values                           |
 | contains     | Contains substring                       |
 | containsany  | Contains any of the specified characters |
-| startswith   | Starts with the specified substring      |
+| containsrune | Contains the specified rune              |
+| endsnotwith  | Must not end with the specified substring|
 | endswith     | Ends with the specified substring        |
+| excludes     | Must not contain the specified substring |
+| excludesall  | Must not contain any of the specified runes |
+| excludesrune | Must not contain the specified rune      |
 | lowercase    | Lowercase only                           |
+| multibyte    | Contains at least one multibyte character|
+| number       | Signed integer or decimal number         |
 | numeric      | Numeric only                             |
+| printascii   | Printable ASCII characters only          |
+| startsnotwith| Must not start with the specified substring |
+| startswith   | Starts with the specified substring      |
 | uppercase    | Uppercase only                           |
 
 #### Format rules

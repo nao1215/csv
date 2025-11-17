@@ -58,10 +58,22 @@ var (
 	ErrInvalidBooleanID = "ErrInvalidBoolean"
 	// ErrInvalidAlphabetID is the error ID used when the target is not an alphabetic character.
 	ErrInvalidAlphabetID = "ErrInvalidAlphabet"
+	// ErrInvalidAlphaSpaceID is the error ID used when the target is not an alphabetic character or space.
+	ErrInvalidAlphaSpaceID = "ErrInvalidAlphaSpace"
+	// ErrInvalidAlphaUnicodeID is the error ID used when the target is not a unicode alphabetic character.
+	ErrInvalidAlphaUnicodeID = "ErrInvalidAlphaUnicode"
 	// ErrInvalidNumericID is the error ID used when the target is not a numeric character.
 	ErrInvalidNumericID = "ErrInvalidNumeric"
+	// ErrInvalidNumberID is the error ID used when the target is not a number.
+	ErrInvalidNumberID = "ErrInvalidNumber"
 	// ErrInvalidAlphanumericID is the error ID used when the target is not an alphanumeric character.
 	ErrInvalidAlphanumericID = "ErrInvalidAlphanumeric"
+	// ErrInvalidAlphanumericUnicodeID is the error ID used when the target is not an alphanumeric unicode character.
+	ErrInvalidAlphanumericUnicodeID = "ErrInvalidAlphanumericUnicode"
+	// ErrInvalidContainsRuneID is the error ID used when the target does not contain the specified rune.
+	ErrInvalidContainsRuneID = "ErrInvalidContainsRune"
+	// ErrInvalidContainsRuneFormatID is the error ID used when the containsrune format is invalid.
+	ErrInvalidContainsRuneFormatID = "ErrInvalidContainsRuneFormat"
 	// ErrRequiredID is the error ID used when the target is required but is empty.
 	ErrRequiredID = "ErrRequired"
 	// ErrEqualID is the error ID used when the target is not equal to the threshold value.
@@ -122,12 +134,36 @@ var (
 	ErrEmailID = "ErrEmail"
 	// ErrStartsWithID is the error ID used when the target does not start with the specified value.
 	ErrStartsWithID = "ErrStartsWith"
+	// ErrStartsNotWithID is the error ID used when the target starts with the specified value (should not).
+	ErrStartsNotWithID = "ErrStartsNotWith"
 	// ErrInvalidStartsWithFormatID is the error ID used when the startswith format is invalid.
 	ErrInvalidStartsWithFormatID = "ErrInvalidStartsWithFormat"
+	// ErrInvalidStartsNotWithFormatID is the error ID used when the startsnotwith format is invalid.
+	ErrInvalidStartsNotWithFormatID = "ErrInvalidStartsNotWithFormat"
 	// ErrEndsWithID is the error ID used when the target does not end with the specified value.
 	ErrEndsWithID = "ErrEndsWith"
 	// ErrInvalidEndsWithFormatID is the error ID used when the endswith format is invalid.
 	ErrInvalidEndsWithFormatID = "ErrInvalidEndsWithFormat"
+	// ErrEndsNotWithID is the error ID used when the target ends with the specified value (should not).
+	ErrEndsNotWithID = "ErrEndsNotWith"
+	// ErrInvalidEndsNotWithFormatID is the error ID used when the endsnotwith format is invalid.
+	ErrInvalidEndsNotWithFormatID = "ErrInvalidEndsNotWithFormat"
+	// ErrExcludesID is the error ID used when the target contains the specified excluded value.
+	ErrExcludesID = "ErrExcludes"
+	// ErrInvalidExcludesFormatID is the error ID used when the excludes format is invalid.
+	ErrInvalidExcludesFormatID = "ErrInvalidExcludesFormat"
+	// ErrExcludesAllID is the error ID used when the target contains any of the specified excluded runes.
+	ErrExcludesAllID = "ErrExcludesAll"
+	// ErrInvalidExcludesAllFormatID is the error ID used when the excludesall format is invalid.
+	ErrInvalidExcludesAllFormatID = "ErrInvalidExcludesAllFormat"
+	// ErrExcludesRuneID is the error ID used when the target contains the specified rune.
+	ErrExcludesRuneID = "ErrExcludesRune"
+	// ErrInvalidExcludesRuneFormatID is the error ID used when the excludesrune format is invalid.
+	ErrInvalidExcludesRuneFormatID = "ErrInvalidExcludesRuneFormat"
+	// ErrMultibyteID is the error ID used when the target does not contain multibyte characters.
+	ErrMultibyteID = "ErrMultibyte"
+	// ErrPrintASCIIID is the error ID used when the target contains non printable ASCII characters.
+	ErrPrintASCIIID = "ErrPrintASCII"
 	// ErrContainsID is the error ID used when the target does not contain the specified value.
 	ErrContainsID = "ErrContains"
 	// ErrInvalidContainsFormatID is the error ID used when the contains format is invalid.

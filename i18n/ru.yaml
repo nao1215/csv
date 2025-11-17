@@ -13,11 +13,26 @@
 - id: "ErrInvalidAlphabet"
   translation: "целевое значение не является алфавитным символом"
 
+- id: "ErrInvalidAlphaUnicode"
+  translation: "целевое значение не является алфавитным символом (Unicode)"
+
+- id: "ErrInvalidAlphaSpace"
+  translation: "целевое значение не является алфавитой или пробелом"
+
 - id: "ErrInvalidNumeric"
   translation: "целевое значение не является числовым символом"
 
+- id: "ErrInvalidNumber"
+  translation: "целевое значение не является числом"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "целевое значение не является буквенно-цифровым символом"
+
+- id: "ErrInvalidAlphanumericUnicode"
+  translation: "целевое значение не является буквенно-цифровым символом (Unicode)"
+
+- id: "ErrInvalidContainsRune"
+  translation: "целевое значение не содержит указанный символ (руну)"
 
 - id: "ErrRequired"
   translation: "целевое значение обязательно, но оно пустое"
@@ -106,8 +121,29 @@
 - id: "ErrStartsWith"
   translation: "целевое значение не начинается с указанного значения"
 
+- id: "ErrStartsNotWith"
+  translation: "целевое значение не должно начинаться с указанного значения"
+
 - id: "ErrEndsWith"
   translation: "целевое значение не заканчивается указанным значением"
+
+- id: "ErrEndsNotWith"
+  translation: "целевое значение не должно заканчиваться указанным значением"
+
+- id: "ErrExcludes"
+  translation: "целевое значение содержит запрещенную подстроку"
+
+- id: "ErrExcludesAll"
+  translation: "целевое значение содержит один из запрещенных символов"
+
+- id: "ErrExcludesRune"
+  translation: "целевое значение содержит запрещенный символ (руну)"
+
+- id: "ErrMultibyte"
+  translation: "целевое значение не содержит многобайтные символы"
+
+- id: "ErrPrintASCII"
+  translation: "целевое значение не является печатаемым ASCII"
 
 - id: "ErrContains"
   translation: "целевое значение не содержит подстроку"
@@ -124,5 +160,23 @@
 - id: "ErrInvalidStartsWithFormat"
   translation: "Формат тега 'startswith' недопустим"
 
+- id: "ErrInvalidStartsNotWithFormat"
+  translation: "Формат тега 'startsnotwith' недопустим"
+
 - id: "ErrInvalidEndsWithFormat"
   translation: "Формат тега 'endswith' недопустим"
+
+- id: "ErrInvalidEndsNotWithFormat"
+  translation: "Формат тега 'endsnotwith' недопустим"
+
+- id: "ErrInvalidExcludesFormat"
+  translation: "Формат тега 'excludes' недопустим"
+
+- id: "ErrInvalidExcludesAllFormat"
+  translation: "Формат тега 'excludesall' недопустим"
+
+- id: "ErrInvalidExcludesRuneFormat"
+  translation: "Формат тега 'excludesrune' недопустим"
+
+- id: "ErrInvalidContainsRuneFormat"
+  translation: "Формат тега 'containsrune' недопустим"

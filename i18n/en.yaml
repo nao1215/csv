@@ -13,11 +13,26 @@
 - id: "ErrInvalidAlphabet"
   translation: "target is not an alphabetic character"
 
+- id: "ErrInvalidAlphaUnicode"
+  translation: "target is not a unicode alphabetic character"
+
+- id: "ErrInvalidAlphaSpace"
+  translation: "target is not alphabetic or space"
+
 - id: "ErrInvalidNumeric"
   translation: "target is not a numeric character"
 
+- id: "ErrInvalidNumber"
+  translation: "target is not a valid number"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "target is not an alphanumeric character"
+
+- id: "ErrInvalidAlphanumericUnicode"
+  translation: "target is not an alphanumeric unicode character"
+
+- id: "ErrInvalidContainsRune"
+  translation: "target does not contain the specified rune"
 
 - id: "ErrRequired"
   translation: "target is required but is empty"
@@ -106,8 +121,29 @@
 - id: "ErrStartsWith"
   translation: "target does not start with the specified value"
 
+- id: "ErrStartsNotWith"
+  translation: "target starts with the prohibited prefix"
+
 - id: "ErrEndsWith"
   translation: "target does not end with the specified value"
+
+- id: "ErrEndsNotWith"
+  translation: "target ends with the prohibited suffix"
+
+- id: "ErrExcludes"
+  translation: "target contains a prohibited substring"
+
+- id: "ErrExcludesAll"
+  translation: "target contains one of the prohibited runes"
+
+- id: "ErrExcludesRune"
+  translation: "target contains the prohibited rune"
+
+- id: "ErrMultibyte"
+  translation: "target does not contain multibyte characters"
+
+- id: "ErrPrintASCII"
+  translation: "target is not printable ASCII"
 
 - id: "ErrContains"
   translation: "target does not contain the specified value"
@@ -124,5 +160,23 @@
 - id: "ErrInvalidStartsWithFormat"
   translation: "'startswith' tag format is invalid"
 
+- id: "ErrInvalidStartsNotWithFormat"
+  translation: "'startsnotwith' tag format is invalid"
+
 - id: "ErrInvalidEndsWithFormat"
   translation: "'endswith' tag format is invalid"
+
+- id: "ErrInvalidEndsNotWithFormat"
+  translation: "'endsnotwith' tag format is invalid"
+
+- id: "ErrInvalidExcludesFormat"
+  translation: "'excludes' tag format is invalid"
+
+- id: "ErrInvalidExcludesAllFormat"
+  translation: "'excludesall' tag format is invalid"
+
+- id: "ErrInvalidExcludesRuneFormat"
+  translation: "'excludesrune' tag format is invalid"
+
+- id: "ErrInvalidContainsRuneFormat"
+  translation: "'containsrune' tag format is invalid"

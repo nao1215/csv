@@ -13,11 +13,26 @@
 - id: "ErrInvalidAlphabet"
   translation: "値がアルファベット文字ではありません"
 
+- id: "ErrInvalidAlphaUnicode"
+  translation: "値がユニコードのアルファベットではありません"
+
+- id: "ErrInvalidAlphaSpace"
+  translation: "値がアルファベットまたはスペースではありません"
+
 - id: "ErrInvalidNumeric"
   translation: "値が数字ではありません"
 
+- id: "ErrInvalidNumber"
+  translation: "値が数値ではありません"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"
+
+- id: "ErrInvalidAlphanumericUnicode"
+  translation: "値が英数字（ユニコード）ではありません"
+
+- id: "ErrInvalidContainsRune"
+  translation: "指定したルーンを含んでいません"
 
 - id: "ErrRequired"
   translation: "必須パラメータが空です"
@@ -112,8 +127,29 @@
 - id: "ErrStartsWith"
   translation: "指定した値で始まっていません"
 
+- id: "ErrStartsNotWith"
+  translation: "指定した値で始まってはいけません"
+
 - id: "ErrEndsWith"
   translation: "指定した値で終わっていません"
+
+- id: "ErrEndsNotWith"
+  translation: "指定した値で終わってはいけません"
+
+- id: "ErrExcludes"
+  translation: "禁止されている文字列を含んでいます"
+
+- id: "ErrExcludesAll"
+  translation: "禁止されている文字が含まれています"
+
+- id: "ErrExcludesRune"
+  translation: "禁止されている文字を含んでいます"
+
+- id: "ErrMultibyte"
+  translation: "マルチバイト文字を含んでいません"
+
+- id: "ErrPrintASCII"
+  translation: "印字可能なASCII文字ではありません"
 
 - id: "ErrContains"
   translation: "指定された値を含んでいません"
@@ -130,5 +166,23 @@
 - id: "ErrInvalidStartsWithFormat"
   translation: "'startswith'タグの形式が無効です"
 
+- id: "ErrInvalidStartsNotWithFormat"
+  translation: "'startsnotwith'タグの形式が無効です"
+
 - id: "ErrInvalidEndsWithFormat"
   translation: "'endswith'タグの形式が無効です"
+
+- id: "ErrInvalidEndsNotWithFormat"
+  translation: "'endsnotwith'タグの形式が無効です"
+
+- id: "ErrInvalidExcludesFormat"
+  translation: "'excludes'タグの形式が無効です"
+
+- id: "ErrInvalidExcludesAllFormat"
+  translation: "'excludesall'タグの形式が無効です"
+
+- id: "ErrInvalidExcludesRuneFormat"
+  translation: "'excludesrune'タグの形式が無効です"
+
+- id: "ErrInvalidContainsRuneFormat"
+  translation: "'containsrune'タグの形式が無効です"

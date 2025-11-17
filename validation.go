@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
+	"unicode"
+	"unicode/utf8"
 
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/rivo/uniseg"
@@ -70,6 +72,52 @@ func isAlpha(r rune) bool {
 	return r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z'
 }
 
+// alphaUnicodeValidator validates unicode alphabetic characters.
+type alphaUnicodeValidator struct{}
+
+// newAlphaUnicodeValidator returns a new alphaUnicodeValidator.
+func newAlphaUnicodeValidator() *alphaUnicodeValidator {
+	return &alphaUnicodeValidator{}
+}
+
+// Do validates the target string only contains unicode letters.
+func (a *alphaUnicodeValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidAlphaUnicodeID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, r := range v {
+		if !unicode.IsLetter(r) {
+			return NewError(localizer, ErrInvalidAlphaUnicodeID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	return nil
+}
+
+// alphaSpaceValidator validates strings that contain only alphabetic characters or spaces.
+type alphaSpaceValidator struct{}
+
+// newAlphaSpaceValidator returns a new alphaSpaceValidator.
+func newAlphaSpaceValidator() *alphaSpaceValidator {
+	return &alphaSpaceValidator{}
+}
+
+// Do validates the target string only contains alphabetic characters or spaces.
+func (a *alphaSpaceValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidAlphaSpaceID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, r := range v {
+		if !isAlpha(r) && r != ' ' {
+			return NewError(localizer, ErrInvalidAlphaSpaceID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	return nil
+}
+
 // numericValidator is a struct that contains the validation rules for a numeric column.
 type numericValidator struct{}
 
@@ -100,6 +148,33 @@ func isNumeric(r rune) bool {
 	return r >= '0' && r <= '9'
 }
 
+// numberValidator is a struct that contains the validation rules for a number column.
+// It accepts signed integers and decimals (ASCII), rejecting malformed numbers (e.g., ".5", "5.", "1.2.3").
+type numberValidator struct {
+	regexp *regexp.Regexp
+}
+
+// newNumberValidator returns a new numberValidator.
+func newNumberValidator() *numberValidator {
+	const numberPattern = `^[-+]?[0-9]+(\.[0-9]+)?$`
+	return &numberValidator{
+		regexp: regexp.MustCompile(numberPattern),
+	}
+}
+
+// Do validates the target as a number (integer or decimal with optional sign).
+func (n *numberValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidNumberID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !n.regexp.MatchString(v) {
+		return NewError(localizer, ErrInvalidNumberID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
 // alphanumericValidator is a struct that contains the validation rules for an alphanumeric column.
 type alphanumericValidator struct{}
 
@@ -118,6 +193,29 @@ func (a *alphanumericValidator) Do(localizer *i18n.Localizer, target any) error 
 	for _, r := range v {
 		if !isAlpha(r) && !isNumeric(r) {
 			return NewError(localizer, ErrInvalidAlphanumericID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	return nil
+}
+
+// alphanumericUnicodeValidator validates alphanumeric unicode strings.
+type alphanumericUnicodeValidator struct{}
+
+// newAlphanumericUnicodeValidator returns a new alphanumericUnicodeValidator.
+func newAlphanumericUnicodeValidator() *alphanumericUnicodeValidator {
+	return &alphanumericUnicodeValidator{}
+}
+
+// Do validates the target string only contains unicode letters or digits.
+func (a *alphanumericUnicodeValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidAlphanumericUnicodeID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, r := range v {
+		if !unicode.IsLetter(r) && !unicode.IsDigit(r) {
+			return NewError(localizer, ErrInvalidAlphanumericUnicodeID, fmt.Sprintf("value=%v", target))
 		}
 	}
 	return nil
@@ -784,6 +882,29 @@ func (s *startsWithValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
+// startsNotWithValidator validates that the target does not start with the prefix.
+type startsNotWithValidator struct {
+	prefix string
+}
+
+// newStartsNotWithValidator returns a new startsNotWithValidator.
+func newStartsNotWithValidator(prefix string) *startsNotWithValidator {
+	return &startsNotWithValidator{prefix: prefix}
+}
+
+// Do validates the target does not start with the prefix.
+func (s *startsNotWithValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrStartsNotWithID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.HasPrefix(v, s.prefix) {
+		return NewError(localizer, ErrStartsNotWithID, fmt.Sprintf("startsnotwith=%s, value=%v", s.prefix, target))
+	}
+	return nil
+}
+
 // equalIgnoreCaseValidator validates that two strings are equal, ignoring case.
 type equalIgnoreCaseValidator struct {
 	expected string
@@ -826,6 +947,147 @@ func (e *endsWithValidator) Do(localizer *i18n.Localizer, target any) error {
 
 	if !strings.HasSuffix(v, e.suffix) {
 		return NewError(localizer, ErrEndsWithID, fmt.Sprintf("endswith=%s, value=%v", e.suffix, target))
+	}
+	return nil
+}
+
+// endsNotWithValidator is a struct that contains the validation rules for an endsnotwith column.
+type endsNotWithValidator struct {
+	suffix string
+}
+
+// newEndsNotWithValidator returns a new endsNotWithValidator.
+func newEndsNotWithValidator(suffix string) *endsNotWithValidator {
+	return &endsNotWithValidator{suffix: suffix}
+}
+
+// Do validates the target does not end with the suffix.
+func (e *endsNotWithValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrEndsNotWithID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.HasSuffix(v, e.suffix) {
+		return NewError(localizer, ErrEndsNotWithID, fmt.Sprintf("endsnotwith=%s, value=%v", e.suffix, target))
+	}
+	return nil
+}
+
+// excludesValidator is a struct that contains the validation rules for an excludes column.
+type excludesValidator struct {
+	excludes string
+}
+
+// newExcludesValidator returns a new excludesValidator.
+func newExcludesValidator(excludes string) *excludesValidator {
+	return &excludesValidator{excludes: excludes}
+}
+
+// Do validates the target does not contain the excluded value.
+func (e *excludesValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrExcludesID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.Contains(v, e.excludes) {
+		return NewError(localizer, ErrExcludesID, fmt.Sprintf("excludes=%s, value=%v", e.excludes, target))
+	}
+	return nil
+}
+
+// excludesAllValidator is a struct that contains the validation rules for excludesall column.
+// It fails if the target contains any rune from the excludes set (go-playground/validator parity).
+type excludesAllValidator struct {
+	excludes string
+}
+
+// newExcludesAllValidator returns a new excludesAllValidator.
+func newExcludesAllValidator(excludes string) *excludesAllValidator {
+	return &excludesAllValidator{excludes: excludes}
+}
+
+// Do validates the target does not contain any rune from excludes.
+func (e *excludesAllValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrExcludesAllID, fmt.Sprintf("value=%v", target))
+	}
+
+	if v == "" || e.excludes == "" {
+		return nil
+	}
+
+	if strings.ContainsAny(v, e.excludes) {
+		return NewError(localizer, ErrExcludesAllID, fmt.Sprintf("excludesall=%s, value=%v", e.excludes, target))
+	}
+	return nil
+}
+
+// excludesRuneValidator validates that target does NOT contain the specified single rune.
+type excludesRuneValidator struct {
+	r rune
+}
+
+// newExcludesRuneValidator returns a new excludesRuneValidator.
+func newExcludesRuneValidator(r rune) *excludesRuneValidator {
+	return &excludesRuneValidator{r: r}
+}
+
+// Do validates the target string does not contain the rune.
+func (e *excludesRuneValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrExcludesRuneID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.ContainsRune(v, e.r) {
+		return NewError(localizer, ErrExcludesRuneID, fmt.Sprintf("excludesrune=%c, value=%v", e.r, target))
+	}
+	return nil
+}
+
+// multibyteValidator validates that target contains multibyte characters.
+type multibyteValidator struct{}
+
+// newMultibyteValidator returns a new multibyteValidator.
+func newMultibyteValidator() *multibyteValidator {
+	return &multibyteValidator{}
+}
+
+// Do validates the target contains at least one multibyte character.
+func (m *multibyteValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrMultibyteID, fmt.Sprintf("value=%v", target))
+	}
+
+	if utf8.RuneCountInString(v) == len(v) || v == "" {
+		return NewError(localizer, ErrMultibyteID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// printASCIIValidator validates printable ASCII strings.
+type printASCIIValidator struct{}
+
+// newPrintASCIIValidator returns a new printASCIIValidator.
+func newPrintASCIIValidator() *printASCIIValidator {
+	return &printASCIIValidator{}
+}
+
+// Do validates the target contains only printable ASCII characters (0x20-0x7E).
+func (p *printASCIIValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrPrintASCIIID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, r := range v {
+		if r < 0x20 || r > 0x7e {
+			return NewError(localizer, ErrPrintASCIIID, fmt.Sprintf("value=%v", target))
+		}
 	}
 	return nil
 }
@@ -876,4 +1138,27 @@ func (c *containsAnyValidator) Do(localizer *i18n.Localizer, target any) error {
 		}
 	}
 	return NewError(localizer, ErrContainsAnyID, fmt.Sprintf("containsany=%s, value=%v", strings.Join(c.contains, " "), target))
+}
+
+// containsRuneValidator validates that target contains the specified rune.
+type containsRuneValidator struct {
+	r rune
+}
+
+// newContainsRuneValidator returns a new containsRuneValidator.
+func newContainsRuneValidator(r rune) *containsRuneValidator {
+	return &containsRuneValidator{r: r}
+}
+
+// Do validates the target string contains the rune.
+func (c *containsRuneValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidContainsRuneID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !strings.ContainsRune(v, c.r) {
+		return NewError(localizer, ErrInvalidContainsRuneID, fmt.Sprintf("containsrune=%c, value=%v", c.r, target))
+	}
+	return nil
 }

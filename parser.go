@@ -61,10 +61,18 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 		switch {
 		case strings.HasPrefix(t, booleanTagValue.String()):
 			validatorList = append(validatorList, newBooleanValidator())
+		case strings.HasPrefix(t, alphaSpaceTagValue.String()):
+			validatorList = append(validatorList, newAlphaSpaceValidator())
+		case strings.HasPrefix(t, alphaUnicodeTagValue.String()):
+			validatorList = append(validatorList, newAlphaUnicodeValidator())
+		case strings.HasPrefix(t, alphanumericUnicodeTagValue.String()):
+			validatorList = append(validatorList, newAlphanumericUnicodeValidator())
 		case strings.HasPrefix(t, alphaTagValue.String()) && !strings.HasPrefix(t, alphanumericTagValue.String()):
 			validatorList = append(validatorList, newAlphaValidator())
 		case strings.HasPrefix(t, numericTagValue.String()):
 			validatorList = append(validatorList, newNumericValidator())
+		case strings.HasPrefix(t, numberTagValue.String()):
+			validatorList = append(validatorList, newNumberValidator())
 		case strings.HasPrefix(t, alphanumericTagValue.String()):
 			validatorList = append(validatorList, newAlphanumericValidator())
 		case strings.HasPrefix(t, requiredTagValue.String()):
@@ -164,7 +172,16 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 			validatorList = append(validatorList, newUUIDValidator())
 		case strings.HasPrefix(t, emailTagValue.String()):
 			validatorList = append(validatorList, newEmailValidator())
-		case strings.HasPrefix(t, startsWithTagValue.String()):
+		case strings.HasPrefix(t, startsNotWithTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidStartsNotWithFormatID, t)
+			}
+			validatorList = append(validatorList, newStartsNotWithValidator(values[0]))
+		case strings.HasPrefix(t, startsWithTagValue.String()+"="):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {
 				return nil, err
@@ -173,7 +190,16 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 				return nil, NewError(c.i18nLocalizer, ErrInvalidStartsWithFormatID, t)
 			}
 			validatorList = append(validatorList, newStartsWithValidator(values[0]))
-		case strings.HasPrefix(t, endsWithTagValue.String()):
+		case strings.HasPrefix(t, endsNotWithTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidEndsNotWithFormatID, t)
+			}
+			validatorList = append(validatorList, newEndsNotWithValidator(values[0]))
+		case strings.HasPrefix(t, endsWithTagValue.String()+"="):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {
 				return nil, err
@@ -182,6 +208,46 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 				return nil, NewError(c.i18nLocalizer, ErrInvalidEndsWithFormatID, t)
 			}
 			validatorList = append(validatorList, newEndsWithValidator(values[0]))
+		case strings.HasPrefix(t, excludesAllTagValue.String()):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidExcludesAllFormatID, t)
+			}
+			validatorList = append(validatorList, newExcludesAllValidator(values[0]))
+		case strings.HasPrefix(t, multibyteTagValue.String()):
+			validatorList = append(validatorList, newMultibyteValidator())
+		case strings.HasPrefix(t, excludesRuneTagValue.String()):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" || len([]rune(values[0])) != 1 {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidExcludesRuneFormatID, t)
+			}
+			validatorList = append(validatorList, newExcludesRuneValidator([]rune(values[0])[0]))
+		case strings.HasPrefix(t, printASCIITagValue.String()):
+			validatorList = append(validatorList, newPrintASCIIValidator())
+		case strings.HasPrefix(t, excludesTagValue.String()):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidExcludesFormatID, t)
+			}
+			validatorList = append(validatorList, newExcludesValidator(values[0]))
+		case strings.HasPrefix(t, containsRuneTagValue.String()):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" || len([]rune(values[0])) != 1 {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidContainsRuneFormatID, t)
+			}
+			validatorList = append(validatorList, newContainsRuneValidator([]rune(values[0])[0]))
 		case strings.HasPrefix(t, containsTagValue.String()) && !strings.HasPrefix(t, containsAnyTagValue.String()):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {
