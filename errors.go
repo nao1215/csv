@@ -100,6 +100,18 @@ var (
 	ErrUppercaseID = "ErrUppercase"
 	// ErrASCIIID is the error ID used when the target is not an ASCII character.
 	ErrASCIIID = "ErrASCII"
+	// ErrURIID is the error ID used when the target is not a URI.
+	ErrURIID = "ErrURI"
+	// ErrURLID is the error ID used when the target is not a URL.
+	ErrURLID = "ErrURL"
+	// ErrHTTPURLID is the error ID used when the target is not an HTTP or HTTPS URL.
+	ErrHTTPURLID = "ErrHTTPURL"
+	// ErrHTTPSURLID is the error ID used when the target is not an HTTPS URL.
+	ErrHTTPSURLID = "ErrHTTPSURL"
+	// ErrURLEncodedID is the error ID used when the target is not URL encoded.
+	ErrURLEncodedID = "ErrURLEncoded"
+	// ErrIPID is the error ID used when the target is not an IP address.
+	ErrIPID = "ErrIP"
 	// ErrEmailID is the error ID used when the target is not an email.
 	ErrEmailID = "ErrEmail"
 	// ErrStartsWithID is the error ID used when the target does not start with the specified value.

@@ -50,6 +50,16 @@ const (
 	uppercaseTagValue tagValue = "uppercase"
 	// asciiTagValue is the struct tag name for ascii fields.
 	asciiTagValue tagValue = "ascii"
+	// uriTagValue is the struct tag name for uri fields.
+	uriTagValue tagValue = "uri"
+	// urlTagValue is the struct tag name for url fields.
+	urlTagValue tagValue = "url"
+	// httpURLTagValue is the struct tag name for http or https url fields.
+	httpURLTagValue tagValue = "http_url"
+	// httpsURLTagValue is the struct tag name for https-only url fields.
+	httpsURLTagValue tagValue = "https_url"
+	// urlEncodedTagValue is the struct tag name for url encoded fields.
+	urlEncodedTagValue tagValue = "url_encoded"
 	// emailTagValue is the struct tag name for email fields.
 	emailTagValue tagValue = "email"
 	// startsWithTagValue is the struct tag name for startswith fields.
@@ -60,6 +70,8 @@ const (
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.
 	containsAnyTagValue tagValue = "containsany"
+	// ipTagValue is the struct tag name for ip fields.
+	ipTagValue tagValue = "ip"
 )
 
 // String returns the string representation of the tag.

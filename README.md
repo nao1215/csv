@@ -94,9 +94,15 @@ for _, err := range errs {
 
 #### Format rules
 
-| Tag Name | Description         |
-| -------- | ------------------- |
-| email    | Valid email address |
+| Tag Name   | Description                                                                                 |
+| ---------- | ------------------------------------------------------------------------------------------- |
+| email      | Valid email address                                                                         |
+| uri        | Valid URI (scheme required, host optional)                                                  |
+| url        | Valid URL (scheme required; `file:` allows path-only, other schemes require URL shape)      |
+| http_url   | Valid HTTP(S) URL with host                                                                 |
+| https_url  | Valid HTTPS URL with host                                                                   |
+| url_encoded| URL-encoded string (percent escapes, no malformed `%` sequences)                            |
+| ip         | IPv4 or IPv6 address                                                                        |
 
 #### Comparison rules
 

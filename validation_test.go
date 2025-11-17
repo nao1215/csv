@@ -258,6 +258,306 @@ func Test_endsWithValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_urlValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		u       *urlValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target is a valid http url",
+			u:       newURLValidator(),
+			arg:     "https://example.com/index.html",
+			wantErr: false,
+		},
+		{
+			name:    "should return nil if target is a valid file url",
+			u:       newURLValidator(),
+			arg:     "file:///tmp/data.csv",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target is missing scheme",
+			u:       newURLValidator(),
+			arg:     "example.com",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is empty",
+			u:       newURLValidator(),
+			arg:     "",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not a string",
+			u:       newURLValidator(),
+			arg:     123,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.u.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("urlValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_uriValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		u       *uriValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for valid URI without host",
+			u:       newURIValidator(),
+			arg:     "custom-scheme:/resource",
+			wantErr: false,
+		},
+		{
+			name:    "returns nil for valid URI with host",
+			u:       newURIValidator(),
+			arg:     "ftp://example.com/files",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for empty string",
+			u:       newURIValidator(),
+			arg:     "",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for malformed URI",
+			u:       newURIValidator(),
+			arg:     "://missing-scheme",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for non-string",
+			u:       newURIValidator(),
+			arg:     10,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.u.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("uriValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_httpURLValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		u       *httpURLValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for http url",
+			u:       newHTTPURLValidator(),
+			arg:     "http://example.com/path",
+			wantErr: false,
+		},
+		{
+			name:    "returns nil for https url",
+			u:       newHTTPURLValidator(),
+			arg:     "https://example.com/path",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for missing host",
+			u:       newHTTPURLValidator(),
+			arg:     "https:///missing-host",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for other scheme",
+			u:       newHTTPURLValidator(),
+			arg:     "file:///tmp/data",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for non-string",
+			u:       newHTTPURLValidator(),
+			arg:     123,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.u.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("httpURLValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_httpsURLValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		u       *httpsURLValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for https url",
+			u:       newHTTPSURLValidator(),
+			arg:     "https://example.com/path",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for http url",
+			u:       newHTTPSURLValidator(),
+			arg:     "http://example.com/path",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for missing host",
+			u:       newHTTPSURLValidator(),
+			arg:     "https:///missing-host",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for non-string",
+			u:       newHTTPSURLValidator(),
+			arg:     123,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.u.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("httpsURLValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_urlEncodedValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		u       *urlEncodedValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for encoded string",
+			u:       newURLEncodedValidator(),
+			arg:     "foo%20bar%2Fbaz",
+			wantErr: false,
+		},
+		{
+			name:    "returns nil for plain string with no percent",
+			u:       newURLEncodedValidator(),
+			arg:     "simple-string",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for broken escape",
+			u:       newURLEncodedValidator(),
+			arg:     "bad%2Gvalue",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for single percent",
+			u:       newURLEncodedValidator(),
+			arg:     "bad%value",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for non-string",
+			u:       newURLEncodedValidator(),
+			arg:     123,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.u.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("urlEncodedValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
+func Test_ipValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		i       *ipValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for ipv4",
+			i:       newIPValidator(),
+			arg:     "192.168.0.1",
+			wantErr: false,
+		},
+		{
+			name:    "returns nil for ipv6",
+			i:       newIPValidator(),
+			arg:     "2001:db8::1",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for invalid ip",
+			i:       newIPValidator(),
+			arg:     "999.0.0.1",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for empty",
+			i:       newIPValidator(),
+			arg:     "",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for non-string",
+			i:       newIPValidator(),
+			arg:     123,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.i.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("ipValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_equalIgnoreCaseValidator_Do(t *testing.T) {
 	t.Parallel()
 

@@ -30,6 +30,48 @@ func Test_parseValidateTag(t *testing.T) {
 				newAlphaValidator(),
 			},
 		},
+		{
+			name: "should return url validator",
+			args: args{tags: "url"},
+			want: validators{
+				newURLValidator(),
+			},
+		},
+		{
+			name: "should return uri validator",
+			args: args{tags: "uri"},
+			want: validators{
+				newURIValidator(),
+			},
+		},
+		{
+			name: "should return http url validator",
+			args: args{tags: "http_url"},
+			want: validators{
+				newHTTPURLValidator(),
+			},
+		},
+		{
+			name: "should return https url validator",
+			args: args{tags: "https_url"},
+			want: validators{
+				newHTTPSURLValidator(),
+			},
+		},
+		{
+			name: "should return url encoded validator",
+			args: args{tags: "url_encoded"},
+			want: validators{
+				newURLEncodedValidator(),
+			},
+		},
+		{
+			name: "should return ip validator",
+			args: args{tags: "ip"},
+			want: validators{
+				newIPValidator(),
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
