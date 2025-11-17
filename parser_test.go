@@ -99,7 +99,7 @@ func Test_parseValidateTag(t *testing.T) {
 			t.Parallel()
 			c := &CSV{}
 
-			got, err := c.parseValidateTag(tt.args.tags)
+			got, err := c.parseValidateTag(tt.args.tags, 0)
 			if err != nil {
 				t.Errorf("parseValidateTag() error = %v, test case at %s", err, dataloc.L(tt.name))
 			}

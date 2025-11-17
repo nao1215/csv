@@ -48,6 +48,10 @@ const (
 	lengthTagValue tagValue = "len"
 	// equalIgnoreCaseTagValue is the struct tag name for case-insensitive equal fields.
 	equalIgnoreCaseTagValue tagValue = "eq_ignore_case"
+	// notEqualFieldTagValue is the struct tag name for not equal to another field (same struct, flat).
+	notEqualFieldTagValue tagValue = "nefield"
+	// greaterThanEqualFieldTagValue is the struct tag name for greater than or equal to another field.
+	greaterThanEqualFieldTagValue tagValue = "gtefield"
 	// oneOfTagValue is the struct tag name for one of fields.
 	oneOfTagValue tagValue = "oneof"
 	// lowercaseTagValue is the struct tag name for lowercase fields.
@@ -62,6 +66,10 @@ const (
 	numberTagValue tagValue = "number"
 	// containsRuneTagValue is the struct tag name for contains rune fields.
 	containsRuneTagValue tagValue = "containsrune"
+	// fieldContainsTagValue is the struct tag name for fieldcontains (string contains other field) rule.
+	fieldContainsTagValue tagValue = "fieldcontains"
+	// fieldExcludesTagValue is the struct tag name for fieldexcludes (string does not contain other field) rule.
+	fieldExcludesTagValue tagValue = "fieldexcludes"
 	// uriTagValue is the struct tag name for uri fields.
 	uriTagValue tagValue = "uri"
 	// urlTagValue is the struct tag name for url fields.
@@ -106,6 +114,14 @@ const (
 	cidrv4TagValue tagValue = "cidrv4"
 	// cidrv6TagValue is the struct tag name for cidrv6 fields.
 	cidrv6TagValue tagValue = "cidrv6"
+	// equalFieldTagValue is the struct tag name for equal to another field (same struct, flat).
+	equalFieldTagValue tagValue = "eqfield"
+	// greaterThanFieldTagValue is the struct tag name for greater than another field (same struct, flat).
+	greaterThanFieldTagValue tagValue = "gtfield"
+	// lessThanEqualFieldTagValue is the struct tag name for less than or equal to another field (same struct, flat).
+	lessThanEqualFieldTagValue tagValue = "ltefield"
+	// lessThanFieldTagValue is the struct tag name for less than another field (same struct, flat).
+	lessThanFieldTagValue tagValue = "ltfield"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.

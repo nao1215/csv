@@ -66,6 +66,38 @@ var (
 	ErrInvalidNumericID = "ErrInvalidNumeric"
 	// ErrInvalidNumberID is the error ID used when the target is not a number.
 	ErrInvalidNumberID = "ErrInvalidNumber"
+	// ErrInvalidEqualFieldFormatID is the error ID used when the eqfield format is invalid.
+	ErrInvalidEqualFieldFormatID = "ErrInvalidEqualFieldFormat"
+	// ErrInvalidNeFieldFormatID is the error ID used when the nefield format is invalid.
+	ErrInvalidNeFieldFormatID = "ErrInvalidNeFieldFormat"
+	// ErrInvalidFieldContainsFormatID is the error ID used when the fieldcontains format is invalid.
+	ErrInvalidFieldContainsFormatID = "ErrInvalidFieldContainsFormat"
+	// ErrInvalidFieldExcludesFormatID is the error ID used when the fieldexcludes format is invalid.
+	ErrInvalidFieldExcludesFormatID = "ErrInvalidFieldExcludesFormat"
+	// ErrInvalidGteFieldFormatID is the error ID used when the gtefield format is invalid.
+	ErrInvalidGteFieldFormatID = "ErrInvalidGteFieldFormat"
+	// ErrInvalidGtFieldFormatID is the error ID used when the gtfield format is invalid.
+	ErrInvalidGtFieldFormatID = "ErrInvalidGtFieldFormat"
+	// ErrInvalidLteFieldFormatID is the error ID used when the ltefield format is invalid.
+	ErrInvalidLteFieldFormatID = "ErrInvalidLteFieldFormat"
+	// ErrInvalidLtFieldFormatID is the error ID used when the ltfield format is invalid.
+	ErrInvalidLtFieldFormatID = "ErrInvalidLtFieldFormat"
+	// ErrEqualFieldID is the error ID used when the target is not equal to the specified field.
+	ErrEqualFieldID = "ErrEqualField"
+	// ErrNeFieldID is the error ID used when the target is equal to the specified field.
+	ErrNeFieldID = "ErrNeField"
+	// ErrFieldContainsID is the error ID used when the target does not contain the specified field value.
+	ErrFieldContainsID = "ErrFieldContains"
+	// ErrFieldExcludesID is the error ID used when the target contains the specified excluded field value.
+	ErrFieldExcludesID = "ErrFieldExcludes"
+	// ErrGteFieldID is the error ID used when the target is not greater than or equal to the specified field.
+	ErrGteFieldID = "ErrGteField"
+	// ErrGtFieldID is the error ID used when the target is not greater than the specified field.
+	ErrGtFieldID = "ErrGtField"
+	// ErrLteFieldID is the error ID used when the target is not less than or equal to the specified field.
+	ErrLteFieldID = "ErrLteField"
+	// ErrLtFieldID is the error ID used when the target is not less than the specified field.
+	ErrLtFieldID = "ErrLtField"
 	// ErrInvalidAlphanumericID is the error ID used when the target is not an alphanumeric character.
 	ErrInvalidAlphanumericID = "ErrInvalidAlphanumeric"
 	// ErrInvalidAlphanumericUnicodeID is the error ID used when the target is not an alphanumeric unicode character.

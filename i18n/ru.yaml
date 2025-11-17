@@ -25,6 +25,54 @@
 - id: "ErrInvalidNumber"
   translation: "целевое значение не является числом"
 
+- id: "ErrInvalidEqualFieldFormat"
+  translation: "Формат тега 'eqfield' недопустим"
+
+- id: "ErrInvalidNeFieldFormat"
+  translation: "Формат тега 'nefield' недопустим"
+
+- id: "ErrInvalidFieldContainsFormat"
+  translation: "Формат тега 'fieldcontains' недопустим"
+
+- id: "ErrInvalidFieldExcludesFormat"
+  translation: "Формат тега 'fieldexcludes' недопустим"
+
+- id: "ErrInvalidGteFieldFormat"
+  translation: "Формат тега 'gtefield' недопустим"
+
+- id: "ErrInvalidGtFieldFormat"
+  translation: "Формат тега 'gtfield' недопустим"
+
+- id: "ErrInvalidLteFieldFormat"
+  translation: "Формат тега 'ltefield' недопустим"
+
+- id: "ErrInvalidLtFieldFormat"
+  translation: "Формат тега 'ltfield' недопустим"
+
+- id: "ErrEqualField"
+  translation: "значение поля не равно указанному полю"
+
+- id: "ErrNeField"
+  translation: "значение поля равно указанному полю"
+
+- id: "ErrFieldContains"
+  translation: "значение поля не содержит значение указанного поля"
+
+- id: "ErrFieldExcludes"
+  translation: "значение поля содержит запрещенное значение из другого поля"
+
+- id: "ErrGteField"
+  translation: "значение поля не больше или равно указанному полю"
+
+- id: "ErrGtField"
+  translation: "значение поля не больше указанного поля"
+
+- id: "ErrLteField"
+  translation: "значение поля не меньше или равно указанному полю"
+
+- id: "ErrLtField"
+  translation: "значение поля не меньше указанного поля"
+
 - id: "ErrInvalidAlphanumeric"
   translation: "целевое значение не является буквенно-цифровым символом"
 

@@ -36,12 +36,15 @@ func (c *CSV) parseStructTag(structSlicePointer any) error {
 
 // / extractRuleSet extracts the ruleSet from the struct.
 func (c *CSV) extractRuleSet(structType reflect.Type) (ruleSet, error) {
-	ruleSet := make(ruleSet, 0, structType.NumField())
-
 	fieldCount := structType.NumField()
-	for i := range fieldCount {
+	ruleSet := make(ruleSet, 0, fieldCount)
+	if c.crossFieldRules == nil || len(c.crossFieldRules) != fieldCount {
+		c.crossFieldRules = make(crossFieldRuleSet, fieldCount)
+	}
+
+	for i := 0; i < fieldCount; i++ { //nolint:intrange // explicit index for clarity
 		tag := structType.Field(i).Tag
-		validators, err := c.parseValidateTag(tag.Get(validateTag.String()))
+		validators, err := c.parseValidateTag(tag.Get(validateTag.String()), i)
 		if err != nil {
 			return nil, err
 		}
@@ -53,7 +56,7 @@ func (c *CSV) extractRuleSet(structType reflect.Type) (ruleSet, error) {
 // parseValidateTag parses the validate tag.
 // This function return a set of Validate functions based on
 // the rules specified in the validation tag.
-func (c *CSV) parseValidateTag(tags string) (validators, error) {
+func (c *CSV) parseValidateTag(tags string, fieldIndex int) (validators, error) {
 	tagList := strings.Split(tags, ",")
 	validatorList := make(validators, 0, len(tagList))
 
@@ -77,6 +80,32 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 			validatorList = append(validatorList, newAlphanumericValidator())
 		case strings.HasPrefix(t, requiredTagValue.String()):
 			validatorList = append(validatorList, newRequiredValidator())
+		case strings.HasPrefix(t, equalFieldTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidEqualFieldFormatID, t)
+			}
+			c.crossFieldRules[fieldIndex] = append(c.crossFieldRules[fieldIndex], crossFieldRule{
+				fieldIndex:  fieldIndex,
+				targetField: values[0],
+				op:          crossFieldOpEqual,
+			})
+		case strings.HasPrefix(t, notEqualFieldTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidNeFieldFormatID, t)
+			}
+			c.crossFieldRules[fieldIndex] = append(c.crossFieldRules[fieldIndex], crossFieldRule{
+				fieldIndex:  fieldIndex,
+				targetField: values[0],
+				op:          crossFieldOpNotEqual,
+			})
 		case strings.HasPrefix(t, equalIgnoreCaseTagValue.String()):
 			values, err := c.parseSpecifiedValues(t)
 			if err != nil {
@@ -95,6 +124,84 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 				return nil, NewError(c.i18nLocalizer, ErrInvalidNotEqualIgnoreCaseFormatID, t)
 			}
 			validatorList = append(validatorList, newNotEqualIgnoreCaseValidator(values[0]))
+		case strings.HasPrefix(t, fieldContainsTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidFieldContainsFormatID, t)
+			}
+			c.crossFieldRules[fieldIndex] = append(c.crossFieldRules[fieldIndex], crossFieldRule{
+				fieldIndex:  fieldIndex,
+				targetField: values[0],
+				op:          crossFieldOpContains,
+			})
+		case strings.HasPrefix(t, greaterThanEqualFieldTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidGteFieldFormatID, t)
+			}
+			c.crossFieldRules[fieldIndex] = append(c.crossFieldRules[fieldIndex], crossFieldRule{
+				fieldIndex:  fieldIndex,
+				targetField: values[0],
+				op:          crossFieldOpGte,
+			})
+		case strings.HasPrefix(t, greaterThanFieldTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidGtFieldFormatID, t)
+			}
+			c.crossFieldRules[fieldIndex] = append(c.crossFieldRules[fieldIndex], crossFieldRule{
+				fieldIndex:  fieldIndex,
+				targetField: values[0],
+				op:          crossFieldOpGt,
+			})
+		case strings.HasPrefix(t, lessThanEqualFieldTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidLteFieldFormatID, t)
+			}
+			c.crossFieldRules[fieldIndex] = append(c.crossFieldRules[fieldIndex], crossFieldRule{
+				fieldIndex:  fieldIndex,
+				targetField: values[0],
+				op:          crossFieldOpLte,
+			})
+		case strings.HasPrefix(t, lessThanFieldTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidLtFieldFormatID, t)
+			}
+			c.crossFieldRules[fieldIndex] = append(c.crossFieldRules[fieldIndex], crossFieldRule{
+				fieldIndex:  fieldIndex,
+				targetField: values[0],
+				op:          crossFieldOpLt,
+			})
+		case strings.HasPrefix(t, fieldExcludesTagValue.String()+"="):
+			values, err := c.parseSpecifiedValues(t)
+			if err != nil {
+				return nil, err
+			}
+			if len(values) != 1 || values[0] == "" {
+				return nil, NewError(c.i18nLocalizer, ErrInvalidFieldExcludesFormatID, t)
+			}
+			c.crossFieldRules[fieldIndex] = append(c.crossFieldRules[fieldIndex], crossFieldRule{
+				fieldIndex:  fieldIndex,
+				targetField: values[0],
+				op:          crossFieldOpExcludes,
+			})
 		case strings.HasPrefix(t, equalTagValue.String()):
 			threshold, err := c.parseThreshold(t)
 			if err != nil {

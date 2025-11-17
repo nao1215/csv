@@ -928,6 +928,153 @@ func (e *equalIgnoreCaseValidator) Do(localizer *i18n.Localizer, target any) err
 	return nil
 }
 
+// compareValuesEqual reports whether two values are equal for eqfield comparison.
+func compareValuesEqual(a, b any) bool {
+	switch va := a.(type) {
+	case string:
+		vb, ok := b.(string)
+		return ok && va == vb
+	case int, int8, int16, int32, int64:
+		return toInt64(a) == toInt64(b)
+	case uint, uint8, uint16, uint32, uint64:
+		return toUint64(a) == toUint64(b)
+	case float32, float64:
+		return toFloat64(a) == toFloat64(b)
+	case bool:
+		vb, ok := b.(bool)
+		return ok && va == vb
+	default:
+		return false
+	}
+}
+
+// compareValuesGTE reports whether a >= b for supported types.
+// Strings are compared by length to mirror go-playground behavior for gt/gte on strings.
+func compareValuesGTE(a, b any) (bool, bool) {
+	switch va := a.(type) {
+	case string:
+		vb, ok := b.(string)
+		if !ok {
+			return false, false
+		}
+		return len(va) >= len(vb), true
+	case int, int8, int16, int32, int64:
+		return toInt64(a) >= toInt64(b), true
+	case uint, uint8, uint16, uint32, uint64:
+		return toUint64(a) >= toUint64(b), true
+	case float32, float64:
+		return toFloat64(a) >= toFloat64(b), true
+	default:
+		return false, false
+	}
+}
+
+// compareValuesGT reports whether a > b for supported types.
+// Strings are compared by length to mirror go-playground behavior for gt/gte on strings.
+func compareValuesGT(a, b any) (bool, bool) {
+	switch va := a.(type) {
+	case string:
+		vb, ok := b.(string)
+		if !ok {
+			return false, false
+		}
+		return len(va) > len(vb), true
+	case int, int8, int16, int32, int64:
+		return toInt64(a) > toInt64(b), true
+	case uint, uint8, uint16, uint32, uint64:
+		return toUint64(a) > toUint64(b), true
+	case float32, float64:
+		return toFloat64(a) > toFloat64(b), true
+	default:
+		return false, false
+	}
+}
+
+// compareValuesLTE reports whether a <= b for supported types.
+// Strings are compared by length.
+func compareValuesLTE(a, b any) (bool, bool) {
+	switch va := a.(type) {
+	case string:
+		vb, ok := b.(string)
+		if !ok {
+			return false, false
+		}
+		return len(va) <= len(vb), true
+	case int, int8, int16, int32, int64:
+		return toInt64(a) <= toInt64(b), true
+	case uint, uint8, uint16, uint32, uint64:
+		return toUint64(a) <= toUint64(b), true
+	case float32, float64:
+		return toFloat64(a) <= toFloat64(b), true
+	default:
+		return false, false
+	}
+}
+
+// compareValuesLT reports whether a < b for supported types.
+// Strings are compared by length.
+func compareValuesLT(a, b any) (bool, bool) {
+	switch va := a.(type) {
+	case string:
+		vb, ok := b.(string)
+		if !ok {
+			return false, false
+		}
+		return len(va) < len(vb), true
+	case int, int8, int16, int32, int64:
+		return toInt64(a) < toInt64(b), true
+	case uint, uint8, uint16, uint32, uint64:
+		return toUint64(a) < toUint64(b), true
+	case float32, float64:
+		return toFloat64(a) < toFloat64(b), true
+	default:
+		return false, false
+	}
+}
+
+// Helpers to normalize numeric types.
+func toInt64(v any) int64 {
+	switch n := v.(type) {
+	case int:
+		return int64(n)
+	case int8:
+		return int64(n)
+	case int16:
+		return int64(n)
+	case int32:
+		return int64(n)
+	case int64:
+		return n
+	}
+	return 0
+}
+
+func toUint64(v any) uint64 {
+	switch n := v.(type) {
+	case uint:
+		return uint64(n)
+	case uint8:
+		return uint64(n)
+	case uint16:
+		return uint64(n)
+	case uint32:
+		return uint64(n)
+	case uint64:
+		return n
+	}
+	return 0
+}
+
+func toFloat64(v any) float64 {
+	switch n := v.(type) {
+	case float32:
+		return float64(n)
+	case float64:
+		return n
+	}
+	return 0
+}
+
 // notEqualIgnoreCaseValidator validates that two strings are not equal, ignoring case.
 type notEqualIgnoreCaseValidator struct {
 	expected string

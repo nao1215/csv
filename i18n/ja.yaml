@@ -25,6 +25,53 @@
 - id: "ErrInvalidNumber"
   translation: "値が数値ではありません"
 
+- id: "ErrInvalidEqualFieldFormat"
+  translation: "'eqfield'タグの形式が無効です"
+
+- id: "ErrInvalidNeFieldFormat"
+  translation: "'nefield'タグの形式が無効です"
+
+- id: "ErrInvalidFieldContainsFormat"
+  translation: "'fieldcontains'タグの形式が無効です"
+
+- id: "ErrInvalidFieldExcludesFormat"
+  translation: "'fieldexcludes'タグの形式が無効です"
+
+- id: "ErrInvalidGteFieldFormat"
+  translation: "'gtefield'タグの形式が無効です"
+
+- id: "ErrInvalidGtFieldFormat"
+  translation: "'gtfield'タグの形式が無効です"
+
+- id: "ErrInvalidLteFieldFormat"
+  translation: "'ltefield'タグの形式が無効です"
+
+- id: "ErrInvalidLtFieldFormat"
+  translation: "'ltfield'タグの形式が無効です"
+
+- id: "ErrEqualField"
+  translation: "フィールドが指定のフィールドと等しくありません"
+
+- id: "ErrNeField"
+  translation: "フィールドが指定のフィールドと等しいため無効です"
+
+- id: "ErrFieldContains"
+  translation: "フィールドが指定のフィールド値を含んでいません"
+
+- id: "ErrFieldExcludes"
+  translation: "フィールドが禁止されているフィールド値を含んでいます"
+
+- id: "ErrGteField"
+  translation: "フィールドが指定のフィールド以上ではありません"
+
+- id: "ErrGtField"
+  translation: "フィールドが指定のフィールドより大きくありません"
+
+- id: "ErrLteField"
+  translation: "フィールドが指定のフィールド以下ではありません"
+
+- id: "ErrLtField"
+  translation: "フィールドが指定のフィールドより小さくありません"
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"
 
