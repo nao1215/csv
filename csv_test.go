@@ -635,6 +635,63 @@ prefix-value
 		}
 	})
 
+	t.Run("validate endswith", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value-suffix
+mismatch
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type endsWith struct {
+			Name string `validate:"endswith=fix"`
+		}
+
+		endsWithList := make([]endsWith, 0)
+		errs := c.Decode(&endsWithList)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target does not end with the specified value: endswith=fix, value=mismatch" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid endswith tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value-suffix
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type endsWith struct {
+			Name string `validate:"endswith="`
+		}
+
+		endsWithList := make([]endsWith, 0)
+		errs := c.Decode(&endsWithList)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'endswith' tag format is invalid: endswith=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate contains", func(t *testing.T) {
 		t.Parallel()
 

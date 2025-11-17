@@ -79,6 +79,9 @@
 - id: "ErrStartsWith"
   translation: "指定した値で始まっていません"
 
+- id: "ErrEndsWith"
+  translation: "指定した値で終わっていません"
+
 - id: "ErrContains"
   translation: "指定された値を含んでいません"
 
@@ -93,3 +96,6 @@
 
 - id: "ErrInvalidStartsWithFormat"
   translation: "'startswith'タグの形式が無効です"
+
+- id: "ErrInvalidEndsWithFormat"
+  translation: "'endswith'タグの形式が無効です"

@@ -73,6 +73,9 @@
 - id: "ErrStartsWith"
   translation: "target does not start with the specified value"
 
+- id: "ErrEndsWith"
+  translation: "target does not end with the specified value"
+
 - id: "ErrContains"
   translation: "target does not contain the specified value"
 
@@ -87,3 +90,6 @@
 
 - id: "ErrInvalidStartsWithFormat"
   translation: "'startswith' tag format is invalid"
+
+- id: "ErrInvalidEndsWithFormat"
+  translation: "'endswith' tag format is invalid"
