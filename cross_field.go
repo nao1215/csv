@@ -18,6 +18,7 @@ type crossFieldOp string
 const (
 	crossFieldOpEqual    crossFieldOp = "eqfield"
 	crossFieldOpContains crossFieldOp = "fieldcontains"
+	crossFieldOpExcludes crossFieldOp = "fieldexcludes"
 )
 
 // crossFieldRuleSet is a slice of crossFieldRule.

@@ -31,11 +31,17 @@
 - id: "ErrInvalidFieldContainsFormat"
   translation: "Формат тега 'fieldcontains' недопустим"
 
+- id: "ErrInvalidFieldExcludesFormat"
+  translation: "Формат тега 'fieldexcludes' недопустим"
+
 - id: "ErrEqualField"
   translation: "значение поля не равно указанному полю"
 
 - id: "ErrFieldContains"
   translation: "значение поля не содержит значение указанного поля"
+
+- id: "ErrFieldExcludes"
+  translation: "значение поля содержит запрещенное значение из другого поля"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "целевое значение не является буквенно-цифровым символом"

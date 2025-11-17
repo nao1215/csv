@@ -31,11 +31,17 @@
 - id: "ErrInvalidFieldContainsFormat"
   translation: "'fieldcontains'タグの形式が無効です"
 
+- id: "ErrInvalidFieldExcludesFormat"
+  translation: "'fieldexcludes'タグの形式が無効です"
+
 - id: "ErrEqualField"
   translation: "フィールドが指定のフィールドと等しくありません"
 
 - id: "ErrFieldContains"
   translation: "フィールドが指定のフィールド値を含んでいません"
+
+- id: "ErrFieldExcludes"
+  translation: "フィールドが禁止されているフィールド値を含んでいます"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "値が英数字ではありません"

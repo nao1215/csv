@@ -31,11 +31,17 @@
 - id: "ErrInvalidFieldContainsFormat"
   translation: "'fieldcontains' tag format is invalid"
 
+- id: "ErrInvalidFieldExcludesFormat"
+  translation: "'fieldexcludes' tag format is invalid"
+
 - id: "ErrEqualField"
   translation: "field is not equal to the specified field"
 
 - id: "ErrFieldContains"
   translation: "field does not contain the specified field value"
+
+- id: "ErrFieldExcludes"
+  translation: "field contains the prohibited field value"
 
 - id: "ErrInvalidAlphanumeric"
   translation: "target is not an alphanumeric character"
