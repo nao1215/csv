@@ -96,6 +96,7 @@ for _, err := range errs {
 | excludes     | Must not contain the specified substring |
 | excludesall  | Must not contain any of the specified runes |
 | excludesrune | Must not contain the specified rune      |
+| multibyte    | Contains at least one multibyte character|
 | lowercase    | Lowercase only                           |
 | numeric      | Numeric only                             |
 | uppercase    | Uppercase only                           |

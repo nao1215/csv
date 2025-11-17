@@ -575,6 +575,45 @@ func Test_excludesRuneValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_multibyteValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		m       *multibyteValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target contains multibyte",
+			m:       newMultibyteValidator(),
+			arg:     "こんにちは",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target is ASCII only",
+			m:       newMultibyteValidator(),
+			arg:     "hello",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			m:       newMultibyteValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.m.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("multibyteValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_urlValidator_Do(t *testing.T) {
 	t.Parallel()
 

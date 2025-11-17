@@ -154,6 +154,8 @@ var (
 	ErrExcludesRuneID = "ErrExcludesRune"
 	// ErrInvalidExcludesRuneFormatID is the error ID used when the excludesrune format is invalid.
 	ErrInvalidExcludesRuneFormatID = "ErrInvalidExcludesRuneFormat"
+	// ErrMultibyteID is the error ID used when the target does not contain multibyte characters.
+	ErrMultibyteID = "ErrMultibyte"
 	// ErrContainsID is the error ID used when the target does not contain the specified value.
 	ErrContainsID = "ErrContains"
 	// ErrInvalidContainsFormatID is the error ID used when the contains format is invalid.

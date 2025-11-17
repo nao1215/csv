@@ -133,6 +133,9 @@
 - id: "ErrExcludesRune"
   translation: "target contains the prohibited rune"
 
+- id: "ErrMultibyte"
+  translation: "target does not contain multibyte characters"
+
 - id: "ErrContains"
   translation: "target does not contain the specified value"
 

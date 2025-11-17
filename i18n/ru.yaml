@@ -133,6 +133,9 @@
 - id: "ErrExcludesRune"
   translation: "целевое значение содержит запрещенный символ (руну)"
 
+- id: "ErrMultibyte"
+  translation: "целевое значение не содержит многобайтные символы"
+
 - id: "ErrContains"
   translation: "целевое значение не содержит подстроку"
 

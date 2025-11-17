@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"unicode"
+	"unicode/utf8"
 
 	"github.com/nicksnyder/go-i18n/v2/i18n"
 	"github.com/rivo/uniseg"
@@ -993,6 +994,27 @@ func (e *excludesRuneValidator) Do(localizer *i18n.Localizer, target any) error 
 
 	if strings.ContainsRune(v, e.r) {
 		return NewError(localizer, ErrExcludesRuneID, fmt.Sprintf("excludesrune=%c, value=%v", e.r, target))
+	}
+	return nil
+}
+
+// multibyteValidator validates that target contains multibyte characters.
+type multibyteValidator struct{}
+
+// newMultibyteValidator returns a new multibyteValidator.
+func newMultibyteValidator() *multibyteValidator {
+	return &multibyteValidator{}
+}
+
+// Do validates the target contains at least one multibyte character.
+func (m *multibyteValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrMultibyteID, fmt.Sprintf("value=%v", target))
+	}
+
+	if utf8.RuneCountInString(v) == len(v) || v == "" {
+		return NewError(localizer, ErrMultibyteID, fmt.Sprintf("value=%v", target))
 	}
 	return nil
 }

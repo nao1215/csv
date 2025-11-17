@@ -139,6 +139,9 @@
 - id: "ErrExcludesRune"
   translation: "禁止されている文字を含んでいます"
 
+- id: "ErrMultibyte"
+  translation: "マルチバイト文字を含んでいません"
+
 - id: "ErrContains"
   translation: "指定された値を含んでいません"
 
