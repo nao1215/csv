@@ -25,8 +25,14 @@
 - id: "ErrEqual"
   translation: "целевое значение не равно пороговому значению"
 
+- id: "ErrEqualIgnoreCase"
+  translation: "целевое значение не совпадает (без учета регистра)"
+
 - id: "ErrInvalidThreshold"
   translation: "пороговое значение недействительно"
+
+- id: "ErrInvalidEqualIgnoreCaseFormat"
+  translation: "Формат тега 'eq_ignore_case' недопустим"
 
 - id: "ErrNotEqual"
   translation: "целевое значение равно пороговому значению"

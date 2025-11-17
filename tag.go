@@ -40,6 +40,8 @@ const (
 	maxTagValue tagValue = "max"
 	// lengthTagValue is the struct tag name for length fields.
 	lengthTagValue tagValue = "len"
+	// equalIgnoreCaseTagValue is the struct tag name for case-insensitive equal fields.
+	equalIgnoreCaseTagValue tagValue = "eq_ignore_case"
 	// oneOfTagValue is the struct tag name for one of fields.
 	oneOfTagValue tagValue = "oneof"
 	// lowercaseTagValue is the struct tag name for lowercase fields.
