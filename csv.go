@@ -192,7 +192,11 @@ func (c *CSV) validateCrossFieldRules(structValue reflect.Value, line int, error
 				srcStr, okSrc := srcField.Interface().(string)
 				targetStr, okTgt := targetField.Interface().(string)
 				if !okSrc || !okTgt {
-					err := NewError(c.i18nLocalizer, ErrFieldContainsID, fmt.Sprintf("value=%v", srcField.Interface()))
+					err := NewError(
+						c.i18nLocalizer,
+						ErrInvalidFieldContainsFormatID,
+						fmt.Sprintf("non-string field: src=%s, target=%s", srcName, rule.targetField),
+					)
 					*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))
 					continue
 				}
@@ -223,7 +227,11 @@ func (c *CSV) validateCrossFieldRules(structValue reflect.Value, line int, error
 				srcStr, okSrc := srcField.Interface().(string)
 				targetStr, okTgt := targetField.Interface().(string)
 				if !okSrc || !okTgt {
-					err := NewError(c.i18nLocalizer, ErrFieldExcludesID, fmt.Sprintf("value=%v", srcField.Interface()))
+					err := NewError(
+						c.i18nLocalizer,
+						ErrInvalidFieldExcludesFormatID,
+						fmt.Sprintf("non-string field: src=%s, target=%s", srcName, rule.targetField),
+					)
 					*errors = append(*errors, fmt.Errorf("line:%d column %s: %w", line, colName, err))
 					continue
 				}

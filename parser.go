@@ -28,8 +28,6 @@ func (c *CSV) parseStructTag(structSlicePointer any) error {
 			return err
 		}
 		c.ruleSet = ruleSet
-		// initialize crossFieldRules with the same length as fields
-		c.crossFieldRules = make(crossFieldRuleSet, len(ruleSet))
 	default:
 		return NewError(c.i18nLocalizer, ErrStructSlicePointerID, fmt.Sprintf("element=%v", elem.Kind()))
 	}

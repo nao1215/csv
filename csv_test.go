@@ -1325,6 +1325,170 @@ same,same
 		}
 	})
 
+	t.Run("validate all cross-field tags in one pass", func(t *testing.T) {
+		t.Parallel()
+
+		input := `a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p
+foo,foo,bar,baz,abcde,bcd,abc,zzz,5,3,3,3,2,3,3,3
+aaa,bbb,xxx,xxx,hello,world,helloworld,world,1,5,2,5,5,2,5,2
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type row struct {
+			A string `validate:"eqfield=B"`
+			B string
+			C string `validate:"nefield=D"`
+			D string
+			E string `validate:"fieldcontains=F"`
+			F string
+			G string `validate:"fieldexcludes=H"`
+			H string
+			I int `validate:"gtfield=J"`
+			J int
+			K int `validate:"gtefield=L"`
+			L int
+			M int `validate:"ltfield=N"`
+			N int
+			O int `validate:"ltefield=P"`
+			P int
+		}
+
+		list := make([]row, 0)
+		errs := c.Decode(&list)
+		if len(errs) != 8 {
+			t.Fatalf("expected 8 errors, got %d: %v", len(errs), errs)
+		}
+
+		checks := []struct {
+			index int
+			want  string
+		}{
+			{0, "line:3 column a: field is not equal to the specified field: field=A, other=B"},
+			{1, "line:3 column c: field is equal to the specified field: field=C, other=D"},
+			{2, "line:3 column e: field does not contain the specified field value: field=E, other=F"},
+			{3, "line:3 column g: field contains the prohibited field value: field=G, other=H"},
+			{4, "line:3 column i: field is not greater than the specified field: field=I, other=J"},
+			{5, "line:3 column k: field is not greater than or equal to the specified field: field=K, other=L"},
+			{6, "line:3 column m: field is not less than the specified field: field=M, other=N"},
+			{7, "line:3 column o: field is not less than or equal to the specified field: field=O, other=P"},
+		}
+
+		for _, chk := range checks {
+			if errs[chk.index].Error() != chk.want {
+				t.Errorf("error %d mismatch:\n got: %q\nwant: %q", chk.index, errs[chk.index].Error(), chk.want)
+			}
+		}
+	})
+
+	t.Run("validate cross-field invalid target and non-string types", func(t *testing.T) {
+		t.Parallel()
+
+		t.Run("missing target field", func(t *testing.T) {
+			t.Parallel()
+
+			input := `a
+value
+`
+			c, err := NewCSV(bytes.NewBufferString(input))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			type row struct {
+				A string `validate:"eqfield=Nope"`
+			}
+
+			list := make([]row, 0)
+			errs := c.Decode(&list)
+			if len(errs) != 1 {
+				t.Fatalf("expected 1 error, got %d: %v", len(errs), errs)
+			}
+			want := "line:2 column a: 'eqfield' tag format is invalid: Nope"
+			if errs[0].Error() != want {
+				t.Fatalf("unexpected error: %q, want %q", errs[0].Error(), want)
+			}
+		})
+
+		t.Run("contains/excludes non-string", func(t *testing.T) {
+			t.Parallel()
+
+			input := `a,b,c,d
+1,2,3,4
+`
+			c, err := NewCSV(bytes.NewBufferString(input))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			type row struct {
+				A int `validate:"fieldcontains=B"`
+				B int
+				C int `validate:"fieldexcludes=D"`
+				D int
+			}
+
+			list := make([]row, 0)
+			errs := c.Decode(&list)
+			if len(errs) != 2 {
+				t.Fatalf("expected 2 errors, got %d: %v", len(errs), errs)
+			}
+			if errs[0].Error() != "line:2 column a: 'fieldcontains' tag format is invalid: non-string field: src=A, target=B" {
+				t.Fatalf("unexpected error[0]: %q", errs[0].Error())
+			}
+			if errs[1].Error() != "line:2 column c: 'fieldexcludes' tag format is invalid: non-string field: src=C, target=D" {
+				t.Fatalf("unexpected error[1]: %q", errs[1].Error())
+			}
+		})
+	})
+
+	t.Run("validate cross-field missing target uses format errors", func(t *testing.T) {
+		t.Parallel()
+
+		input := `a,b,c,d,e,f,g
+v1,v2,v3,v4,v5,v6,v7
+`
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type row struct {
+			A string `validate:"nefield=Missing"`
+			B string `validate:"fieldcontains=Missing"`
+			C string `validate:"fieldexcludes=Missing"`
+			D string `validate:"gtefield=Missing"`
+			E string `validate:"gtfield=Missing"`
+			F string `validate:"ltefield=Missing"`
+			G string `validate:"ltfield=Missing"`
+		}
+
+		list := make([]row, 0)
+		errs := c.Decode(&list)
+		if len(errs) != 7 {
+			t.Fatalf("expected 7 errors, got %d: %v", len(errs), errs)
+		}
+
+		expected := []string{
+			"line:2 column a: 'nefield' tag format is invalid: Missing",
+			"line:2 column b: 'fieldcontains' tag format is invalid: Missing",
+			"line:2 column c: 'fieldexcludes' tag format is invalid: Missing",
+			"line:2 column d: 'gtefield' tag format is invalid: Missing",
+			"line:2 column e: 'gtfield' tag format is invalid: Missing",
+			"line:2 column f: 'ltefield' tag format is invalid: Missing",
+			"line:2 column g: 'ltfield' tag format is invalid: Missing",
+		}
+
+		for i, want := range expected {
+			if errs[i].Error() != want {
+				t.Fatalf("error %d mismatch: got %q want %q", i, errs[i].Error(), want)
+			}
+		}
+	})
+
 	t.Run("validate fieldcontains", func(t *testing.T) {
 		t.Parallel()
 
