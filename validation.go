@@ -928,6 +928,29 @@ func (e *equalIgnoreCaseValidator) Do(localizer *i18n.Localizer, target any) err
 	return nil
 }
 
+// notEqualIgnoreCaseValidator validates that two strings are not equal, ignoring case.
+type notEqualIgnoreCaseValidator struct {
+	expected string
+}
+
+// newNotEqualIgnoreCaseValidator returns a new notEqualIgnoreCaseValidator.
+func newNotEqualIgnoreCaseValidator(expected string) *notEqualIgnoreCaseValidator {
+	return &notEqualIgnoreCaseValidator{expected: expected}
+}
+
+// Do validates the target does not match the expected value ignoring case.
+func (n *notEqualIgnoreCaseValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrNotEqualIgnoreCaseID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.EqualFold(v, n.expected) {
+		return NewError(localizer, ErrNotEqualIgnoreCaseID, fmt.Sprintf("ne_ignore_case=%s, value=%v", n.expected, target))
+	}
+	return nil
+}
+
 // endsWithValidator is a struct that contains the validation rules for an endswith column.
 type endsWithValidator struct {
 	suffix string
