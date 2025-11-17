@@ -136,6 +136,9 @@
 - id: "ErrExcludesAll"
   translation: "禁止されている文字が含まれています"
 
+- id: "ErrExcludesRune"
+  translation: "禁止されている文字を含んでいます"
+
 - id: "ErrContains"
   translation: "指定された値を含んでいません"
 
@@ -162,6 +165,9 @@
 
 - id: "ErrInvalidExcludesAllFormat"
   translation: "'excludesall'タグの形式が無効です"
+
+- id: "ErrInvalidExcludesRuneFormat"
+  translation: "'excludesrune'タグの形式が無効です"
 
 - id: "ErrInvalidContainsRuneFormat"
   translation: "'containsrune'タグの形式が無効です"

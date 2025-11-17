@@ -88,6 +88,8 @@ const (
 	excludesTagValue tagValue = "excludes"
 	// excludesAllTagValue is the struct tag name for excludesall fields.
 	excludesAllTagValue tagValue = "excludesall"
+	// excludesRuneTagValue is the struct tag name for excludesrune fields.
+	excludesRuneTagValue tagValue = "excludesrune"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.

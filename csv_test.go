@@ -863,6 +863,63 @@ hello
 		}
 	})
 
+	t.Run("validate excludesrune", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+禁止
+許可
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludesRune struct {
+			Name string `validate:"excludesrune=禁"`
+		}
+
+		list := make([]excludesRune, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target contains the prohibited rune: excludesrune=禁, value=禁止" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid excludesrune tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludesRune struct {
+			Name string `validate:"excludesrune="`
+		}
+
+		list := make([]excludesRune, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'excludesrune' tag format is invalid: excludesrune=" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate eq_ignore_case", func(t *testing.T) {
 		t.Parallel()
 

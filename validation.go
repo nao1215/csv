@@ -974,6 +974,29 @@ func (e *excludesAllValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
+// excludesRuneValidator validates that target does NOT contain the specified single rune.
+type excludesRuneValidator struct {
+	r rune
+}
+
+// newExcludesRuneValidator returns a new excludesRuneValidator.
+func newExcludesRuneValidator(r rune) *excludesRuneValidator {
+	return &excludesRuneValidator{r: r}
+}
+
+// Do validates the target string does not contain the rune.
+func (e *excludesRuneValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrExcludesRuneID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.ContainsRune(v, e.r) {
+		return NewError(localizer, ErrExcludesRuneID, fmt.Sprintf("excludesrune=%c, value=%v", e.r, target))
+	}
+	return nil
+}
+
 // containsValidator is a struct that contains the validation rules for a contains column.
 type containsValidator struct {
 	contains string

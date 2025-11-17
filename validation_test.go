@@ -536,6 +536,45 @@ func Test_excludesAllValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_excludesRuneValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		e       *excludesRuneValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target does not contain rune",
+			e:       newExcludesRuneValidator('禁'),
+			arg:     "許可",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target contains rune",
+			e:       newExcludesRuneValidator('禁'),
+			arg:     "禁止",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not string",
+			e:       newExcludesRuneValidator('禁'),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.e.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("excludesRuneValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_urlValidator_Do(t *testing.T) {
 	t.Parallel()
 
