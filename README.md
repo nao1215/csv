@@ -81,6 +81,7 @@ for _, err := range errs {
 | Tag Name     | Description                              |
 | ------------ | ---------------------------------------- |
 | alpha        | Alphabetic characters only               |
+| alphaunicode | Unicode alphabetic characters            |
 | alphaspace   | Alphabetic characters and spaces         |
 | alphanumeric | Alphanumeric characters                  |
 | alphanumunicode | Unicode letters and digits            |

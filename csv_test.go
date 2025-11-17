@@ -807,6 +807,35 @@ hello_world
 		}
 	})
 
+	t.Run("validate alphaunicode", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+東京
+東京1
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type alphaUni struct {
+			Name string `validate:"alphaunicode"`
+		}
+
+		list := make([]alphaUni, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column name: target is not a unicode alphabetic character: value=東京1" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate contains", func(t *testing.T) {
 		t.Parallel()
 

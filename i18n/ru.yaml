@@ -13,6 +13,9 @@
 - id: "ErrInvalidAlphabet"
   translation: "целевое значение не является алфавитным символом"
 
+- id: "ErrInvalidAlphaUnicode"
+  translation: "целевое значение не является алфавитным символом (Unicode)"
+
 - id: "ErrInvalidAlphaSpace"
   translation: "целевое значение не является алфавитой или пробелом"
 

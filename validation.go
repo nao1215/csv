@@ -71,6 +71,29 @@ func isAlpha(r rune) bool {
 	return r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z'
 }
 
+// alphaUnicodeValidator validates unicode alphabetic characters.
+type alphaUnicodeValidator struct{}
+
+// newAlphaUnicodeValidator returns a new alphaUnicodeValidator.
+func newAlphaUnicodeValidator() *alphaUnicodeValidator {
+	return &alphaUnicodeValidator{}
+}
+
+// Do validates the target string only contains unicode letters.
+func (a *alphaUnicodeValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrInvalidAlphaUnicodeID, fmt.Sprintf("value=%v", target))
+	}
+
+	for _, r := range v {
+		if !unicode.IsLetter(r) {
+			return NewError(localizer, ErrInvalidAlphaUnicodeID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	return nil
+}
+
 // alphaSpaceValidator validates strings that contain only alphabetic characters or spaces.
 type alphaSpaceValidator struct{}
 

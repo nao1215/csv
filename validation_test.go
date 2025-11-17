@@ -173,6 +173,45 @@ func Test_alphaSpaceValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_alphaUnicodeValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		a       *alphaUnicodeValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target is unicode letters",
+			a:       newAlphaUnicodeValidator(),
+			arg:     "東京ΑΒΓабв",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if contains number",
+			a:       newAlphaUnicodeValidator(),
+			arg:     "東京1",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if not a string",
+			a:       newAlphaUnicodeValidator(),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.a.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("alphaUnicodeValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_numericValidator_Do(t *testing.T) {
 	t.Parallel()
 

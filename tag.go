@@ -18,6 +18,8 @@ const (
 	alphaTagValue tagValue = "alpha"
 	// alphaSpaceTagValue is the struct tag name for alpha with spaces fields.
 	alphaSpaceTagValue tagValue = "alphaspace"
+	// alphaUnicodeTagValue is the struct tag name for unicode alpha only fields.
+	alphaUnicodeTagValue tagValue = "alphaunicode"
 	// numericTagValue is the struct tag name for numeric fields.
 	numericTagValue tagValue = "numeric"
 	// alphanumericTagValue is the struct tag name for alphanumeric fields.
