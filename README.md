@@ -100,6 +100,9 @@ for _, err := range errs {
 | number       | Signed integer or decimal number         |
 | numeric      | Numeric only                             |
 | printascii   | Printable ASCII characters only          |
+| cidr         | Valid CIDR (IPv4 or IPv6)                |
+| cidrv4       | Valid IPv4 CIDR                          |
+| cidrv6       | Valid IPv6 CIDR                          |
 | startsnotwith| Must not start with the specified substring |
 | startswith   | Starts with the specified substring      |
 | uppercase    | Uppercase only                           |

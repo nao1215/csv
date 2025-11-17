@@ -1092,8 +1092,74 @@ func (m *multibyteValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
+// cidrValidator validates IPv4 or IPv6 CIDR.
+type cidrValidator struct{}
+
+// newCIDRValidator returns a new cidrValidator.
+func newCIDRValidator() *cidrValidator {
+	return &cidrValidator{}
+}
+
+// Do validates the target is a valid CIDR.
+func (c *cidrValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ip, err := parseCIDR(localizer, target, ErrCIDRID)
+	if err != nil {
+		return err
+	}
+	if v == "" || ip == nil {
+		return NewError(localizer, ErrCIDRID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
 // printASCIIValidator validates printable ASCII strings.
 type printASCIIValidator struct{}
+
+// cidrv4Validator validates IPv4 CIDR.
+type cidrv4Validator struct{}
+
+// newCIDRv4Validator returns a new cidrv4Validator.
+func newCIDRv4Validator() *cidrv4Validator {
+	return &cidrv4Validator{}
+}
+
+// Do validates the target is a valid IPv4 CIDR.
+func (c *cidrv4Validator) Do(localizer *i18n.Localizer, target any) error {
+	v, ip, err := parseCIDR(localizer, target, ErrCIDRv4ID)
+	if err != nil {
+		return err
+	}
+	if ip.To4() == nil {
+		return NewError(localizer, ErrCIDRv4ID, fmt.Sprintf("value=%v", target))
+	}
+	if v == "" {
+		return NewError(localizer, ErrCIDRv4ID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// cidrv6Validator validates IPv6 CIDR.
+type cidrv6Validator struct{}
+
+// newCIDRv6Validator returns a new cidrv6Validator.
+func newCIDRv6Validator() *cidrv6Validator {
+	return &cidrv6Validator{}
+}
+
+// Do validates the target is a valid IPv6 CIDR.
+func (c *cidrv6Validator) Do(localizer *i18n.Localizer, target any) error {
+	v, ip, err := parseCIDR(localizer, target, ErrCIDRv6ID)
+	if err != nil {
+		return err
+	}
+	if ip.To4() != nil {
+		return NewError(localizer, ErrCIDRv6ID, fmt.Sprintf("value=%v", target))
+	}
+	if v == "" {
+		return NewError(localizer, ErrCIDRv6ID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
 
 // newPrintASCIIValidator returns a new printASCIIValidator.
 func newPrintASCIIValidator() *printASCIIValidator {
@@ -1113,6 +1179,19 @@ func (p *printASCIIValidator) Do(localizer *i18n.Localizer, target any) error {
 		}
 	}
 	return nil
+}
+
+// parseCIDR parses CIDR string and returns original string and parsed IP.
+func parseCIDR(localizer *i18n.Localizer, target any, errorID string) (string, net.IP, error) {
+	v, ok := target.(string)
+	if !ok {
+		return "", nil, NewError(localizer, errorID, fmt.Sprintf("value=%v", target))
+	}
+	ip, _, err := net.ParseCIDR(v)
+	if err != nil {
+		return v, nil, NewError(localizer, errorID, fmt.Sprintf("value=%v", target))
+	}
+	return v, ip, nil
 }
 
 // containsValidator is a struct that contains the validation rules for a contains column.

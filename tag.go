@@ -100,6 +100,12 @@ const (
 	multibyteTagValue tagValue = "multibyte"
 	// printASCIITagValue is the struct tag name for printable ascii fields.
 	printASCIITagValue tagValue = "printascii"
+	// cidrTagValue is the struct tag name for cidr fields.
+	cidrTagValue tagValue = "cidr"
+	// cidrv4TagValue is the struct tag name for cidrv4 fields.
+	cidrv4TagValue tagValue = "cidrv4"
+	// cidrv6TagValue is the struct tag name for cidrv6 fields.
+	cidrv6TagValue tagValue = "cidrv6"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.

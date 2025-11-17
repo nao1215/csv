@@ -157,6 +157,15 @@
 - id: "ErrPrintASCII"
   translation: "印字可能なASCII文字ではありません"
 
+- id: "ErrCIDR"
+  translation: "有効なCIDRではありません"
+
+- id: "ErrCIDRv4"
+  translation: "有効なIPv4 CIDRではありません"
+
+- id: "ErrCIDRv6"
+  translation: "有効なIPv6 CIDRではありません"
+
 - id: "ErrContains"
   translation: "指定された値を含んでいません"
 

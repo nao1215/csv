@@ -151,6 +151,15 @@
 - id: "ErrPrintASCII"
   translation: "целевое значение не является печатаемым ASCII"
 
+- id: "ErrCIDR"
+  translation: "целевое значение не является допустимым CIDR"
+
+- id: "ErrCIDRv4"
+  translation: "целевое значение не является допустимым IPv4 CIDR"
+
+- id: "ErrCIDRv6"
+  translation: "целевое значение не является допустимым IPv6 CIDR"
+
 - id: "ErrContains"
   translation: "целевое значение не содержит подстроку"
 
