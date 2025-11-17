@@ -102,6 +102,10 @@ var (
 	ErrStartsWithID = "ErrStartsWith"
 	// ErrInvalidStartsWithFormatID is the error ID used when the startswith format is invalid.
 	ErrInvalidStartsWithFormatID = "ErrInvalidStartsWithFormat"
+	// ErrEndsWithID is the error ID used when the target does not end with the specified value.
+	ErrEndsWithID = "ErrEndsWith"
+	// ErrInvalidEndsWithFormatID is the error ID used when the endswith format is invalid.
+	ErrInvalidEndsWithFormatID = "ErrInvalidEndsWithFormat"
 	// ErrContainsID is the error ID used when the target does not contain the specified value.
 	ErrContainsID = "ErrContains"
 	// ErrInvalidContainsFormatID is the error ID used when the contains format is invalid.

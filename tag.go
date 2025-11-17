@@ -52,6 +52,8 @@ const (
 	emailTagValue tagValue = "email"
 	// startsWithTagValue is the struct tag name for startswith fields.
 	startsWithTagValue tagValue = "startswith"
+	// endsWithTagValue is the struct tag name for endswith fields.
+	endsWithTagValue tagValue = "endswith"
 	// containsTagValue is the struct tag name for contains fields.
 	containsTagValue tagValue = "contains"
 	// containsAnyTagValue is the struct tag name for contains any fields.
