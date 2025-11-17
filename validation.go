@@ -923,6 +923,29 @@ func (e *endsNotWithValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
+// excludesValidator is a struct that contains the validation rules for an excludes column.
+type excludesValidator struct {
+	excludes string
+}
+
+// newExcludesValidator returns a new excludesValidator.
+func newExcludesValidator(excludes string) *excludesValidator {
+	return &excludesValidator{excludes: excludes}
+}
+
+// Do validates the target does not contain the excluded value.
+func (e *excludesValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrExcludesID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.Contains(v, e.excludes) {
+		return NewError(localizer, ErrExcludesID, fmt.Sprintf("excludes=%s, value=%v", e.excludes, target))
+	}
+	return nil
+}
+
 // containsValidator is a struct that contains the validation rules for a contains column.
 type containsValidator struct {
 	contains string

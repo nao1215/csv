@@ -130,6 +130,9 @@
 - id: "ErrEndsNotWith"
   translation: "指定した値で終わってはいけません"
 
+- id: "ErrExcludes"
+  translation: "禁止されている文字列を含んでいます"
+
 - id: "ErrContains"
   translation: "指定された値を含んでいません"
 
@@ -150,6 +153,9 @@
 
 - id: "ErrInvalidEndsNotWithFormat"
   translation: "'endsnotwith'タグの形式が無効です"
+
+- id: "ErrInvalidExcludesFormat"
+  translation: "'excludes'タグの形式が無効です"
 
 - id: "ErrInvalidContainsRuneFormat"
   translation: "'containsrune'タグの形式が無効です"

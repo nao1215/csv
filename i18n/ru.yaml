@@ -124,6 +124,9 @@
 - id: "ErrEndsNotWith"
   translation: "целевое значение не должно заканчиваться указанным значением"
 
+- id: "ErrExcludes"
+  translation: "целевое значение содержит запрещенную подстроку"
+
 - id: "ErrContains"
   translation: "целевое значение не содержит подстроку"
 
@@ -144,6 +147,9 @@
 
 - id: "ErrInvalidEndsNotWithFormat"
   translation: "Формат тега 'endsnotwith' недопустим"
+
+- id: "ErrInvalidExcludesFormat"
+  translation: "Формат тега 'excludes' недопустим"
 
 - id: "ErrInvalidContainsRuneFormat"
   translation: "Формат тега 'containsrune' недопустим"

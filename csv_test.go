@@ -749,6 +749,63 @@ value
 		}
 	})
 
+	t.Run("validate excludes", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+this is bad value
+this is ok
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludes struct {
+			Name string `validate:"excludes=bad"`
+		}
+
+		list := make([]excludes, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:2 column name: target contains a prohibited substring: excludes=bad, value=this is bad value" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("invalid excludes tag format", func(t *testing.T) {
+		t.Parallel()
+
+		input := `name
+value
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type excludes struct {
+			Name string `validate:"excludes=bad another"`
+		}
+
+		list := make([]excludes, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "'excludes' tag format is invalid: excludes=bad another" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
 	t.Run("validate eq_ignore_case", func(t *testing.T) {
 		t.Parallel()
 

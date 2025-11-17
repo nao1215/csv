@@ -93,6 +93,7 @@ for _, err := range errs {
 | endswith     | Ends with the specified substring        |
 | endsnotwith  | Must not end with the specified substring|
 | containsrune | Contains the specified rune              |
+| excludes     | Must not contain the specified substring |
 | lowercase    | Lowercase only                           |
 | numeric      | Numeric only                             |
 | uppercase    | Uppercase only                           |

@@ -458,6 +458,45 @@ func Test_endsNotWithValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_excludesValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		e       *excludesValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "should return nil if target does not contain excluded substring",
+			e:       newExcludesValidator("bad"),
+			arg:     "good value",
+			wantErr: false,
+		},
+		{
+			name:    "should return error if target contains excluded substring",
+			e:       newExcludesValidator("bad"),
+			arg:     "this is bad value",
+			wantErr: true,
+		},
+		{
+			name:    "should return error if target is not a string",
+			e:       newExcludesValidator("bad"),
+			arg:     1,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.e.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("excludesValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_urlValidator_Do(t *testing.T) {
 	t.Parallel()
 
