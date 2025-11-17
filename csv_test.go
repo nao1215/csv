@@ -1065,6 +1065,92 @@ hello
 		}
 	})
 
+	t.Run("validate cidr", func(t *testing.T) {
+		t.Parallel()
+
+		input := `cidr
+192.168.0.0/24
+invalid
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type cidr struct {
+			CIDR string `validate:"cidr"`
+		}
+
+		list := make([]cidr, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column cidr: target is not a valid CIDR: value=invalid" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate cidrv4", func(t *testing.T) {
+		t.Parallel()
+
+		input := `cidr
+10.0.0.0/8
+2001:db8::/32
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type cidr struct {
+			CIDR string `validate:"cidrv4"`
+		}
+
+		list := make([]cidr, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column cidr: target is not a valid IPv4 CIDR: value=2001:db8::/32" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
+
+	t.Run("validate cidrv6", func(t *testing.T) {
+		t.Parallel()
+
+		input := `cidr
+2001:db8::/48
+10.0.0.0/8
+`
+
+		c, err := NewCSV(bytes.NewBufferString(input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		type cidr struct {
+			CIDR string `validate:"cidrv6"`
+		}
+
+		list := make([]cidr, 0)
+		errs := c.Decode(&list)
+		for i, err := range errs {
+			switch i {
+			case 0:
+				if err.Error() != "line:3 column cidr: target is not a valid IPv6 CIDR: value=10.0.0.0/8" {
+					t.Errorf("CSV.Decode() got errors: %v", err)
+				}
+			}
+		}
+	})
 	t.Run("validate eq_ignore_case", func(t *testing.T) {
 		t.Parallel()
 

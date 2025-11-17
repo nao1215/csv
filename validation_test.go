@@ -716,6 +716,68 @@ func Test_multibyteValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_cidrValidators_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		v       validator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "cidr ok ipv4",
+			v:       newCIDRValidator(),
+			arg:     "192.168.0.0/24",
+			wantErr: false,
+		},
+		{
+			name:    "cidr ok ipv6",
+			v:       newCIDRValidator(),
+			arg:     "2001:db8::/32",
+			wantErr: false,
+		},
+		{
+			name:    "cidr invalid string",
+			v:       newCIDRValidator(),
+			arg:     "invalid",
+			wantErr: true,
+		},
+		{
+			name:    "cidrv4 ok",
+			v:       newCIDRv4Validator(),
+			arg:     "10.0.0.0/8",
+			wantErr: false,
+		},
+		{
+			name:    "cidrv4 reject ipv6",
+			v:       newCIDRv4Validator(),
+			arg:     "2001:db8::/32",
+			wantErr: true,
+		},
+		{
+			name:    "cidrv6 ok",
+			v:       newCIDRv6Validator(),
+			arg:     "2001:db8::/48",
+			wantErr: false,
+		},
+		{
+			name:    "cidrv6 reject ipv4",
+			v:       newCIDRv6Validator(),
+			arg:     "192.168.0.0/24",
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.v.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("cidr validation error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
 func Test_printASCIIValidator_Do(t *testing.T) {
 	t.Parallel()
 

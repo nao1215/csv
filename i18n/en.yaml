@@ -145,6 +145,15 @@
 - id: "ErrPrintASCII"
   translation: "target is not printable ASCII"
 
+- id: "ErrCIDR"
+  translation: "target is not a valid CIDR"
+
+- id: "ErrCIDRv4"
+  translation: "target is not a valid IPv4 CIDR"
+
+- id: "ErrCIDRv6"
+  translation: "target is not a valid IPv6 CIDR"
+
 - id: "ErrContains"
   translation: "target does not contain the specified value"
 

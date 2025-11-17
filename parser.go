@@ -168,6 +168,12 @@ func (c *CSV) parseValidateTag(tags string) (validators, error) {
 			validatorList = append(validatorList, newIP6AddrValidator())
 		case strings.HasPrefix(t, ipAddrTagValue.String()):
 			validatorList = append(validatorList, newIPAddrValidator())
+		case strings.HasPrefix(t, cidrv6TagValue.String()):
+			validatorList = append(validatorList, newCIDRv6Validator())
+		case strings.HasPrefix(t, cidrv4TagValue.String()):
+			validatorList = append(validatorList, newCIDRv4Validator())
+		case strings.HasPrefix(t, cidrTagValue.String()):
+			validatorList = append(validatorList, newCIDRValidator())
 		case strings.HasPrefix(t, uuidTagValue.String()):
 			validatorList = append(validatorList, newUUIDValidator())
 		case strings.HasPrefix(t, emailTagValue.String()):

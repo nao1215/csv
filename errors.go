@@ -164,6 +164,12 @@ var (
 	ErrMultibyteID = "ErrMultibyte"
 	// ErrPrintASCIIID is the error ID used when the target contains non printable ASCII characters.
 	ErrPrintASCIIID = "ErrPrintASCII"
+	// ErrCIDRID is the error ID used when the target is not a valid CIDR.
+	ErrCIDRID = "ErrCIDR"
+	// ErrCIDRv4ID is the error ID used when the target is not a valid IPv4 CIDR.
+	ErrCIDRv4ID = "ErrCIDRv4"
+	// ErrCIDRv6ID is the error ID used when the target is not a valid IPv6 CIDR.
+	ErrCIDRv6ID = "ErrCIDRv6"
 	// ErrContainsID is the error ID used when the target does not contain the specified value.
 	ErrContainsID = "ErrContains"
 	// ErrInvalidContainsFormatID is the error ID used when the contains format is invalid.
