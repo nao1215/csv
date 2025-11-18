@@ -1072,6 +1072,51 @@ func Test_urlEncodedValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_dataURIValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		u       *dataURIValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for valid data uri",
+			u:       newDataURIValidator(),
+			arg:     "data:text/plain;base64,SGVsbG8=",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for malformed scheme",
+			u:       newDataURIValidator(),
+			arg:     "text/plain;base64,SGVsbG8=",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for invalid base64",
+			u:       newDataURIValidator(),
+			arg:     "data:text/plain;base64,%%%%",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for non-string",
+			u:       newDataURIValidator(),
+			arg:     123,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.u.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("dataURIValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_ipAddrValidator_Do(t *testing.T) {
 	t.Parallel()
 

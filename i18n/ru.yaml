@@ -157,6 +157,9 @@
 - id: "ErrURLEncoded"
   translation: "целевое значение не является URL-кодированным"
 
+- id: "ErrDataURI"
+  translation: "целевое значение не является допустимым Data URI"
+
 - id: "ErrIPAddr"
   translation: "целевое значение не является допустимым IP-адресом"
 

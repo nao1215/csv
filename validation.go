@@ -1,6 +1,7 @@
 package csv
 
 import (
+	"encoding/base64"
 	"fmt"
 	"net"
 	"net/url"
@@ -16,6 +17,7 @@ import (
 
 const fileScheme = "file"
 const uuidRegexPattern = `^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$`
+const dataURIRegexPattern = `^data:[^;]+;base64,[A-Za-z0-9+/]+={0,2}$`
 
 // validator is a struct that contains the validation rules for a column.
 type validators []validator
@@ -810,7 +812,10 @@ func (u *httpsURLValidator) Do(localizer *i18n.Localizer, target any) error {
 	return nil
 }
 
-var urlEncodedRegexp = regexp.MustCompile(`^(?:[^%]|%[0-9A-Fa-f]{2})*$`)
+var (
+	urlEncodedRegexp = regexp.MustCompile(`^(?:[^%]|%[0-9A-Fa-f]{2})*$`)
+	dataURIRegex     = regexp.MustCompile(dataURIRegexPattern)
+)
 
 // urlEncodedValidator validates URL-encoded strings (no invalid % escapes).
 type urlEncodedValidator struct{}
@@ -818,6 +823,13 @@ type urlEncodedValidator struct{}
 // newURLEncodedValidator returns a new urlEncodedValidator.
 func newURLEncodedValidator() *urlEncodedValidator {
 	return &urlEncodedValidator{}
+}
+
+type dataURIValidator struct{}
+
+// newDataURIValidator returns a new dataURIValidator.
+func newDataURIValidator() *dataURIValidator {
+	return &dataURIValidator{}
 }
 
 // Do validates the target is URL encoded.
@@ -830,6 +842,29 @@ func (u *urlEncodedValidator) Do(localizer *i18n.Localizer, target any) error {
 	if !urlEncodedRegexp.MatchString(v) {
 		return NewError(localizer, ErrURLEncodedID, fmt.Sprintf("value=%v", target))
 	}
+	return nil
+}
+
+// Do validates the target is a Data URI with base64 payload.
+func (d *dataURIValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrDataURIID, fmt.Sprintf("value=%v", target))
+	}
+
+	if !dataURIRegex.MatchString(v) {
+		return NewError(localizer, ErrDataURIID, fmt.Sprintf("value=%v", target))
+	}
+
+	parts := strings.SplitN(v, ",", 2)
+	if len(parts) != 2 {
+		return NewError(localizer, ErrDataURIID, fmt.Sprintf("value=%v", target))
+	}
+
+	if _, err := base64.StdEncoding.DecodeString(parts[1]); err != nil {
+		return NewError(localizer, ErrDataURIID, fmt.Sprintf("value=%v", target))
+	}
+
 	return nil
 }
 

@@ -156,6 +156,9 @@
 - id: "ErrURLEncoded"
   translation: "target is not URL-encoded"
 
+- id: "ErrDataURI"
+  translation: "target is not a valid data URI"
+
 - id: "ErrIPAddr"
   translation: "target is not a valid IP address"
 

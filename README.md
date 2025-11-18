@@ -136,6 +136,7 @@ line:3 column password: target is not greater than or equal to the threshold val
 | multibyte    | Contains at least one multibyte character|
 | number       | Signed integer or decimal number         |
 | numeric      | Numeric only                             |
+| datauri      | Valid Data URI (data:*;base64,…)         |
 | printascii   | Printable ASCII characters only          |
 | startsnotwith| Must not start with the specified substring |
 | startswith   | Starts with the specified substring      |
@@ -151,6 +152,7 @@ line:3 column password: target is not greater than or equal to the threshold val
 | http_url   | Valid HTTP(S) URL with host                                                                 |
 | https_url  | Valid HTTPS URL with host                                                                   |
 | url_encoded| URL-encoded string (percent escapes, no malformed `%` sequences)                            |
+| datauri    | Valid Data URI (data:*;base64,…)                                                            |
 | uuid       | UUID string (with hyphens)                                                                  |
 
 #### Network rules
