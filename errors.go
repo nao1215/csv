@@ -160,6 +160,12 @@ var (
 	ErrURLEncodedID = "ErrURLEncoded"
 	// ErrDataURIID is the error ID used when the target is not a valid data URI.
 	ErrDataURIID = "ErrDataURI"
+	// ErrHostnameID is the error ID used when the target is not a valid hostname (RFC 952).
+	ErrHostnameID = "ErrHostname"
+	// ErrHostnameRFC1123ID is the error ID used when the target is not a valid hostname (RFC 1123).
+	ErrHostnameRFC1123ID = "ErrHostnameRFC1123"
+	// ErrHostnamePortID is the error ID used when the target is not a valid host:port.
+	ErrHostnamePortID = "ErrHostnamePort"
 	// ErrFQDNID is the error ID used when the target is not a valid fully qualified domain name.
 	ErrFQDNID = "ErrFQDN"
 	// ErrIPAddrID is the error ID used when the target is not an IP address (ip_addr).
