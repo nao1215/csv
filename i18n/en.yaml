@@ -159,6 +159,15 @@
 - id: "ErrDataURI"
   translation: "target is not a valid data URI"
 
+- id: "ErrHostname"
+  translation: "target is not a valid hostname (RFC 952)"
+
+- id: "ErrHostnameRFC1123"
+  translation: "target is not a valid hostname (RFC 1123)"
+
+- id: "ErrHostnamePort"
+  translation: "target is not a valid host:port"
+
 - id: "ErrIPAddr"
   translation: "target is not a valid IP address"
 

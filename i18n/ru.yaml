@@ -160,6 +160,15 @@
 - id: "ErrDataURI"
   translation: "целевое значение не является допустимым Data URI"
 
+- id: "ErrHostname"
+  translation: "целевое значение не является допустимым именем хоста (RFC 952)"
+
+- id: "ErrHostnameRFC1123"
+  translation: "целевое значение не является допустимым именем хоста (RFC 1123)"
+
+- id: "ErrHostnamePort"
+  translation: "целевое значение не является допустимым host:port"
+
 - id: "ErrIPAddr"
   translation: "целевое значение не является допустимым IP-адресом"
 

@@ -153,6 +153,9 @@ line:3 column password: target is not greater than or equal to the threshold val
 | https_url  | Valid HTTPS URL with host                                                                   |
 | url_encoded| URL-encoded string (percent escapes, no malformed `%` sequences)                            |
 | datauri    | Valid Data URI (data:*;base64,…)                                                            |
+| hostname   | Hostname (RFC 952)                                                                          |
+| hostname_rfc1123 | Hostname (RFC 1123)                                                                   |
+| hostname_port | Host and port combination                                                                |
 | uuid       | UUID string (with hyphens)                                                                  |
 
 #### Network rules
