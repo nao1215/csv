@@ -165,6 +165,9 @@
 - id: "ErrDataURI"
   translation: "値が有効な Data URI ではありません"
 
+- id: "ErrFQDN"
+  translation: "値が有効な FQDN ではありません"
+
 - id: "ErrIPAddr"
   translation: "値がIPアドレスではありません"
 

@@ -159,6 +159,9 @@
 - id: "ErrDataURI"
   translation: "target is not a valid data URI"
 
+- id: "ErrFQDN"
+  translation: "target is not a valid fully qualified domain name"
+
 - id: "ErrIPAddr"
   translation: "target is not a valid IP address"
 

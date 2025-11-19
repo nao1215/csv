@@ -153,6 +153,7 @@ line:3 column password: target is not greater than or equal to the threshold val
 | https_url  | Valid HTTPS URL with host                                                                   |
 | url_encoded| URL-encoded string (percent escapes, no malformed `%` sequences)                            |
 | datauri    | Valid Data URI (data:*;base64,…)                                                            |
+| fqdn       | Valid fully qualified domain name                                                           |
 | uuid       | UUID string (with hyphens)                                                                  |
 
 #### Network rules

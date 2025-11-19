@@ -160,6 +160,8 @@ var (
 	ErrURLEncodedID = "ErrURLEncoded"
 	// ErrDataURIID is the error ID used when the target is not a valid data URI.
 	ErrDataURIID = "ErrDataURI"
+	// ErrFQDNID is the error ID used when the target is not a valid fully qualified domain name.
+	ErrFQDNID = "ErrFQDN"
 	// ErrIPAddrID is the error ID used when the target is not an IP address (ip_addr).
 	ErrIPAddrID = "ErrIPAddr"
 	// ErrIPv4ID is the error ID used when the target is not an IPv4 address.

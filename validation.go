@@ -815,6 +815,7 @@ func (u *httpsURLValidator) Do(localizer *i18n.Localizer, target any) error {
 var (
 	urlEncodedRegexp = regexp.MustCompile(`^(?:[^%]|%[0-9A-Fa-f]{2})*$`)
 	dataURIRegex     = regexp.MustCompile(dataURIRegexPattern)
+	fqdnLabelRegexp  = regexp.MustCompile(`^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$`)
 )
 
 // urlEncodedValidator validates URL-encoded strings (no invalid % escapes).
@@ -830,6 +831,13 @@ type dataURIValidator struct{}
 // newDataURIValidator returns a new dataURIValidator.
 func newDataURIValidator() *dataURIValidator {
 	return &dataURIValidator{}
+}
+
+type fqdnValidator struct{}
+
+// newFQDNValidator returns a new fqdnValidator.
+func newFQDNValidator() *fqdnValidator {
+	return &fqdnValidator{}
 }
 
 // Do validates the target is URL encoded.
@@ -863,6 +871,37 @@ func (d *dataURIValidator) Do(localizer *i18n.Localizer, target any) error {
 
 	if _, err := base64.StdEncoding.DecodeString(parts[1]); err != nil {
 		return NewError(localizer, ErrDataURIID, fmt.Sprintf("value=%v", target))
+	}
+
+	return nil
+}
+
+// Do validates the target is a fully qualified domain name.
+func (f *fqdnValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrFQDNID, fmt.Sprintf("value=%v", target))
+	}
+
+	// Reject leading/trailing dot and enforce at least two labels.
+	if strings.HasPrefix(v, ".") || strings.HasSuffix(v, ".") {
+		return NewError(localizer, ErrFQDNID, fmt.Sprintf("value=%v", target))
+	}
+	labels := strings.Split(v, ".")
+	if len(labels) < 2 {
+		return NewError(localizer, ErrFQDNID, fmt.Sprintf("value=%v", target))
+	}
+
+	totalLen := 0
+	for _, label := range labels {
+		totalLen += len(label) + 1 // include dot later
+		if !fqdnLabelRegexp.MatchString(label) {
+			return NewError(localizer, ErrFQDNID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	// total length must be <= 253 characters (labels + dots - last dot).
+	if totalLen-1 > 253 {
+		return NewError(localizer, ErrFQDNID, fmt.Sprintf("value=%v", target))
 	}
 
 	return nil
