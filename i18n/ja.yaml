@@ -165,6 +165,15 @@
 - id: "ErrDataURI"
   translation: "値が有効な Data URI ではありません"
 
+- id: "ErrHostname"
+  translation: "値が有効なホスト名(RFC 952)ではありません"
+
+- id: "ErrHostnameRFC1123"
+  translation: "値が有効なホスト名(RFC 1123)ではありません"
+
+- id: "ErrHostnamePort"
+  translation: "値が有効なホスト名:ポートではありません"
+
 - id: "ErrFQDN"
   translation: "値が有効な FQDN ではありません"
 

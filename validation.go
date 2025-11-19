@@ -813,9 +813,11 @@ func (u *httpsURLValidator) Do(localizer *i18n.Localizer, target any) error {
 }
 
 var (
-	urlEncodedRegexp = regexp.MustCompile(`^(?:[^%]|%[0-9A-Fa-f]{2})*$`)
-	dataURIRegex     = regexp.MustCompile(dataURIRegexPattern)
-	fqdnLabelRegexp  = regexp.MustCompile(`^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$`)
+	urlEncodedRegexp           = regexp.MustCompile(`^(?:[^%]|%[0-9A-Fa-f]{2})*$`)
+	dataURIRegex               = regexp.MustCompile(dataURIRegexPattern)
+	fqdnLabelRegexp            = regexp.MustCompile(`^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$`)
+	hostnameRFC952LabelRegexp  = regexp.MustCompile(`^[A-Za-z](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$`)
+	hostnameRFC1123LabelRegexp = regexp.MustCompile(`^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$`)
 )
 
 // urlEncodedValidator validates URL-encoded strings (no invalid % escapes).
@@ -838,6 +840,26 @@ type fqdnValidator struct{}
 // newFQDNValidator returns a new fqdnValidator.
 func newFQDNValidator() *fqdnValidator {
 	return &fqdnValidator{}
+}
+
+type hostnameValidator struct {
+	labelRegexp *regexp.Regexp
+	errID       string
+}
+
+// newHostnameValidator returns a new hostnameValidator with the given label regex and error id.
+func newHostnameValidator(labelRegexp *regexp.Regexp, errID string) *hostnameValidator {
+	return &hostnameValidator{
+		labelRegexp: labelRegexp,
+		errID:       errID,
+	}
+}
+
+type hostnamePortValidator struct{}
+
+// newHostnamePortValidator returns a new hostnamePortValidator.
+func newHostnamePortValidator() *hostnamePortValidator {
+	return &hostnamePortValidator{}
 }
 
 // Do validates the target is URL encoded.
@@ -902,6 +924,71 @@ func (f *fqdnValidator) Do(localizer *i18n.Localizer, target any) error {
 	// total length must be <= 253 characters (labels + dots - last dot).
 	if totalLen-1 > 253 {
 		return NewError(localizer, ErrFQDNID, fmt.Sprintf("value=%v", target))
+	}
+
+	return nil
+}
+
+// Do validates the target is a hostname according to the provided label regexp.
+func (h *hostnameValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, h.errID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.HasPrefix(v, ".") || strings.HasSuffix(v, ".") {
+		return NewError(localizer, h.errID, fmt.Sprintf("value=%v", target))
+	}
+
+	labels := strings.Split(v, ".")
+	if len(labels) < 1 {
+		return NewError(localizer, h.errID, fmt.Sprintf("value=%v", target))
+	}
+
+	totalLen := 0
+	for _, label := range labels {
+		totalLen += len(label) + 1 // include dot later
+		if !h.labelRegexp.MatchString(label) {
+			return NewError(localizer, h.errID, fmt.Sprintf("value=%v", target))
+		}
+	}
+	if totalLen-1 > 253 {
+		return NewError(localizer, h.errID, fmt.Sprintf("value=%v", target))
+	}
+
+	return nil
+}
+
+// Do validates the target is a hostname:port where host is IP or RFC1123 hostname.
+func (h *hostnamePortValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrHostnamePortID, fmt.Sprintf("value=%v", target))
+	}
+
+	host, portStr, err := net.SplitHostPort(v)
+	if err != nil {
+		return NewError(localizer, ErrHostnamePortID, fmt.Sprintf("value=%v", target))
+	}
+
+	p, err := strconv.Atoi(portStr)
+	if err != nil || p < 1 || p > 65535 {
+		return NewError(localizer, ErrHostnamePortID, fmt.Sprintf("value=%v", target))
+	}
+
+	if strings.HasPrefix(host, "[") && strings.HasSuffix(host, "]") {
+		if ip := net.ParseIP(strings.Trim(host, "[]")); ip != nil {
+			return nil
+		}
+		return NewError(localizer, ErrHostnamePortID, fmt.Sprintf("value=%v", target))
+	}
+
+	if ip := net.ParseIP(host); ip != nil {
+		return nil
+	}
+
+	if err := newHostnameValidator(hostnameRFC1123LabelRegexp, ErrHostnamePortID).Do(localizer, host); err != nil {
+		return NewError(localizer, ErrHostnamePortID, fmt.Sprintf("value=%v", target))
 	}
 
 	return nil
