@@ -871,6 +871,19 @@ func newMACValidator() *macValidator {
 	return &macValidator{}
 }
 
+type tcpAddrValidator struct {
+	network string
+	errID   string
+}
+
+// newTCPAddrValidator returns a new tcpAddrValidator for the given network and error ID.
+func newTCPAddrValidator(network, errID string) *tcpAddrValidator {
+	return &tcpAddrValidator{
+		network: network,
+		errID:   errID,
+	}
+}
+
 // Do validates the target is URL encoded.
 func (u *urlEncodedValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
@@ -995,6 +1008,19 @@ func (m *macValidator) Do(localizer *i18n.Localizer, target any) error {
 
 	if _, err := net.ParseMAC(v); err != nil {
 		return NewError(localizer, ErrMACID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// Do validates the target is a TCP address for the configured network.
+func (t *tcpAddrValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, t.errID, fmt.Sprintf("value=%v", target))
+	}
+
+	if _, err := net.ResolveTCPAddr(t.network, v); err != nil {
+		return NewError(localizer, t.errID, fmt.Sprintf("value=%v", target))
 	}
 	return nil
 }

@@ -92,6 +92,12 @@ const (
 	portTagValue tagValue = "port"
 	// macTagValue is the struct tag name for MAC address fields.
 	macTagValue tagValue = "mac"
+	// tcpAddrTagValue is the struct tag name for TCP address fields.
+	tcpAddrTagValue tagValue = "tcp_addr"
+	// tcp4AddrTagValue is the struct tag name for TCPv4 address fields.
+	tcp4AddrTagValue tagValue = "tcp4_addr"
+	// tcp6AddrTagValue is the struct tag name for TCPv6 address fields.
+	tcp6AddrTagValue tagValue = "tcp6_addr"
 	// ipAddrTagValue is the struct tag name for ip_addr fields (IPv4 or IPv6).
 	ipAddrTagValue tagValue = "ip_addr"
 	// ip4AddrTagValue is the struct tag name for ip4_addr fields (IPv4 only).

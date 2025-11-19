@@ -180,6 +180,15 @@
 - id: "ErrMAC"
   translation: "値が有効な MAC アドレスではありません"
 
+- id: "ErrTCPAddr"
+  translation: "値が有効な TCP アドレスではありません"
+
+- id: "ErrTCP4Addr"
+  translation: "値が有効な TCPv4 アドレスではありません"
+
+- id: "ErrTCP6Addr"
+  translation: "値が有効な TCPv6 アドレスではありません"
+
 - id: "ErrIPAddr"
   translation: "値がIPアドレスではありません"
 

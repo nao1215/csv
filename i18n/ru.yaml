@@ -175,6 +175,15 @@
 - id: "ErrMAC"
   translation: "целевое значение не является допустимым MAC-адресом"
 
+- id: "ErrTCPAddr"
+  translation: "целевое значение не является допустимым TCP-адресом"
+
+- id: "ErrTCP4Addr"
+  translation: "целевое значение не является допустимым TCPv4-адресом"
+
+- id: "ErrTCP6Addr"
+  translation: "целевое значение не является допустимым TCPv6-адресом"
+
 - id: "ErrIPAddr"
   translation: "целевое значение не является допустимым IP-адресом"
 

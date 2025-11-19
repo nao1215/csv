@@ -1217,6 +1217,33 @@ func Test_macValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_tcpAddrValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		v       *tcpAddrValidator
+		arg     any
+		wantErr bool
+	}{
+		{"tcp addr ok", newTCPAddrValidator("tcp", ErrTCPAddrID), "localhost:80", false},
+		{"tcp4 addr ok", newTCPAddrValidator("tcp4", ErrTCP4AddrID), "127.0.0.1:8080", false},
+		{"tcp6 addr ok", newTCPAddrValidator("tcp6", ErrTCP6AddrID), "[2001:db8::1]:443", false},
+		{"missing port", newTCPAddrValidator("tcp", ErrTCPAddrID), "localhost", true},
+		{"invalid host", newTCPAddrValidator("tcp4", ErrTCP4AddrID), "exa_mple:80", true},
+		{"non-string", newTCPAddrValidator("tcp", ErrTCPAddrID), 123, true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.v.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("tcpAddrValidator.Do() error = %v, wantErr %v, test %s", err, tt.wantErr, tt.name)
+			}
+		})
+	}
+}
+
 func Test_ipAddrValidator_Do(t *testing.T) {
 	t.Parallel()
 

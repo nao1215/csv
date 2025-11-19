@@ -113,6 +113,10 @@ line:3 column password: target is not greater than or equal to the threshold val
 | ltfield  | Less than another field in the same row |
 | nefield    | Not equal to another field in the same row |
 
+
+#### Network rules
+
+| Tag Name        | Description                               |
 #### String rules
 
 | Tag Name     | Description                              |
@@ -136,7 +140,6 @@ line:3 column password: target is not greater than or equal to the threshold val
 | multibyte    | Contains at least one multibyte character|
 | number       | Signed integer or decimal number         |
 | numeric      | Numeric only                             |
-| datauri      | Valid Data URI (data:*;base64,…)         |
 | printascii   | Printable ASCII characters only          |
 | startsnotwith| Must not start with the specified substring |
 | startswith   | Starts with the specified substring      |
@@ -144,32 +147,36 @@ line:3 column password: target is not greater than or equal to the threshold val
 
 #### Format rules
 
-| Tag Name   | Description                                                                                 |
-| ---------- | ------------------------------------------------------------------------------------------- |
-| email      | Valid email address                                                                         |
-| uri        | Valid URI (scheme required, host optional)                                                  |
-| url        | Valid URL (scheme required; `file:` allows path-only, other schemes require URL shape)      |
-| http_url   | Valid HTTP(S) URL with host                                                                 |
-| https_url  | Valid HTTPS URL with host                                                                   |
-| url_encoded| URL-encoded string (percent escapes, no malformed `%` sequences)                            |
-| datauri    | Valid Data URI (data:*;base64,…)                                                            |
-| hostname   | Hostname (RFC 952)                                                                          |
-| hostname_rfc1123 | Hostname (RFC 1123)                                                                   |
-| hostname_port | Host and port combination                                                                |
-| port       | Valid TCP/UDP port number                                                                   |
-| mac        | MAC address                                                                                 |
-| uuid       | UUID string (with hyphens)                                                                  |
+| Tag Name | Description                  |
+| -------- | ---------------------------- |
+| email    | E-mail string                |
+| uuid     | Universally Unique Identifier (UUID) |
 
 #### Network rules
 
-| Tag Name | Description                      |
-| -------- | -------------------------------- |
-| cidr         | Valid CIDR (IPv4 or IPv6)                |
-| cidrv4       | Valid IPv4 CIDR                          |
-| cidrv6       | Valid IPv6 CIDR                          |
-| ip_addr  | IPv4 or IPv6 address             |
-| ip4_addr | IPv4 address only                |
-| ip6_addr | IPv6 address only                |
+| Tag Name      | Description                               |
+| ------------- | ----------------------------------------- |
+| cidr          | Classless Inter-Domain Routing (IPv4/IPv6)|
+| cidrv4        | Classless Inter-Domain Routing (IPv4)     |
+| cidrv6        | Classless Inter-Domain Routing (IPv6)     |
+| datauri       | Data URL                                  |
+| fqdn          | Fully Qualified Domain Name               |
+| hostname      | Hostname (RFC 952)                        |
+| hostname_rfc1123 | Hostname (RFC 1123)                    |
+| hostname_port | Host:Port                                 |
+| port          | Port number (1-65535)                     |
+| ip_addr       | IPv4 or IPv6 address                      |
+| ip4_addr      | IPv4 address only                         |
+| ip6_addr      | IPv6 address only                         |
+| mac           | Media Access Control address              |
+| tcp_addr      | TCP address (IPv4/IPv6)                   |
+| tcp4_addr     | TCP address (IPv4)                        |
+| tcp6_addr     | TCP address (IPv6)                        |
+| uri           | URI string                                |
+| url           | URL string                                |
+| http_url      | HTTP(S) URL string                        |
+| https_url     | HTTPS-only URL string                     |
+| url_encoded   | URL-encoded string                        |
 
 #### Comparison rules
 
@@ -181,8 +188,8 @@ line:3 column password: target is not greater than or equal to the threshold val
 | gte      | Greater or equal             |
 | lt       | Less than                    |
 | lte      | Less or equal                |
-| ne_ignore_case | Not equal to the specified value (case-insensitive) |
 | ne       | Not equal                    |
+| ne_ignore_case | Not equal to the specified value (case-insensitive) |
 
 #### Other rules
 

@@ -170,6 +170,12 @@ var (
 	ErrPortID = "ErrPort"
 	// ErrMACID is the error ID used when the target is not a valid MAC address.
 	ErrMACID = "ErrMAC"
+	// ErrTCPAddrID is the error ID used when the target is not a valid TCP address.
+	ErrTCPAddrID = "ErrTCPAddr"
+	// ErrTCP4AddrID is the error ID used when the target is not a valid TCPv4 address.
+	ErrTCP4AddrID = "ErrTCP4Addr"
+	// ErrTCP6AddrID is the error ID used when the target is not a valid TCPv6 address.
+	ErrTCP6AddrID = "ErrTCP6Addr"
 	// ErrIPAddrID is the error ID used when the target is not an IP address (ip_addr).
 	ErrIPAddrID = "ErrIPAddr"
 	// ErrIPv4ID is the error ID used when the target is not an IPv4 address.
