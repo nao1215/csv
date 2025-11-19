@@ -884,6 +884,19 @@ func newTCPAddrValidator(network, errID string) *tcpAddrValidator {
 	}
 }
 
+type udpAddrValidator struct {
+	network string
+	errID   string
+}
+
+// newUDPAddrValidator returns a new udpAddrValidator for the given network and error ID.
+func newUDPAddrValidator(network, errID string) *udpAddrValidator {
+	return &udpAddrValidator{
+		network: network,
+		errID:   errID,
+	}
+}
+
 // Do validates the target is URL encoded.
 func (u *urlEncodedValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
@@ -1021,6 +1034,19 @@ func (t *tcpAddrValidator) Do(localizer *i18n.Localizer, target any) error {
 
 	if _, err := net.ResolveTCPAddr(t.network, v); err != nil {
 		return NewError(localizer, t.errID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// Do validates the target is a UDP address for the configured network.
+func (u *udpAddrValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, u.errID, fmt.Sprintf("value=%v", target))
+	}
+
+	if _, err := net.ResolveUDPAddr(u.network, v); err != nil {
+		return NewError(localizer, u.errID, fmt.Sprintf("value=%v", target))
 	}
 	return nil
 }

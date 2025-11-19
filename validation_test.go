@@ -1244,6 +1244,33 @@ func Test_tcpAddrValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_udpAddrValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		v       *udpAddrValidator
+		arg     any
+		wantErr bool
+	}{
+		{"udp addr ok", newUDPAddrValidator("udp", ErrUDPAddrID), "localhost:80", false},
+		{"udp4 addr ok", newUDPAddrValidator("udp4", ErrUDP4AddrID), "127.0.0.1:8080", false},
+		{"udp6 addr ok", newUDPAddrValidator("udp6", ErrUDP6AddrID), "[2001:db8::1]:53", false},
+		{"missing port", newUDPAddrValidator("udp", ErrUDPAddrID), "localhost", true},
+		{"invalid host", newUDPAddrValidator("udp4", ErrUDP4AddrID), "exa_mple:80", true},
+		{"non-string", newUDPAddrValidator("udp", ErrUDPAddrID), 123, true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.v.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("udpAddrValidator.Do() error = %v, wantErr %v, test %s", err, tt.wantErr, tt.name)
+			}
+		})
+	}
+}
+
 func Test_ipAddrValidator_Do(t *testing.T) {
 	t.Parallel()
 

@@ -172,6 +172,9 @@ line:3 column password: target is not greater than or equal to the threshold val
 | tcp_addr      | TCP address (IPv4/IPv6)                   |
 | tcp4_addr     | TCP address (IPv4)                        |
 | tcp6_addr     | TCP address (IPv6)                        |
+| udp_addr      | UDP address (IPv4/IPv6)                   |
+| udp4_addr     | UDP address (IPv4)                        |
+| udp6_addr     | UDP address (IPv6)                        |
 | uri           | URI string                                |
 | url           | URL string                                |
 | http_url      | HTTP(S) URL string                        |

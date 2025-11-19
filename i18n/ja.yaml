@@ -189,6 +189,15 @@
 - id: "ErrTCP6Addr"
   translation: "値が有効な TCPv6 アドレスではありません"
 
+- id: "ErrUDPAddr"
+  translation: "値が有効な UDP アドレスではありません"
+
+- id: "ErrUDP4Addr"
+  translation: "値が有効な UDPv4 アドレスではありません"
+
+- id: "ErrUDP6Addr"
+  translation: "値が有効な UDPv6 アドレスではありません"
+
 - id: "ErrIPAddr"
   translation: "値がIPアドレスではありません"
 

@@ -98,6 +98,12 @@ const (
 	tcp4AddrTagValue tagValue = "tcp4_addr"
 	// tcp6AddrTagValue is the struct tag name for TCPv6 address fields.
 	tcp6AddrTagValue tagValue = "tcp6_addr"
+	// udpAddrTagValue is the struct tag name for UDP address fields.
+	udpAddrTagValue tagValue = "udp_addr"
+	// udp4AddrTagValue is the struct tag name for UDPv4 address fields.
+	udp4AddrTagValue tagValue = "udp4_addr"
+	// udp6AddrTagValue is the struct tag name for UDPv6 address fields.
+	udp6AddrTagValue tagValue = "udp6_addr"
 	// ipAddrTagValue is the struct tag name for ip_addr fields (IPv4 or IPv6).
 	ipAddrTagValue tagValue = "ip_addr"
 	// ip4AddrTagValue is the struct tag name for ip4_addr fields (IPv4 only).

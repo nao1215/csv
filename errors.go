@@ -176,6 +176,12 @@ var (
 	ErrTCP4AddrID = "ErrTCP4Addr"
 	// ErrTCP6AddrID is the error ID used when the target is not a valid TCPv6 address.
 	ErrTCP6AddrID = "ErrTCP6Addr"
+	// ErrUDPAddrID is the error ID used when the target is not a valid UDP address.
+	ErrUDPAddrID = "ErrUDPAddr"
+	// ErrUDP4AddrID is the error ID used when the target is not a valid UDPv4 address.
+	ErrUDP4AddrID = "ErrUDP4Addr"
+	// ErrUDP6AddrID is the error ID used when the target is not a valid UDPv6 address.
+	ErrUDP6AddrID = "ErrUDP6Addr"
 	// ErrIPAddrID is the error ID used when the target is not an IP address (ip_addr).
 	ErrIPAddrID = "ErrIPAddr"
 	// ErrIPv4ID is the error ID used when the target is not an IPv4 address.

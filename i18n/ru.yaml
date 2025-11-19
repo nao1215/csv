@@ -184,6 +184,15 @@
 - id: "ErrTCP6Addr"
   translation: "целевое значение не является допустимым TCPv6-адресом"
 
+- id: "ErrUDPAddr"
+  translation: "целевое значение не является допустимым UDP-адресом"
+
+- id: "ErrUDP4Addr"
+  translation: "целевое значение не является допустимым UDPv4-адресом"
+
+- id: "ErrUDP6Addr"
+  translation: "целевое значение не является допустимым UDPv6-адресом"
+
 - id: "ErrIPAddr"
   translation: "целевое значение не является допустимым IP-адресом"
 

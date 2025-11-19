@@ -183,6 +183,15 @@
 - id: "ErrTCP6Addr"
   translation: "target is not a valid TCPv6 address"
 
+- id: "ErrUDPAddr"
+  translation: "target is not a valid UDP address"
+
+- id: "ErrUDP4Addr"
+  translation: "target is not a valid UDPv4 address"
+
+- id: "ErrUDP6Addr"
+  translation: "target is not a valid UDPv6 address"
+
 - id: "ErrIPAddr"
   translation: "target is not a valid IP address"
 
