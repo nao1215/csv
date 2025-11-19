@@ -174,6 +174,12 @@
 - id: "ErrHostnamePort"
   translation: "値が有効なホスト名:ポートではありません"
 
+- id: "ErrPort"
+  translation: "値が有効なポート番号ではありません"
+
+- id: "ErrMAC"
+  translation: "値が有効な MAC アドレスではありません"
+
 - id: "ErrIPAddr"
   translation: "値がIPアドレスではありません"
 

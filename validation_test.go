@@ -1167,6 +1167,56 @@ func Test_hostnameValidators_Do(t *testing.T) {
 	}
 }
 
+func Test_portValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		arg     any
+		wantErr bool
+	}{
+		{"valid port string", "8080", false},
+		{"port zero invalid", "0", true},
+		{"port too large", "70000", true},
+		{"non-numeric", "abc", true},
+		{"non-string", 123, true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := newPortValidator().Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("portValidator.Do() error = %v, wantErr %v, test %s", err, tt.wantErr, tt.name)
+			}
+		})
+	}
+}
+
+func Test_macValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		arg     any
+		wantErr bool
+	}{
+		{"valid mac", "01:23:45:67:89:ab", false},
+		{"valid mac uppercase", "AA-BB-CC-DD-EE-FF", false},
+		{"invalid mac length", "01:23:45:67:89", true},
+		{"invalid mac chars", "ZZ:ZZ:ZZ:ZZ:ZZ:ZZ", true},
+		{"non-string", 123, true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := newMACValidator().Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("macValidator.Do() error = %v, wantErr %v, test %s", err, tt.wantErr, tt.name)
+			}
+		})
+	}
+}
+
 func Test_ipAddrValidator_Do(t *testing.T) {
 	t.Parallel()
 

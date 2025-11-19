@@ -166,6 +166,10 @@ var (
 	ErrHostnameRFC1123ID = "ErrHostnameRFC1123"
 	// ErrHostnamePortID is the error ID used when the target is not a valid hostname:port.
 	ErrHostnamePortID = "ErrHostnamePort"
+	// ErrPortID is the error ID used when the target is not a valid port number.
+	ErrPortID = "ErrPort"
+	// ErrMACID is the error ID used when the target is not a valid MAC address.
+	ErrMACID = "ErrMAC"
 	// ErrIPAddrID is the error ID used when the target is not an IP address (ip_addr).
 	ErrIPAddrID = "ErrIPAddr"
 	// ErrIPv4ID is the error ID used when the target is not an IPv4 address.

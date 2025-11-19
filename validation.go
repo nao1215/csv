@@ -857,6 +857,20 @@ func newHostnamePortValidator() *hostnamePortValidator {
 	return &hostnamePortValidator{}
 }
 
+type portValidator struct{}
+
+// newPortValidator returns a new portValidator.
+func newPortValidator() *portValidator {
+	return &portValidator{}
+}
+
+type macValidator struct{}
+
+// newMACValidator returns a new macValidator.
+func newMACValidator() *macValidator {
+	return &macValidator{}
+}
+
 // Do validates the target is URL encoded.
 func (u *urlEncodedValidator) Do(localizer *i18n.Localizer, target any) error {
 	v, ok := target.(string)
@@ -955,6 +969,33 @@ func (h *hostnamePortValidator) Do(localizer *i18n.Localizer, target any) error 
 		return NewError(localizer, ErrHostnamePortID, fmt.Sprintf("value=%v", target))
 	}
 
+	return nil
+}
+
+// Do validates the target is a valid TCP/UDP port number.
+func (p *portValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrPortID, fmt.Sprintf("value=%v", target))
+	}
+
+	port, err := strconv.Atoi(v)
+	if err != nil || port < 1 || port > 65535 {
+		return NewError(localizer, ErrPortID, fmt.Sprintf("value=%v", target))
+	}
+	return nil
+}
+
+// Do validates the target is a MAC address.
+func (m *macValidator) Do(localizer *i18n.Localizer, target any) error {
+	v, ok := target.(string)
+	if !ok {
+		return NewError(localizer, ErrMACID, fmt.Sprintf("value=%v", target))
+	}
+
+	if _, err := net.ParseMAC(v); err != nil {
+		return NewError(localizer, ErrMACID, fmt.Sprintf("value=%v", target))
+	}
 	return nil
 }
 

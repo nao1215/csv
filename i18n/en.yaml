@@ -168,6 +168,12 @@
 - id: "ErrHostnamePort"
   translation: "target is not a valid host:port"
 
+- id: "ErrPort"
+  translation: "target is not a valid port number"
+
+- id: "ErrMAC"
+  translation: "target is not a valid MAC address"
+
 - id: "ErrIPAddr"
   translation: "target is not a valid IP address"
 

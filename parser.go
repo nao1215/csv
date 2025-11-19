@@ -292,6 +292,10 @@ func (c *CSV) parseValidateTag(tags string, fieldIndex int) (validators, error) 
 			validatorList = append(validatorList, newHostnameValidator(hostnameRFC1123LabelRegexp, ErrHostnameRFC1123ID))
 		case strings.HasPrefix(t, hostnamePortTagValue.String()):
 			validatorList = append(validatorList, newHostnamePortValidator())
+		case strings.HasPrefix(t, portTagValue.String()):
+			validatorList = append(validatorList, newPortValidator())
+		case strings.HasPrefix(t, macTagValue.String()):
+			validatorList = append(validatorList, newMACValidator())
 		case strings.HasPrefix(t, cidrv6TagValue.String()):
 			validatorList = append(validatorList, newCIDRv6Validator())
 		case strings.HasPrefix(t, cidrv4TagValue.String()):

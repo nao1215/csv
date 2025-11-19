@@ -169,6 +169,12 @@
 - id: "ErrHostnamePort"
   translation: "целевое значение не является допустимым host:port"
 
+- id: "ErrPort"
+  translation: "целевое значение не является допустимым номером порта"
+
+- id: "ErrMAC"
+  translation: "целевое значение не является допустимым MAC-адресом"
+
 - id: "ErrIPAddr"
   translation: "целевое значение не является допустимым IP-адресом"
 

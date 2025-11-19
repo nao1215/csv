@@ -156,6 +156,8 @@ line:3 column password: target is not greater than or equal to the threshold val
 | hostname   | Hostname (RFC 952)                                                                          |
 | hostname_rfc1123 | Hostname (RFC 1123)                                                                   |
 | hostname_port | Host and port combination                                                                |
+| port       | Valid TCP/UDP port number                                                                   |
+| mac        | MAC address                                                                                 |
 | uuid       | UUID string (with hyphens)                                                                  |
 
 #### Network rules

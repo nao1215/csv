@@ -88,6 +88,10 @@ const (
 	hostnameRFC1123TagValue tagValue = "hostname_rfc1123"
 	// hostnamePortTagValue is the struct tag name for hostname with port fields.
 	hostnamePortTagValue tagValue = "hostname_port"
+	// portTagValue is the struct tag name for port fields.
+	portTagValue tagValue = "port"
+	// macTagValue is the struct tag name for MAC address fields.
+	macTagValue tagValue = "mac"
 	// ipAddrTagValue is the struct tag name for ip_addr fields (IPv4 or IPv6).
 	ipAddrTagValue tagValue = "ip_addr"
 	// ip4AddrTagValue is the struct tag name for ip4_addr fields (IPv4 only).
