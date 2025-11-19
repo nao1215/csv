@@ -813,10 +813,12 @@ func (u *httpsURLValidator) Do(localizer *i18n.Localizer, target any) error {
 }
 
 var (
-	urlEncodedRegexp           = regexp.MustCompile(`^(?:[^%]|%[0-9A-Fa-f]{2})*$`)
-	dataURIRegex               = regexp.MustCompile(dataURIRegexPattern)
-	fqdnLabelRegexp            = regexp.MustCompile(`^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$`)
-	hostnameRFC952LabelRegexp  = regexp.MustCompile(`^[A-Za-z](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$`)
+	urlEncodedRegexp = regexp.MustCompile(`^(?:[^%]|%[0-9A-Fa-f]{2})*$`)
+	dataURIRegex     = regexp.MustCompile(dataURIRegexPattern)
+	fqdnLabelRegexp  = regexp.MustCompile(`^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$`)
+	// RFC 952: hostname labels start with a letter; remaining chars are letters, digits, or hyphens.
+	hostnameRFC952LabelRegexp = regexp.MustCompile(`^[A-Za-z](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$`)
+	// RFC 1123: hostname labels may start with a letter or digit; remaining chars letters/digits/hyphens.
 	hostnameRFC1123LabelRegexp = regexp.MustCompile(`^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$`)
 )
 
@@ -941,9 +943,6 @@ func (h *hostnameValidator) Do(localizer *i18n.Localizer, target any) error {
 	}
 
 	labels := strings.Split(v, ".")
-	if len(labels) < 1 {
-		return NewError(localizer, h.errID, fmt.Sprintf("value=%v", target))
-	}
 
 	totalLen := 0
 	for _, label := range labels {
