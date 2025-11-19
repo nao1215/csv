@@ -164,7 +164,7 @@ var (
 	ErrHostnameID = "ErrHostname"
 	// ErrHostnameRFC1123ID is the error ID used when the target is not a valid hostname (RFC 1123).
 	ErrHostnameRFC1123ID = "ErrHostnameRFC1123"
-	// ErrHostnamePortID is the error ID used when the target is not a valid host:port.
+	// ErrHostnamePortID is the error ID used when the target is not a valid hostname:port.
 	ErrHostnamePortID = "ErrHostnamePort"
 	// ErrFQDNID is the error ID used when the target is not a valid fully qualified domain name.
 	ErrFQDNID = "ErrFQDN"

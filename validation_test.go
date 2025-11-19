@@ -1117,6 +1117,56 @@ func Test_dataURIValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_hostnameValidators_Do(t *testing.T) {
+	t.Parallel()
+
+	hostnameTests := []struct {
+		name    string
+		v       *hostnameValidator
+		arg     any
+		wantErr bool
+	}{
+		{"hostname ok", newHostnameValidator(hostnameRFC952LabelRegexp, ErrHostnameID), "example.com", false},
+		{"hostname starts with digit invalid", newHostnameValidator(hostnameRFC952LabelRegexp, ErrHostnameID), "1example.com", true},
+		{"hostname underscore invalid", newHostnameValidator(hostnameRFC952LabelRegexp, ErrHostnameID), "exa_mple.com", true},
+		{"hostname RFC1123 digit ok", newHostnameValidator(hostnameRFC1123LabelRegexp, ErrHostnameRFC1123ID), "1example.com", false},
+		{"hostname RFC1123 trailing dot", newHostnameValidator(hostnameRFC1123LabelRegexp, ErrHostnameRFC1123ID), "example.com.", true},
+		{"hostname non-string", newHostnameValidator(hostnameRFC952LabelRegexp, ErrHostnameID), 123, true},
+	}
+
+	for _, tt := range hostnameTests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.v.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("hostnameValidator.Do() error = %v, wantErr %v, test %s", err, tt.wantErr, tt.name)
+			}
+		})
+	}
+
+	hostPortTests := []struct {
+		name    string
+		arg     any
+		wantErr bool
+	}{
+		{"host with port ok", "example.com:80", false},
+		{"ipv4 with port ok", "127.0.0.1:8080", false},
+		{"ipv6 with port ok", "[2001:db8::1]:443", false},
+		{"missing port", "example.com", true},
+		{"bad port", "example.com:99999", true},
+		{"bad host", "exa_mple.com:80", true},
+		{"non-string", 123, true},
+	}
+
+	for _, tt := range hostPortTests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := newHostnamePortValidator().Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("hostnamePortValidator.Do() error = %v, wantErr %v, test %s", err, tt.wantErr, tt.name)
+			}
+		})
+	}
+}
+
 func Test_fqdnValidator_Do(t *testing.T) {
 	t.Parallel()
 
