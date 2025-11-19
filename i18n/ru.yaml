@@ -160,6 +160,9 @@
 - id: "ErrDataURI"
   translation: "целевое значение не является допустимым Data URI"
 
+- id: "ErrFQDN"
+  translation: "целевое значение не является допустимым FQDN"
+
 - id: "ErrIPAddr"
   translation: "целевое значение не является допустимым IP-адресом"
 

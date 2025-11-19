@@ -1117,6 +1117,63 @@ func Test_dataURIValidator_Do(t *testing.T) {
 	}
 }
 
+func Test_fqdnValidator_Do(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name    string
+		f       *fqdnValidator
+		arg     any
+		wantErr bool
+	}{
+		{
+			name:    "returns nil for valid fqdn",
+			f:       newFQDNValidator(),
+			arg:     "example.com",
+			wantErr: false,
+		},
+		{
+			name:    "returns nil for subdomain fqdn",
+			f:       newFQDNValidator(),
+			arg:     "api.dev.example.com",
+			wantErr: false,
+		},
+		{
+			name:    "returns error for trailing dot",
+			f:       newFQDNValidator(),
+			arg:     "example.com.",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for single label",
+			f:       newFQDNValidator(),
+			arg:     "localhost",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for invalid chars",
+			f:       newFQDNValidator(),
+			arg:     "exa_mple.com",
+			wantErr: true,
+		},
+		{
+			name:    "returns error for non-string",
+			f:       newFQDNValidator(),
+			arg:     123,
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if err := tt.f.Do(helperLocalizer(t), tt.arg); (err != nil) != tt.wantErr {
+				t.Errorf("fqdnValidator.Do() error = %v, wantErr %v, test case at %s", err, tt.wantErr, dataloc.L(tt.name))
+			}
+		})
+	}
+}
+
 func Test_ipAddrValidator_Do(t *testing.T) {
 	t.Parallel()
 

@@ -82,6 +82,8 @@ const (
 	urlEncodedTagValue tagValue = "url_encoded"
 	// dataURITagValue is the struct tag name for data URI fields.
 	dataURITagValue tagValue = "datauri"
+	// fqdnTagValue is the struct tag name for fully qualified domain name fields.
+	fqdnTagValue tagValue = "fqdn"
 	// ipAddrTagValue is the struct tag name for ip_addr fields (IPv4 or IPv6).
 	ipAddrTagValue tagValue = "ip_addr"
 	// ip4AddrTagValue is the struct tag name for ip4_addr fields (IPv4 only).
