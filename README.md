@@ -8,6 +8,10 @@
 
 ![csv-logo](./doc/images/csv-logo-small.png)
 
+>[!IMPORTANT]
+>⚠️ Archived: this package is no longer maintained
+> A new superset library, [nao1215/fileprep](https://github.com/nao1215/fileprep), now provides all features of this package and more. Future development will continue there.
+
 ## What is the csv package?
 
 The csv package provides two complementary features:
